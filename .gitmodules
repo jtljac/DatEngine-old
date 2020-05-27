@@ -1,0 +1,6 @@
+[submodule "FirstParty/Dat-Archive"]
+	path = FirstParty/Dat-Archive
+	url = https://github.com/jtljac/Dat-Archive
+[submodule "FirstParty/Dat-VFS"]
+	path = FirstParty/Dat-VFS
+	url = https://github.com/jtljac/Dat-VFS
