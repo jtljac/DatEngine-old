@@ -23,7 +23,10 @@
     <ClCompile Include="Test\test.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="GLRenderer.h" />
+    <ClInclude Include="Engine\Assets\AssetManager.h" />
+    <ClInclude Include="Engine\Utilities\Console.h" />
+    <ClInclude Include="Engine\Utilities\FileUtilities.h" />
+    <ClInclude Include="Engine\Utilities\Logging.h" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>16.0</VCProjectVersion>

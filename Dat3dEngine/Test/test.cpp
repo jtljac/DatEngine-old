@@ -2,6 +2,7 @@
 #include <glad\glad.h>
 #include <GLFW\glfw3.h>
 #include <ctime>
+#include "../Engine/Utilities/Console.h"
 #ifdef _WIN32
 #include <Windows.h>
 #else
@@ -189,7 +190,7 @@ int main() {
 	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, EBO);
 	glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(indices), indices, GL_STATIC_DRAW);
 
-	// Tell opengl what each
+	// Tell opengl what each part of the verticies
 	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 6 * sizeof(float), (void*)0);
 	glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, 6 * sizeof(float), (void*)(3*sizeof(float)));
 	glEnableVertexAttribArray(0);
@@ -213,6 +214,7 @@ int main() {
 		glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
 
 		number = fmod((number + (45 * delta)), 360);
+		
         std::cout << 1/delta << std::endl;
 		
         glfwSwapBuffers(window);

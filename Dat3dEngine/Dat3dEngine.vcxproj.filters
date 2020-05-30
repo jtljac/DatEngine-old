@@ -27,8 +27,9 @@
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="GLRenderer.h">
-      <Filter>Rendering\OpenGL</Filter>
-    </ClInclude>
+    <ClInclude Include="Engine\Utilities\Logging.h" />
+    <ClInclude Include="Engine\Utilities\FileUtilities.h" />
+    <ClInclude Include="Engine\Utilities\Console.h" />
+    <ClInclude Include="Engine\Assets\AssetManager.h" />
   </ItemGroup>
 </Project>
