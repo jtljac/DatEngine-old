@@ -17,6 +17,36 @@
     <Filter Include="Rendering\OpenGL\Source">
       <UniqueIdentifier>{1e6b294f-0c38-431a-a8f7-db95d94292be}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Engine">
+      <UniqueIdentifier>{2bde3de0-b5ac-43cb-8abd-cd513adb0dc7}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Engine\Assets">
+      <UniqueIdentifier>{713afc58-5904-4689-8692-322416539830}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Engine\Assets\AssetManager">
+      <UniqueIdentifier>{62c5e0f6-1686-4b81-a720-b45d77a25134}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Engine\Utilities">
+      <UniqueIdentifier>{cfc0039d-49ca-41d6-b8ac-94739efd734e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Engine\Assets\AssetManager\Archives">
+      <UniqueIdentifier>{6c230136-c9a9-4693-b4e4-16dcfef461e8}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Engine\Utilities\Source">
+      <UniqueIdentifier>{00a8e8c8-086c-4747-a949-afd070d584dd}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Engine\Assets\AssetManager\Source">
+      <UniqueIdentifier>{56d629e7-cb8c-4fb6-a794-926be27c2844}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Engine\Config">
+      <UniqueIdentifier>{d08fb2aa-64a0-4876-9b69-40c80ac4284f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Rendering\Vulkan">
+      <UniqueIdentifier>{c3f9cf4f-5a14-40ac-bcd8-8de591c913ae}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Rendering\Window">
+      <UniqueIdentifier>{d606417e-466b-4aa8-a157-af4b2b561a21}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Test\test.cpp">
@@ -25,11 +55,48 @@
     <ClCompile Include="Rendering\OpenGL\Source\glad.c">
       <Filter>Rendering\OpenGL\Source</Filter>
     </ClCompile>
+    <ClCompile Include="Engine\Utilities\Source\FileUtilities.cpp">
+      <Filter>Engine\Utilities\Source</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\Assets\AssetManager\Source\AssetManager.cpp">
+      <Filter>Engine\Assets\AssetManager\Source</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\DataTypes\Source\StringUtils.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Engine\Utilities\Logging.h" />
-    <ClInclude Include="Engine\Utilities\FileUtilities.h" />
-    <ClInclude Include="Engine\Utilities\Console.h" />
-    <ClInclude Include="Engine\Assets\AssetManager.h" />
+    <ClInclude Include="Engine\Assets\AssetManager\AssetManager.h">
+      <Filter>Engine\Assets\AssetManager</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\Utilities\Console.h">
+      <Filter>Engine\Utilities</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\Assets\AssetManager\Archives\DatArchive.h">
+      <Filter>Engine\Assets\AssetManager\Archives</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\Utilities\FileUtilities.h">
+      <Filter>Engine\Utilities</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\Utilities\Logging.h">
+      <Filter>Engine\Utilities</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\Config\EngineConfig.gen">
+      <Filter>Engine\Config</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\Config\EngineConfig.h">
+      <Filter>Engine\Config</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\ReflectionMacros.h">
+      <Filter>Engine</Filter>
+    </ClInclude>
+    <ClInclude Include="Rendering\Window\DatWindow.h">
+      <Filter>Rendering\Window</Filter>
+    </ClInclude>
+    <ClInclude Include="Rendering\Renderer.h">
+      <Filter>Rendering</Filter>
+    </ClInclude>
+    <ClInclude Include="Rendering\Vulkan\VulkanRenderer.h">
+      <Filter>Rendering\Vulkan</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\DataTypes\StringUtils.h" />
   </ItemGroup>
 </Project>

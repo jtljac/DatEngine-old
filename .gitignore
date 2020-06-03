@@ -55,4 +55,8 @@
 # Keep the stuff in thirdparty and first party
 !/ThirdParty/**
 !/FirstParty/**
-ThirdParty/glm/glm/out/
+
+# Exclude the beefy stuff
+/ThirdParty/glm/glm/out/
+/ThirdParty/Vulkan/Lib/
+/ThirdParty/Vulkan/Lib32/
