@@ -7,9 +7,11 @@
 #include <glm/mat4x4.hpp>
 
 int main() {
-	VulkanRenderer theRenderer;
 
 	Log::e("TAG", "Testing testing");
+
+	VulkanRenderer theRenderer;
+
 
 	theRenderer.initialise(800, 600, "Vulkan Test");
 

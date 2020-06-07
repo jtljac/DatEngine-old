@@ -3,9 +3,23 @@
 #define GLFW_INCLUDE_VULKAN
 #include "../Renderer.h"
 #include <stdexcept>
+#include <iostream>
+#include <vector>
 
 
 class VulkanRenderer : public Renderer {
+    inline const static std::string TAG = "Vulkan";
+
+    const std::vector<const char*> validationLayers = {
+        "VK_LAYER_KHRONOS_validation"
+    };
+
+#ifdef NDEBUG
+    const bool enableValidationLayers = false;
+#else
+    const bool enableValidationLayers = true;
+#endif
+
 protected:
     void glfwHints() {
         glfwWindowHint(GLFW_CLIENT_API, GLFW_NO_API);
@@ -13,6 +27,33 @@ protected:
     }
 private:
 	VkInstance instance;
+
+    bool checkValidationLayerSupport() {
+        uint32_t layerCount;
+
+        vkEnumerateInstanceLayerProperties(&layerCount, nullptr);
+
+        std::vector<VkLayerProperties> availableLayers(layerCount);
+        vkEnumerateInstanceLayerProperties(&layerCount, availableLayers.data());
+
+        for (const char* layerName : validationLayers) {
+            bool layerFound = false;
+
+            for (const VkLayerProperties& layerProperties : availableLayers) {
+                if (strcmp(layerName, layerProperties.layerName) == 0)
+                {
+                    layerFound = true;
+                    break;
+                }
+            }
+            if (!layerFound) {
+                Log::w(TAG, "Failed to find Validation Layer: " + (std::string) layerName);
+                return false;
+            }
+        }
+
+        return true;
+    }
 
     void createInstance() {
         VkApplicationInfo appInfo{};
@@ -44,6 +85,9 @@ private:
 public:
 	int initialise(int Width, int Height, std::string WindowTitle) {
         Renderer::initialise(Width, Height, WindowTitle);
+        if (enableValidationLayers && !checkValidationLayerSupport()) {
+            throw std::runtime_error("validation layers requested, but not available!");
+        }
         createInstance();
         return 0;
 	}

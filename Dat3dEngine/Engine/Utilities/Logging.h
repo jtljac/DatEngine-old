@@ -29,7 +29,7 @@ private:
 public:
 	static void log(const ConsoleColour logColour, const LogLevel loglevel, const std::string logTag, const std::string logMessage) {
 		if ((int)loglevel <= 2) { // TODO: Make Unconstant
-			std::cout << ColourMod(logColour) << logTag << " - " << getLogLevel(loglevel) << ": " << logMessage;
+			std::cout << ColourMod(logColour) << "[" << getLogLevel(loglevel) << "] [" << logTag << "] " << logMessage << ColourMod(ConsoleColour::RESET) << std::endl;
 		}
 	}
 
