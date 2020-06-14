@@ -6,7 +6,7 @@ class Renderer {
 protected:
 	GLFWwindow* window = nullptr;
 
-	void glfwHints() {}
+	virtual void glfwHints() = 0;
 public:
 	int initialise(int Width, int Height, std::string WindowTitle) {
 		glfwInit();

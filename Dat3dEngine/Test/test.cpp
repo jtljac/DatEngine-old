@@ -7,9 +7,6 @@
 #include <glm/mat4x4.hpp>
 
 int main() {
-
-	Log::e("TAG", "Testing testing");
-
 	VulkanRenderer theRenderer;
 
 
@@ -19,6 +16,8 @@ int main() {
 	while (!theRenderer.windowWantsToClose()) {
 		glfwPollEvents();
 	}
+
+	theRenderer.cleanup();
 
 	return 0;
 }

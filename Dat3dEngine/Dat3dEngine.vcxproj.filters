@@ -62,6 +62,7 @@
       <Filter>Engine\Assets\AssetManager\Source</Filter>
     </ClCompile>
     <ClCompile Include="Engine\DataTypes\Source\StringUtils.cpp" />
+    <ClCompile Include="Rendering\Vulkan\Source\VulkanRenderer.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Engine\Assets\AssetManager\AssetManager.h">
@@ -98,5 +99,8 @@
       <Filter>Rendering\Vulkan</Filter>
     </ClInclude>
     <ClInclude Include="Engine\DataTypes\StringUtils.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="EngineAssets\Shaders\GLSL\Fresnel.frag" />
   </ItemGroup>
 </Project>
