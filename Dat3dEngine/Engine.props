@@ -5,7 +5,7 @@
   <PropertyGroup />
   <ItemDefinitionGroup>
     <ClCompile>
-      <AdditionalIncludeDirectories>..\ThirdParty\Vulkan\Include;..\ThirdParty\GLM\Include;..\ThirdParty\nlohmann\Include;..\Dat3dEngine;..\ThirdParty\GLFW\Include;..\FirstParty;../ThirdParty/UTF-8/Include</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>..\ThirdParty\ZLib\Include;..\ThirdParty\Vulkan\Include;..\ThirdParty\GLM\Include;..\ThirdParty\nlohmann\Include;..\Dat3dEngine;..\ThirdParty\GLFW\Include;..\FirstParty;../ThirdParty/UTF-8/Include</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <AdditionalDependencies>vulkan-1.lib;glfw3.lib;</AdditionalDependencies>

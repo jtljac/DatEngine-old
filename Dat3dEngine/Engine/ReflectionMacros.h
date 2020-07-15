@@ -1,5 +1,6 @@
 #pragma once
 #include <unordered_map>
+#include <Engine/Utilities/Logging.h>
 
 struct ReflectionNode {
 	bool serialised;
@@ -22,7 +23,7 @@ struct ReflectionNode {
 #define DatMember(...)
 #define DatFunction(...)
 
-// Stupid, but we need to chain this so File_Title is translated to its macro
+// Stupid, but we need to chain this so File_Title and __LINE__ are translated to their macros
 #define Generated_Combiner(a,b,c,d) a##b##c##d
 #define Generated_Builder(a,b,c,d) Generated_Combiner(a,b,c,d)
 

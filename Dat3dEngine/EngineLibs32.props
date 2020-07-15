@@ -5,7 +5,7 @@
   <PropertyGroup />
   <ItemDefinitionGroup>
     <Link>
-      <AdditionalLibraryDirectories>..\ThirdParty\Vulkan\Lib32;..\ThirdParty\GLFW\Lib32</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>..\ThirdParty\ZLib\Lib;..\ThirdParty\Vulkan\Lib32;..\ThirdParty\GLFW\Lib32</AdditionalLibraryDirectories>
     </Link>
     <ClCompile />
   </ItemDefinitionGroup>

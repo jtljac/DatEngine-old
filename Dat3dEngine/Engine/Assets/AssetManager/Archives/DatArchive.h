@@ -5,7 +5,7 @@
 class DVFSArchiveFile : public DVFSFile {
 	std::shared_ptr<DatFile> archiveFile;
 public:
-	DVFSArchiveFile(std::string Dest, std::shared_ptr<DatFile> ArchiveFile) : DVFSFile(Dest) {
+	DVFSArchiveFile(std::filesystem::path Dest, std::shared_ptr<DatFile> ArchiveFile) : DVFSFile(Dest) {
 		archiveFile = ArchiveFile;
 	}
 
@@ -33,7 +33,7 @@ public:
 class DatVFSArchive : public VFSArchive{
 	std::shared_ptr<DatFile> archive;
 public:
-	DatVFSArchive(std::string filePath) {
+	DatVFSArchive(std::filesystem::path filePath) {
 		archive = std::shared_ptr<DatFile>(new DatFile(filePath));
 	}
 

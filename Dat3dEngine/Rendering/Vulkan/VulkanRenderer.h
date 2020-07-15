@@ -61,9 +61,13 @@ private:
     VkQueue presentQueue;                                   // The queue for present commands
 
     VkSwapchainKHR swapChain = VK_NULL_HANDLE;              // The swap chain
-    std::vector<VkImage> swapChainImages;
-    VkFormat swapChainImageFormat;
-    VkExtent2D swapChainExtent;
+    std::vector<VkImage> swapChainImages;                   // The images in the swap chain
+    VkFormat swapChainImageFormat;                          // The format of the images in the swap chain
+    VkExtent2D swapChainExtent;                             // The extent of the swap chain
+    std::vector<VkImageView> swapChainImageViews;           // The image views in the swap chain
+
+    // The frame buffers in the swap chain
+    std::vector<VkFramebuffer> swapChainFramebuffers;
 
     /**
      * Checks the machine supports the required validation layers
@@ -189,6 +193,19 @@ private:
      * Creates a swap chan for vulkan to use
      */
     void createSwapChain();
+
+    /**
+     * Creates the image views for the swap chain
+     */
+    void createImageViews();
+
+    /**
+     * Creates the graphics pipeline
+     */
+    void createGraphicsPipelixne();
+
+    void createFramebuffers();
+
 public:
     VulkanRenderer() {}
 
@@ -205,11 +222,17 @@ public:
         pickPhysicalDevice();
         createLogicalDevice();
         createSwapChain();
+        createImageViews();
+        createGraphicsPipeline();
 
         return 0;
 	}
 
     void cleanup() {
+        for (auto imageView : swapChainImageViews) {
+            vkDestroyImageView(device, imageView, nullptr);
+        }
+
         vkDestroySwapchainKHR(device, swapChain, nullptr);
 
         vkDestroyDevice(device, nullptr);

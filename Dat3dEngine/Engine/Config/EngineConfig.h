@@ -3,7 +3,7 @@
 #include <unordered_map>
 #include "EngineConfig.gen"
 
-DatClass()
+DatClass(test, tes2)
 class EngineConfig {
 public:
 	EngineConfig() {};

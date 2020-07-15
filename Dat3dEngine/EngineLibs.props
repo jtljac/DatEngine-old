@@ -7,7 +7,7 @@
     <ClCompile />
     <Link>
       <AdditionalDependencies />
-      <AdditionalLibraryDirectories>..\ThirdParty\Vulkan\Lib;..\ThirdParty\GLFW\Lib</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>..\ThirdParty\ZLib\Lib;..\ThirdParty\Vulkan\Lib;..\ThirdParty\GLFW\Lib</AdditionalLibraryDirectories>
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup />

@@ -2,7 +2,7 @@
 #include <Engine/ReflectionMacros.h>
 
 #define Engine_Config_EngineConfig_h_18_Property_Reflection \
-	public: \
+	private: \
 		std::unordered_map<std::string, ReflectionNode> reflection = { \
 			{"test", ReflectionNode(true, &test)}, \
 			{"test2", ReflectionNode(true, &test2)}, \

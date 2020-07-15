@@ -1,6 +1,7 @@
 #include <iostream>
 #include <Engine/Utilities/Logging.h>
 #include <Rendering/Vulkan/VulkanRenderer.h>
+#include <Engine/Assets/AssetManager/AssetManager.h>
 
 #define GLM_FORCE_RADIANS
 #define GLM_FORCE_DEPTH_ZERO_TO_ONE
@@ -9,6 +10,7 @@
 int main() {
 	VulkanRenderer theRenderer;
 
+	AssetManager assMan;
 
 	theRenderer.initialise(800, 600, "Vulkan Test");
 
