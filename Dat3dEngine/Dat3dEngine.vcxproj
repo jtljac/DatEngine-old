@@ -33,14 +33,18 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Engine\Assets\AssetManager\Archives\DatArchive.h" />
+    <ClInclude Include="Engine\Assets\AssetManager\Assets\BaseAsset.h" />
+    <ClInclude Include="Engine\Assets\AssetManager\Factories\AssetFactory.h" />
     <ClInclude Include="Engine\Assets\AssetManager\AssetManager.h" />
+    <ClInclude Include="Engine\Assets\AssetManager\Factories\FragShaderFactory.h" />
     <ClInclude Include="Engine\Config\EngineConfig.gen" />
     <ClInclude Include="Engine\Config\EngineConfig.h" />
     <ClInclude Include="Engine\DataTypes\StringUtils.h" />
     <ClInclude Include="Engine\ReflectionMacros.h" />
-    <ClInclude Include="Engine\Shaders\FragShader.h" />
-    <ClInclude Include="Engine\Shaders\VertShader.h" />
+    <ClInclude Include="Engine\Assets\AssetManager\Assets\Shaders\FragShader.h" />
+    <ClInclude Include="Engine\Assets\AssetManager\Assets\Shaders\VertShader.h" />
     <ClInclude Include="Engine\Utilities\Console.h" />
+    <ClInclude Include="Engine\Utilities\Exceptions\UnknownResourceFactoryException.h" />
     <ClInclude Include="Engine\Utilities\FileUtilities.h" />
     <ClInclude Include="Engine\Utilities\Logging.h" />
     <ClInclude Include="Rendering\Renderer.h" />

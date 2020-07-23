@@ -19,11 +19,13 @@ public:
 		// Pointer to put the data
 		char* theData;
 
+		unsigned int dataSize;
+
 		// request the data from the archive file
-		archiveFile->getFile(fileLocation.string(), &theData);
+		archiveFile->getFile(fileLocation.string(), &theData, dataSize);
 
 		// Set the dataPtr to the new data
-		data.setData(theData);
+		data.setData(theData, dataSize);
 
 		data.setLoaded(true);
 		return true;

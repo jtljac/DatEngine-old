@@ -7,7 +7,7 @@ enum class LogLevel {
 	ERROR = 0,
 	WARNING = 1,
 	INFO = 2,
-	VERBOSE = 3
+	DEBUG = 3
 };
 
 class Log {
@@ -20,8 +20,8 @@ private:
 			return "Warning";
 		case LogLevel::ERROR:
 			return "Error";
-		case LogLevel::VERBOSE:
-			return "Verbose";
+		case LogLevel::DEBUG:
+			return "Debug";
 		default:
 			return "";
 		}
@@ -42,7 +42,7 @@ public:
 		case LogLevel::ERROR:
 			colour = ConsoleColour::RED;
 			break;
-		case LogLevel::VERBOSE:
+		case LogLevel::DEBUG:
 			colour = ConsoleColour::GREEN;
 			break;
 		}
@@ -63,6 +63,6 @@ public:
 	}
 
 	static void v(const std::string logTag, const std::string logMessage) {
-		log(LogLevel::VERBOSE, logTag, logMessage);
+		log(LogLevel::DEBUG, logTag, logMessage);
 	}
 };

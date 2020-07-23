@@ -223,7 +223,7 @@ public:
         createLogicalDevice();
         createSwapChain();
         createImageViews();
-        createGraphicsPipeline();
+        // createGraphicsPipeline();
 
         return 0;
 	}
