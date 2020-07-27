@@ -1,2 +1,0 @@
-C:/Users/Jacob/source/repos/Dat3dEngine/ThirdParty/GLM/Include/glm/out/build/x64-Debug (default)/CMakeFiles/edit_cache.dir
-C:/Users/Jacob/source/repos/Dat3dEngine/ThirdParty/GLM/Include/glm/out/build/x64-Debug (default)/CMakeFiles/rebuild_cache.dir

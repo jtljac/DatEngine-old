@@ -1,6 +1,6 @@
-[submodule "FirstParty/Dat-Archive"]
-	path = FirstParty/Dat-Archive
+[submodule "DatEngine/FirstParty/Dat-Archive"]
+	path = DatEngine/FirstParty/Dat-Archive
 	url = https://github.com/jtljac/Dat-Archive
-[submodule "FirstParty/Dat-VFS"]
-	path = FirstParty/Dat-VFS
+[submodule "DatEngine/FirstParty/Dat-VFS"]
+	path = DatEngine/FirstParty/Dat-VFS
 	url = https://github.com/jtljac/Dat-VFS
