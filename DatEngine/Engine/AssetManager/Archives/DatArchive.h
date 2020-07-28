@@ -5,30 +5,18 @@
 class DVFSArchiveFile : public DVFSFile {
 	std::shared_ptr<DatFile> archiveFile;
 public:
-	DVFSArchiveFile(std::filesystem::path Dest, std::shared_ptr<DatFile> ArchiveFile) : DVFSFile(Dest) {
-		archiveFile = ArchiveFile;
-	}
+	DVFSArchiveFile(std::filesystem::path Dest, std::shared_ptr<DatFile> ArchiveFile) : DVFSFile(Dest), archiveFile(ArchiveFile) {}
 
-	bool loadFile() {
-		// Ensure its not already loaded
-		if (data.dataLoaded()) {
-			std::cout << "Tried to load file while already loaded, ignoring" << std::endl;
-			return false;
-		}
+	std::vector<char> getFile() override {
+		
 
 		// Pointer to put the data
 		char* theData;
 
 		unsigned int dataSize;
 
-		// request the data from the archive file
-		archiveFile->getFile(fileLocation.string(), &theData, dataSize);
-
-		// Set the dataPtr to the new data
-		data.setData(theData, dataSize);
-
-		data.setLoaded(true);
-		return true;
+		// return the data from the archive file
+		return archiveFile->getFile(fileLocation.string());
 	}
 };
 
