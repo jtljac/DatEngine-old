@@ -5,5 +5,6 @@
 
 class FragShader : public BaseAsset {
 public:
-	FragShader(DataPtr Data) {};
+	std::vector<char> byteCode;
+	FragShader(std::vector<char> Data) : BaseAsset(true), byteCode(Data) {}
 };

@@ -21,4 +21,5 @@ target_sources (DatEngine
 target_sources (DatEngine 
 				PUBLIC
 					"Factories/AssetFactory.h"
-					"Factories/FragShaderFactory.h")
+					"Factories/FragShaderFactory.h"
+					"Factories/VertShaderFactory.h")

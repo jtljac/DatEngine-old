@@ -4,7 +4,7 @@
 #include "../BaseAsset.h"
 
 class VertShader : public BaseAsset {
-	DataPtr data;
 public:
-	VertShader(DataPtr& Data) : BaseAsset(true), data(Data) {}
+	std::vector<char> byteCode;
+	VertShader(std::vector<char> Data) : BaseAsset(true), byteCode(Data) {}
 };
