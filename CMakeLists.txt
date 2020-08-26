@@ -10,3 +10,4 @@ set(CMAKE_CXX_STANDARD_REQUIRED true)
 
 # Include sub-projects.
 add_subdirectory ("DatEngine")
+add_subdirectory ("DatPreProcessor")

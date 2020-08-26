@@ -1,7 +1,7 @@
 #pragma once
 #include <iostream>
 #include <fstream>
-#include <Engine/Utilities/Console.h>
+#include <Utilities/Console.h>
 
 enum class LogLevel {
 	ERROR = 0,

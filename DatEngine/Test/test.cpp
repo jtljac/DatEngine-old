@@ -1,9 +1,9 @@
 #include <iostream>
-#include <Engine/Utilities/Logging.h>
+#include <Utilities/Logging.h>
 #include <Rendering/Vulkan/VulkanRenderer.h>
-#include <Engine/AssetManager/AssetManager.h>
-#include <Engine/AssetManager/Factories/VertShaderFactory.h>
-#include <Engine/AssetManager/Factories/FragShaderFactory.h>
+#include <AssetManager/AssetManager.h>
+#include <AssetManager/Factories/VertShaderFactory.h>
+#include <AssetManager/Factories/FragShaderFactory.h>
 
 #define GLM_FORCE_RADIANS
 #define GLM_FORCE_DEPTH_ZERO_TO_ONE

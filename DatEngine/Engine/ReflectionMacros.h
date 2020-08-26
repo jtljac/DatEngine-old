@@ -28,4 +28,4 @@ struct ReflectionNode {
 #define Generated_Builder(a,b,c,d) Generated_Combiner(a,b,c,d)
 
 // 
-#define ENGINE_GENERATED(...) Generated_Builder(File_Title, _, __LINE__, _Generated);
+#define DatGenerated(...) Generated_Builder(File_Title, _, __LINE__, _Generated);

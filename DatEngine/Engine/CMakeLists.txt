@@ -7,4 +7,5 @@ target_sources (DatEngine
 add_subdirectory ("AssetManager")
 add_subdirectory ("Config")
 add_subdirectory ("DataTypes")
+add_subdirectory ("Rendering")
 add_subdirectory ("Utilities")

@@ -4,9 +4,9 @@
 #include <unordered_map>
 #include <set>
 #include <Dat-VFS/DatVFS.h>
-#include <Engine/Utilities/FileUtilities.h>
-#include <Engine/Utilities/Logging.h>
-#include <Engine/Utilities/Exceptions/UnknownResourceFactoryException.h>
+#include <Utilities/FileUtilities.h>
+#include <Utilities/Logging.h>
+#include <Utilities/Exceptions/UnknownResourceFactoryException.h>
 
 #include "Assets/BaseAsset.h"
 #include "./Factories/AssetFactory.h"

@@ -8,7 +8,7 @@ add_executable (DatEngine "Test/test.cpp")
 
 configure_file (EngineDetails.h.in EngineDetails.h)
 target_include_directories (DatEngine PRIVATE "${PROJECT_BINARY_DIR}")
-target_include_directories (DatEngine PUBLIC "${CMAKE_CURRENT_SOURCE_DIR}")
+target_include_directories (DatEngine PUBLIC "Engine")
 
 # Add ThirdParty stuff
 add_subdirectory ("ThirdParty")
@@ -17,7 +17,6 @@ add_subdirectory ("ThirdParty")
 target_include_directories (DatEngine PUBLIC "FirstParty")
 
 add_subdirectory ("Engine")
-add_subdirectory ("Rendering")
 
 add_custom_command(TARGET DatEngine POST_BUILD
                    COMMAND ${CMAKE_COMMAND} -E copy_directory
