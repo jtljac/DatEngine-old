@@ -8,6 +8,7 @@
 #define GLM_FORCE_RADIANS
 #define GLM_FORCE_DEPTH_ZERO_TO_ONE
 #include <glm/mat4x4.hpp>
+#include <Maths/Vector.h>
 
 VulkanRenderer theRenderer;
 
@@ -21,11 +22,13 @@ int main() {
 
 	theRenderer.initialise(800, 600, "Vulkan Test", &assMan);
 
+
 	// Main Loop
 	while (!theRenderer.windowWantsToClose()) {
 		glfwPollEvents();
 		theRenderer.drawFrame();
 	}
+
 
 	theRenderer.cleanup();
 

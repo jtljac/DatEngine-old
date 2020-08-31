@@ -1,6 +1,5 @@
 #pragma once
 #include <GLFW\glfw3.h>
-#include <DataTypes/Vectors.h>
 #include <iostream>
 
 class Renderer {
@@ -34,7 +33,6 @@ public:
 	}
 
 	void cleanup() {
-		vec test;
 		glfwDestroyWindow(window);
 		window = nullptr;
 		glfwTerminate();
