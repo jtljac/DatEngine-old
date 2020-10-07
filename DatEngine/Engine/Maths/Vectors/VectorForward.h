@@ -1,5 +1,7 @@
 #pragma once
 
+#include "../CommonMaths.h"
+
 // Float Vectors
 struct FVector;
 struct FVector2D;

@@ -1,5 +1,6 @@
 target_sources (DatEngine 
 				PUBLIC
+					"CommonMaths.h"
 					"Vector.h"
 					"Vectors/VectorForward.h"
 					"Vectors/Double/DVector"
