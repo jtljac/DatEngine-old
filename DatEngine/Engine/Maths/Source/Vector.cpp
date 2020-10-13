@@ -149,7 +149,7 @@ bool FVector::operator!=(const FVector& OtherVec) const {
 }
 
 bool FVector::equals(const FVector& OtherVec, float Tolerence) const {
-	return (abs(x - OtherVec.x) < Tolerence) && (abs(y - OtherVec.y) < Tolerence) && (abs(z - OtherVec.z) < Tolerence);
+	return (fabs(x - OtherVec.x) < Tolerence) && (fabs(y - OtherVec.y) < Tolerence) && (fabs(z - OtherVec.z) < Tolerence);
 }
 
 float FVector::magnitudeSquared() const {
@@ -171,7 +171,7 @@ FVector FVector::normalise() const {
 }
 
 bool FVector::isNormalised(float Tolerence) const {
-	return abs(magnitude() - 1.f) < Tolerence;
+	return fabs(magnitude() - 1.f) < Tolerence;
 }
 
 // FVector2D
@@ -315,7 +315,7 @@ bool FVector2D::operator!=(const FVector2D& OtherVec) const {
 }
 
 bool FVector2D::equals(const FVector2D& OtherVec, float Tolerence) const {
-	return (abs(x - OtherVec.x) < Tolerence) && (abs(y - OtherVec.y) < Tolerence);
+	return (fabs(x - OtherVec.x) < Tolerence) && (fabs(y - OtherVec.y) < Tolerence);
 }
 
 float FVector2D::magnitudeSquared() const {
@@ -337,7 +337,7 @@ FVector2D FVector2D::normalise() const {
 }
 
 bool FVector2D::isNormalised(float Tolerence) const {
-	return abs(magnitude() - 1.f) < Tolerence;
+	return fabs(magnitude() - 1.f) < Tolerence;
 }
 
 // FVector4D
@@ -484,7 +484,7 @@ bool FVector4D::operator!=(const FVector4D& OtherVec) const {
 }
 
 bool FVector4D::equals(const FVector4D& OtherVec, float Tolerence) const {
-	return (abs(x - OtherVec.x) < Tolerence) && (abs(y - OtherVec.y) < Tolerence) && (abs(z - OtherVec.z) < Tolerence);
+	return (fabs(x - OtherVec.x) < Tolerence) && (fabs(y - OtherVec.y) < Tolerence) && (fabs(z - OtherVec.z) < Tolerence);
 }
 
 float FVector4D::magnitudeSquared() const {
@@ -506,7 +506,7 @@ FVector4D FVector4D::normalise() const {
 }
 
 bool FVector4D::isNormalised(float Tolerence) const {
-	return abs(magnitude() - 1.f) < Tolerence;
+	return fabs(magnitude() - 1.f) < Tolerence;
 }
 
 //TODO: Maths for I Vectors
@@ -679,8 +679,8 @@ FVector IVector::normalise() const {
 	}
 }
 
-bool FVector::isNormalised(float Tolerence) const {
-	return abs(magnitude() - 1.f) < Tolerence;
+bool IVector::isNormalised(float Tolerence) const {
+	return fabs(magnitude() - 1.f) < Tolerence;
 }
 
 // IVector2D
@@ -846,7 +846,7 @@ FVector2D IVector2D::normalise() const {
 }
 
 bool IVector2D::isNormalised(float Tolerence) const {
-	return abs(magnitude() - 1.f) < Tolerence;
+	return fabs(magnitude() - 1.f) < Tolerence;
 }
 
 // IVector4D
@@ -1015,7 +1015,7 @@ FVector4D IVector4D::normalise() const {
 }
 
 bool IVector4D::isNormalised(float Tolerence) const {
-	return abs(magnitude() - 1.f) < Tolerence;
+	return fabs(magnitude() - 1.f) < Tolerence;
 }
 
 // Dvector
@@ -1165,7 +1165,7 @@ bool DVector::operator!=(const DVector& OtherVec) const {
 }
 
 bool DVector::equals(const DVector& OtherVec, double Tolerence) const {
-	return (abs(x - OtherVec.x) < Tolerence) && (abs(y - OtherVec.y) < Tolerence) && (abs(z - OtherVec.z) < Tolerence);
+	return (fabs(x - OtherVec.x) < Tolerence) && (fabs(y - OtherVec.y) < Tolerence) && (fabs(z - OtherVec.z) < Tolerence);
 }
 
 double DVector::magnitudeSquared() const {
@@ -1187,7 +1187,7 @@ DVector DVector::normalise() const {
 }
 
 bool DVector::isNormalised(double Tolerence) const {
-	return abs(magnitude() - 1.f) < Tolerence;
+	return fabs(magnitude() - 1.f) < Tolerence;
 }
 
 // DVector2D
@@ -1332,7 +1332,7 @@ bool DVector2D::operator!=(const DVector2D& OtherVec) const {
 }
 
 bool DVector2D::equals(const DVector2D& OtherVec, double Tolerence) const {
-	return (abs(x - OtherVec.x) < Tolerence) && (abs(y - OtherVec.y) < Tolerence);
+	return (fabs(x - OtherVec.x) < Tolerence) && (fabs(y - OtherVec.y) < Tolerence);
 }
 
 double DVector2D::magnitudeSquared() const {
@@ -1354,7 +1354,7 @@ DVector2D DVector2D::normalise() const {
 }
 
 bool DVector2D::isNormalised(double Tolerence) const {
-	return abs(magnitude() - 1.f) < Tolerence;
+	return fabs(magnitude() - 1.f) < Tolerence;
 }
 
 // DVector4D
@@ -1501,7 +1501,7 @@ bool DVector4D::operator!=(const DVector4D& OtherVec) const {
 }
 
 bool DVector4D::equals(const DVector4D& OtherVec, double Tolerence) const {
-	return (abs(x - OtherVec.x) < Tolerence) && (abs(y - OtherVec.y) < Tolerence) && (abs(z - OtherVec.z) < Tolerence);
+	return (fabs(x - OtherVec.x) < Tolerence) && (fabs(y - OtherVec.y) < Tolerence) && (fabs(z - OtherVec.z) < Tolerence);
 }
 
 double DVector4D::magnitudeSquared() const {
@@ -1522,6 +1522,6 @@ DVector4D DVector4D::normalise() const {
 	}
 }
 
-bool FVector4D::isNormalised(float Tolerence) const {
-	return abs(magnitude() - 1.f) < Tolerence;
+bool DVector4D::isNormalised(double Tolerence) const {
+	return fabs(magnitude() - 1.f) < Tolerence;
 }

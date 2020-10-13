@@ -3,6 +3,9 @@ target_sources (DatEngine
 					"CommonMaths.h"
 					"Vector.h"
 					"Vectors/VectorForward.h"
+					"Vectors/VecForward.h"
+					"Vectors/Vec.h"
+					"Vectors/Vec3.h"
 					"Vectors/Double/DVector"
 					"Vectors/Double/DVector2D"
 					"Vectors/Double/DVector4D"
@@ -13,4 +16,5 @@ target_sources (DatEngine
 					"Vectors/Float/FVector2D.h"
 					"Vectors/Float/FVector4D.h"
 					"Source/Vector.cpp"
+					"Source/Vec.cpp"
 )

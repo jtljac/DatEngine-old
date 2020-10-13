@@ -8,7 +8,9 @@
 #define GLM_FORCE_RADIANS
 #define GLM_FORCE_DEPTH_ZERO_TO_ONE
 #include <glm/mat4x4.hpp>
-#include <Maths/Vector.h>
+#include <glm/vec3.hpp>
+
+#include <Maths/Vectors/Vec3.h>
 
 VulkanRenderer theRenderer;
 
@@ -16,6 +18,11 @@ VulkanRenderer theRenderer;
 
 
 int main() {
+
+	Vec3<3, float> test();
+
+	test.test();
+
 	AssetManager assMan;
 	assMan.registerFactory<FragShader>(new FragShaderFactory());
 	assMan.registerFactory<VertShader>(new VertShaderFactory());
