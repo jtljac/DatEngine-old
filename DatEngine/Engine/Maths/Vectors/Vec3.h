@@ -61,6 +61,13 @@ struct Vec<3, VecType> {
 	 * @param OtherVec The 4D Vector to copy from
 	 */
 	Vec(const Vec<4, VecType>& OtherVec);
+	
+	/**
+	 * Initialises as a copy of a vector of a different type
+	 * @param OtherVec The other Vector to cast from
+	 */
+	template<typename OtherType>
+	Vec(const Vec<3, OtherType>& OtherVec);
 
 	// Setters
 	/**
@@ -103,14 +110,14 @@ struct Vec<3, VecType> {
 	 * @param OtherVec The vector you're adding to this one
 	 * @return The resulting vector
 	 */
-	type operator+=(const type& OtherVec) const;
+	type operator+=(const type& OtherVec);
 
 	/**
 	 * Adds the value to each component of the vector
 	 * @param OtherVec The vector you're adding to this one
 	 * @return The resulting vector
 	 */
-	type operator+=(VecType Amount) const;
+	type operator+=(VecType Amount);
 
 	/**
 	 * Increments each component of the vector and returns the incremented vector
@@ -143,14 +150,14 @@ struct Vec<3, VecType> {
 	 * @param OtherVec The vector you're minusing from this one
 	 * @return The resulting vector
 	 */
-	type operator-=(const type& OtherVec) const;
+	type operator-=(const type& OtherVec);
 
 	/**
 	 * Minuses the given amount from each component
 	 * @param Amount The amount to take from each vector
 	 * @return The resulting vector
 	 */
-	type operator-=(VecType Amount) const;
+	type operator-=(VecType Amount);
 
 	/**
 	 * decrements each component of the vector and returns the dencremented vector
@@ -183,14 +190,14 @@ struct Vec<3, VecType> {
 	 * @param OtherVec The other vector
 	 * @return The resulting vector
 	 */
-	type operator*=(const type& OtherVec) const;
+	type operator*=(const type& OtherVec);
 
 	/**
 	 * Multiplies each component of the vector by the given value
 	 * @param Value The value to multiply each component by
 	 * @return The resulting vector
 	 */
-	type operator*=(VecType Value) const;
+	type operator*=(VecType Value);
 
 	/**
 	 * Divides each component by the equivilent component in the other vector
@@ -211,44 +218,16 @@ struct Vec<3, VecType> {
 	 * @param OtherVec The other vector
 	 * @return The resulting vector
 	 */
-	type operator/=(const type& OtherVec) const;
+	type operator/=(const type& OtherVec);
 
 	/**
 	 * Divides each component of the vector by the given Value
 	 * @param Value The value to multiply each component by
 	 * @return The resulting vector
 	 */
-	type operator/=(VecType Value) const;
+	type operator/=(VecType Value);
 
 	// Comparison
-	/**
-	 * Compares the magnitude of the 2 vectors, returning true if the first vector's magnitude is less than the second's
-	 * @param OtherVec The vector to compare to
-	 * @return Whether the vector's magnitude is smaller or not
-	 */
-	bool operator<(const type& OtherVec) const;
-
-	/**
-	 * Compares the magnitude of the 2 vectors, returning true if the first vector's magnitude is more than the second's
-	 * @param OtherVec The vector to compare to
-	 * @return Whether the vector's magnitude is bigger or not
-	 */
-	bool operator>(const type& OtherVec) const;
-
-	/**
-	 * Compares the magnitude of the 2 vectors, returning true if the first vector's magnitude is less than or equal to the second's
-	 * @param OtherVec The vector to compare to
-	 * @return Whether the vector's magnitude is less than or equal to the other or not
-	 */
-	bool operator<=(const type& OtherVec) const;
-
-	/**
-	 * Compares the magnitude of the 2 vectors, returning true if the first vector's magnitude is more than or equal to the second's
-	 * @param OtherVec The vector to compare to
-	 * @return Whether the vector's magnitude is more than or equal to the other or not
-	 */
-	bool operator>=(const type& OtherVec) const;
-
 	/**
 	 * Compares the components of the 2 vectors, returning true if all the components first vectors components are equal to the seconds
 	 * @param OtherVec The vector to compare to
@@ -270,4 +249,28 @@ struct Vec<3, VecType> {
 	 * @return Whether the components are equal
 	 */
 	bool equals(const type& OtherVec, float Tolerence = Numbers::tiny) const;
+
+	/**
+	 * Gets the squared scalar size of the vector
+	 * The sum of the squares of each component
+	 * Useful for comparing the size of vectors as the length squared will remain bigger or smaller like the actualy lengths compared, but it skips the expensive square root calculation
+	 * @return The squared scalar size of the vector
+	 */
+	VecType lengthSquared() const;
+
+	/**
+	 * Gets the scalar size of the vector
+	 * The square root of the sum of the squares of each component
+	 * @return The scalar size of the vector
+	 */
+	VecType length() const;
+
+	/**
+	 * Gets the vector pointing in the same direction, but with a length of 1
+	 * @return A unit vector pointing in the same direction
+	 */
+	template<typename ResultType = float>
+	Vec<3, ResultType> normalise() const;
 };
+
+#include "../Source/Vec3.inl"

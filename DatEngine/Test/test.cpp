@@ -8,20 +8,20 @@
 #define GLM_FORCE_RADIANS
 #define GLM_FORCE_DEPTH_ZERO_TO_ONE
 #include <glm/mat4x4.hpp>
-#include <glm/vec3.hpp>
 
 #include <Maths/Vectors/Vec3.h>
 
 VulkanRenderer theRenderer;
 
-
-
-
 int main() {
 
-	Vec3<3, float> test();
+	Vec<3, int> test = Vec<3, float>(20, 0, 0);
 
-	test.test();
+	test *= 200;
+
+	Vec<3, float> test2 = test.normalise();
+
+	test2.lengthSquared();
 
 	AssetManager assMan;
 	assMan.registerFactory<FragShader>(new FragShaderFactory());

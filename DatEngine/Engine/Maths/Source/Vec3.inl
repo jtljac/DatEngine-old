@@ -1,24 +1,21 @@
-#include "../Vectors/Vec3.h"
-
-
 /** A vector pointing up (0,0,1) */
 template<typename VecType>
-const static Vec<3, VecType>::type Vec<3, VecType>::up;
+const Vec<3, VecType> Vec<3, VecType>::up = Vec<3, VecType>(0, 0, 1);
 /** A vector pointing down (0,0,-1) */
 template<typename VecType>
-const static Vec<3, VecType>::type Vec<3, VecType>::down;
+const Vec<3, VecType> Vec<3, VecType>::down = Vec<3, VecType>(0, 0, -1);
 /** A vector pointing north (0,1,0) */
 template<typename VecType>
-const static Vec<3, VecType>::type Vec<3, VecType>::north;
+const Vec<3, VecType> Vec<3, VecType>::north = Vec<3, VecType>(0, 1, 0);
 /** A vector pointing south (0,-1,0) */
 template<typename VecType>
-const static Vec<3, VecType>::type Vec<3, VecType>::south;
+const Vec<3, VecType> Vec<3, VecType>::south = Vec<3, VecType>(0, -1, 0);
 /** A vector pointing east (1,0,0) */
 template<typename VecType>
-const static Vec<3, VecType>::type Vec<3, VecType>::east;
+const Vec<3, VecType> Vec<3, VecType>::east = Vec<3, VecType>(1, 0, 0);
 /** A vector pointing west (-1,0,0) */
 template<typename VecType>
-const static Vec<3, VecType>::type Vec<3, VecType>::west;
+const Vec<3, VecType> Vec<3, VecType>::west = Vec<3, VecType>(-1, 0, 0);
 
 /**
  * Initialises at 0,0,0
@@ -66,6 +63,14 @@ Vec<3, VecType>::Vec(const Vec<2, VecType>& OtherVec, VecType Z) : x(OtherVec.x)
 template<typename VecType>
 Vec<3, VecType>::Vec(const Vec<4, VecType>& OtherVec) : x(OtherVec.x), y(OtherVec.y), z(OtherVec.z) {}
 
+/**
+ * Initialises as a copy of a vector of a different type
+ * @param OtherVec The other Vector to cast from
+ */
+template<typename VecType>
+template<typename OtherType>
+Vec<3, VecType>::Vec(const Vec<3, OtherType>& OtherVec) : x(static_cast<VecType>(OtherVec.x)), y(static_cast<VecType>(OtherVec.y)), z(static_cast<VecType>(OtherVec.z)) {}
+
 // Setters
 /**
  * Sets the values of the vector to the given vector in place
@@ -109,7 +114,7 @@ void Vec<3, VecType>::set(const type& OtherVector) {
  * @return The resulting vector
  */
 template<typename VecType>
-Vec<3, VecType>::type Vec<3, VecType>::operator+(const VecType& OtherVec) const {
+Vec<3, VecType> Vec<3, VecType>::operator+(const VecType& OtherVec) const {
 	return type(x + OtherVec.x, y + OtherVec.y, z + OtherVec.z);
 }
 
@@ -119,7 +124,7 @@ Vec<3, VecType>::type Vec<3, VecType>::operator+(const VecType& OtherVec) const 
  * @return The resulting vector
  */
 template<typename VecType>
-Vec<3, VecType>::type Vec<3, VecType>::operator+(VecType Amount) const {
+Vec<3, VecType> Vec<3, VecType>::operator+(VecType Amount) const {
 	return type(x + Amount, y + Amount, z + Amount);
 }
 
@@ -129,8 +134,11 @@ Vec<3, VecType>::type Vec<3, VecType>::operator+(VecType Amount) const {
  * @return The resulting vector
  */
 template<typename VecType>
-Vec<3, VecType>::type Vec<3, VecType>::operator+=(const type& OtherVec) const {
-	return (*this) + OtherVec;
+Vec<3, VecType> Vec<3, VecType>::operator+=(const type& OtherVec) {
+	x += OtherVec.x;
+	y += OtherVec.y;
+	z += OtherVec.z;
+	return *this;
 }
 
 /**
@@ -139,8 +147,12 @@ Vec<3, VecType>::type Vec<3, VecType>::operator+=(const type& OtherVec) const {
  * @return The resulting vector
  */
 template<typename VecType>
-Vec<3, VecType>::type Vec<3, VecType>::operator+=(VecType Amount) const {
-	return (*this) + Amount;
+Vec<3, VecType> Vec<3, VecType>::operator+=(VecType Amount) {
+	x += Amount;
+	y += Amount;
+	z += Amount;
+
+	return *this;
 }
 
 /**
@@ -148,7 +160,7 @@ Vec<3, VecType>::type Vec<3, VecType>::operator+=(VecType Amount) const {
  * @return The incremented vector
  */
 template<typename VecType>
-Vec<3, VecType>::type Vec<3, VecType>::operator++() {
+Vec<3, VecType> Vec<3, VecType>::operator++() {
 	x += 1;
 	y += 1;
 	z += 1;
@@ -160,7 +172,7 @@ Vec<3, VecType>::type Vec<3, VecType>::operator++() {
  * @return The vector before being incremented
  */
 template<typename VecType>
-Vec<3, VecType>::type Vec<3, VecType>::operator++(int) {
+Vec<3, VecType> Vec<3, VecType>::operator++(int) {
 	type temp(*this);
 	++(*this);
 	return temp;
@@ -172,7 +184,7 @@ Vec<3, VecType>::type Vec<3, VecType>::operator++(int) {
  * @return The resulting vector
  */
 template<typename VecType>
-Vec<3, VecType>::type Vec<3, VecType>::operator-(const type& OtherVec) const {
+Vec<3, VecType> Vec<3, VecType>::operator-(const type& OtherVec) const {
 	return type(x - OtherVec.x, y - OtherVec.y, z - OtherVec.z);
 }
 
@@ -182,7 +194,7 @@ Vec<3, VecType>::type Vec<3, VecType>::operator-(const type& OtherVec) const {
  * @return The resulting vector
  */
 template<typename VecType>
-Vec<3, VecType>::type Vec<3, VecType>::operator-(VecType Amount) const {
+Vec<3, VecType> Vec<3, VecType>::operator-(VecType Amount) const {
 	return type(x - Amount, y - Amount, z - Amount);
 }
 
@@ -192,8 +204,11 @@ Vec<3, VecType>::type Vec<3, VecType>::operator-(VecType Amount) const {
  * @return The resulting vector
  */
 template<typename VecType>
-Vec<3, VecType>::type Vec<3, VecType>::operator-=(const type& OtherVec) const {
-	return (*this) - OtherVec;
+Vec<3, VecType> Vec<3, VecType>::operator-=(const type& OtherVec) {
+	x -= OtherVec.x;
+	y -= OtherVec.y;
+	z -= OtherVec.z;
+	return *this;
 }
 
 /**
@@ -202,8 +217,12 @@ Vec<3, VecType>::type Vec<3, VecType>::operator-=(const type& OtherVec) const {
  * @return The resulting vector
  */
 template<typename VecType>
-Vec<3, VecType>::type Vec<3, VecType>::operator-=(VecType Amount) const {
-	return (*this) - Amount;
+Vec<3, VecType> Vec<3, VecType>::operator-=(VecType Amount) {
+	x -= Amount;
+	y -= Amount;
+	z -= Amount;
+
+	return *this;
 }
 
 /**
@@ -211,7 +230,7 @@ Vec<3, VecType>::type Vec<3, VecType>::operator-=(VecType Amount) const {
  * @return The dencremented vector
  */
 template<typename VecType>
-Vec<3, VecType>::type Vec<3, VecType>::operator--() {
+Vec<3, VecType> Vec<3, VecType>::operator--() {
 	x += 1;
 	y += 1;
 	z += 1;
@@ -223,7 +242,7 @@ Vec<3, VecType>::type Vec<3, VecType>::operator--() {
  * @return The vector before being decremented
  */
 template<typename VecType>
-Vec<3, VecType>::type Vec<3, VecType>::operator--(int) {
+Vec<3, VecType> Vec<3, VecType>::operator--(int) {
 	type temp(*this);
 	--(*this);
 	return temp;
@@ -235,7 +254,7 @@ Vec<3, VecType>::type Vec<3, VecType>::operator--(int) {
  * @return The resulting vector
  */
 template<typename VecType>
-Vec<3, VecType>::type Vec<3, VecType>::operator*(const type& OtherVec) const {
+Vec<3, VecType> Vec<3, VecType>::operator*(const type& OtherVec) const {
 	return type(x * OtherVec.x, y * OtherVec.y, z * OtherVec.z);
 }
 
@@ -245,7 +264,7 @@ Vec<3, VecType>::type Vec<3, VecType>::operator*(const type& OtherVec) const {
  * @return The resulting vector
  */
 template<typename VecType>
-Vec<3, VecType>::type Vec<3, VecType>::operator*(VecType Value) const {
+Vec<3, VecType> Vec<3, VecType>::operator*(VecType Value) const {
 	return type(x * Value, y * Value, z * Value);
 }
 
@@ -255,8 +274,11 @@ Vec<3, VecType>::type Vec<3, VecType>::operator*(VecType Value) const {
  * @return The resulting vector
  */
 template<typename VecType>
-Vec<3, VecType>::type Vec<3, VecType>::operator*=(const type& OtherVec) const {
-	return (*this)* OtherVec;
+Vec<3, VecType> Vec<3, VecType>::operator*=(const type& OtherVec) {
+	x *= OtherVec.x;
+	y *= OtherVec.y;
+	z *= OtherVec.z;
+	return *this;
 }
 
 /**
@@ -265,8 +287,12 @@ Vec<3, VecType>::type Vec<3, VecType>::operator*=(const type& OtherVec) const {
  * @return The resulting vector
  */
 template<typename VecType>
-Vec<3, VecType>::type Vec<3, VecType>::operator*=(VecType Value) const {
-	return (*this) * Value;
+Vec<3, VecType> Vec<3, VecType>::operator*=(VecType Value) {
+	x *= Value;
+	y *= Value;
+	z *= Value;
+
+	return *this;
 }
 
 /**
@@ -275,7 +301,7 @@ Vec<3, VecType>::type Vec<3, VecType>::operator*=(VecType Value) const {
  * @return The resulting vector
  */
 template<typename VecType>
-Vec<3, VecType>::type Vec<3, VecType>::operator/(const type& OtherVec) const {
+Vec<3, VecType> Vec<3, VecType>::operator/(const type& OtherVec) const {
 	return type(x / OtherVec.x, y / OtherVec.y, z / OtherVec.z);
 }
 
@@ -285,7 +311,7 @@ Vec<3, VecType>::type Vec<3, VecType>::operator/(const type& OtherVec) const {
  * @return The resulting vector
  */
 template<typename VecType>
-Vec<3, VecType>::type Vec<3, VecType>::operator/(VecType Value) const {
+Vec<3, VecType> Vec<3, VecType>::operator/(VecType Value) const {
 	return type(x / Value, y / Value, z / Value);
 }
 
@@ -295,8 +321,11 @@ Vec<3, VecType>::type Vec<3, VecType>::operator/(VecType Value) const {
  * @return The resulting vector
  */
 template<typename VecType>
-Vec<3, VecType>::type Vec<3, VecType>::operator/=(const type& OtherVec) const {
-	return (*this) / OtherVec;
+Vec<3, VecType> Vec<3, VecType>::operator/=(const type& OtherVec) {
+	x /= OtherVec.x;
+	y /= OtherVec.y;
+	z /= OtherVec.z;
+	return *this;
 }
 
 /**
@@ -305,50 +334,24 @@ Vec<3, VecType>::type Vec<3, VecType>::operator/=(const type& OtherVec) const {
  * @return The resulting vector
  */
 template<typename VecType>
-Vec<3, VecType>::type Vec<3, VecType>::operator/=(VecType Value) const {
-	return (*this) / Value;
+Vec<3, VecType> Vec<3, VecType>::operator/=(VecType Value) {
+	x *= Value;
+	y *= Value;
+	z *= Value;
+
+	return *this;
 }
 
-// Comparison
-/**
- * Compares the magnitude of the 2 vectors, returning true if the first vector's magnitude is less than the second's
- * @param OtherVec The vector to compare to
- * @return Whether the vector's magnitude is smaller or not
- */
-template<typename VecType>
-bool Vec<3, VecType>::operator<(const type& OtherVec) const;
-
-/**
- * Compares the magnitude of the 2 vectors, returning true if the first vector's magnitude is more than the second's
- * @param OtherVec The vector to compare to
- * @return Whether the vector's magnitude is bigger or not
- */
-template<typename VecType>
-bool Vec<3, VecType>::operator>(const type& OtherVec) const;
-
-/**
- * Compares the magnitude of the 2 vectors, returning true if the first vector's magnitude is less than or equal to the second's
- * @param OtherVec The vector to compare to
- * @return Whether the vector's magnitude is less than or equal to the other or not
- */
-template<typename VecType>
-bool Vec<3, VecType>::operator<=(const type& OtherVec) const;
-
-/**
- * Compares the magnitude of the 2 vectors, returning true if the first vector's magnitude is more than or equal to the second's
- * @param OtherVec The vector to compare to
- * @return Whether the vector's magnitude is more than or equal to the other or not
- */
-template<typename VecType>
-bool Vec<3, VecType>::operator>=(const type& OtherVec) const;
-
+// Compairson
 /**
  * Compares the components of the 2 vectors, returning true if all the components first vectors components are equal to the seconds
  * @param OtherVec The vector to compare to
  * @return Whether the vector's components are equal to the other
  */
 template<typename VecType>
-bool Vec<3, VecType>::operator==(const type& OtherVec) const;
+bool Vec<3, VecType>::operator==(const type& OtherVec) const {
+	return x == OtherVec.x && y == OtherVec.y && z == OtherVec.z;
+}
 
 /**
  * Compares the components of the 2 vectors, returning true if all the components first vectors components are not equal to the seconds
@@ -356,7 +359,9 @@ bool Vec<3, VecType>::operator==(const type& OtherVec) const;
  * @return Whether the vector's components are equal to the other
  */
 template<typename VecType>
-bool Vec<3, VecType>::operator!=(const type& OtherVec) const;
+bool Vec<3, VecType>::operator!=(const type& OtherVec) const {
+	return x != OtherVec.x || y != OtherVec.y || z != OtherVec.z;
+}
 
 /**
  * Compares the components of this vector to the equivalent components of the given vector, returns true if the components are within ± the given tolerence of the given vector's components
@@ -365,4 +370,37 @@ bool Vec<3, VecType>::operator!=(const type& OtherVec) const;
  * @return Whether the components are equal
  */
 template<typename VecType>
-bool Vec<3, VecType>::equals(const type& OtherVec, float Tolerence = Numbers::tiny) const;
+bool Vec<3, VecType>::equals(const type& OtherVec, float Tolerence) const {
+	return fabs(x - OtherVec.x) < Tolerence && fabs(y - OtherVec.y) < Tolerence && fabs(z - OtherVec.z) < Tolerence;
+}
+
+/**
+ * Gets the squared scalar size of the vector
+ * The sum of the squares of each component
+ * Useful for comparing the size of vectors as the length squared will remain bigger or smaller like the actualy lengths compared, but it skips the expensive square root calculation
+ * @return The squared scalar size of the vector
+ */
+template<typename VecType>
+VecType Vec<3, VecType>::lengthSquared() const {
+	return pow(x, 2) + pow(y, 2) + pow(z, 2);
+}
+
+/**
+ * Gets the scalar size of the vector
+ * The square root of the sum of the squares of each component
+ * @return The scalar size of the vector
+ */
+template<typename VecType>
+VecType Vec<3, VecType>::length() const {
+	return sqrt(lengthSquared());
+}
+
+/**
+ * Gets the vector pointing in the same direction, but with a length of 1
+ * @return A unit vector pointing in the same direction
+ */
+template<typename VecType>
+template<typename ResultType>
+Vec<3, ResultType> Vec<3, VecType>::normalise() const {
+	return Vec<3, ResultType>(*this) / length();
+}
