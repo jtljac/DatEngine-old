@@ -15,8 +15,8 @@ namespace Numbers {
 	constexpr double tiny = 1.e-8;
 }
 
-namespace Tolerences {
-	constexpr float normalisedTolerence = 0.01;
+namespace Tolerances {
+	constexpr float normalisedTolerance = 0.01;
 }
 
 // Functions

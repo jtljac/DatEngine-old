@@ -284,5 +284,5 @@ struct DVector {
 	 * Checks if the vector is normalised
 	 * @return If the vector is normalised
 	 */
-	bool isNormalised(double Tolerence = Tolerences::normalisedTolerence) const;
+	bool isNormalised(double Tolerence = Tolerances::normalisedTolerance) const;
 };

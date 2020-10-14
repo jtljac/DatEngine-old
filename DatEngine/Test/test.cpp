@@ -15,13 +15,13 @@ VulkanRenderer theRenderer;
 
 int main() {
 
-	Vec<3, int> test = Vec<3, float>(20, 0, 0);
+	Vec<3, int> test = Vec<3, float>(20);
 
 	test *= 200;
 
 	Vec<3, float> test2 = test.normalise();
 
-	test2.lengthSquared();
+	test2.isNormalised();
 
 	AssetManager assMan;
 	assMan.registerFactory<FragShader>(new FragShaderFactory());

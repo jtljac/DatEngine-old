@@ -273,5 +273,5 @@ struct IVector4D {
 	 * Checks if the vector is normalised
 	 * @return If the vector is normalised
 	 */
-	bool isNormalised(float Tolerence = Tolerences::normalisedTolerence) const;
+	bool isNormalised(float Tolerence = Tolerances::normalisedTolerance) const;
 };

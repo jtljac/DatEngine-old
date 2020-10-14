@@ -370,7 +370,7 @@ bool Vec<3, VecType>::operator!=(const type& OtherVec) const {
  * @return Whether the components are equal
  */
 template<typename VecType>
-bool Vec<3, VecType>::equals(const type& OtherVec, float Tolerence) const {
+bool Vec<3, VecType>::equals(const type& OtherVec, VecType Tolerence) const {
 	return fabs(x - OtherVec.x) < Tolerence && fabs(y - OtherVec.y) < Tolerence && fabs(z - OtherVec.z) < Tolerence;
 }
 
@@ -403,4 +403,14 @@ template<typename VecType>
 template<typename ResultType>
 Vec<3, ResultType> Vec<3, VecType>::normalise() const {
 	return Vec<3, ResultType>(*this) / length();
+}
+
+/**
+ * Gets if the vector is normalised
+ * (Has a length of one)
+ * @return True if the vector is normalised
+ */
+template<typename VecType>
+bool Vec<3, VecType>::isNormalised(VecType Tolerance) const {
+	return fabs(length() - 1.f) < Tolerance;
 }

@@ -248,7 +248,7 @@ struct Vec<3, VecType> {
 	 * @param Tolerence How far off the vector can be before
 	 * @return Whether the components are equal
 	 */
-	bool equals(const type& OtherVec, float Tolerence = Numbers::tiny) const;
+	bool equals(const type& OtherVec, VecType Tolerence = Numbers::tiny) const;
 
 	/**
 	 * Gets the squared scalar size of the vector
@@ -271,6 +271,13 @@ struct Vec<3, VecType> {
 	 */
 	template<typename ResultType = float>
 	Vec<3, ResultType> normalise() const;
+
+	/**
+	 * Gets if the vector is normalised
+	 * (Has a length of one)
+	 * @return True if the vector is normalised
+	 */
+	bool isNormalised(VecType Tolerance = Tolerances::normalisedTolerance) const;
 };
 
 #include "../Source/Vec3.inl"
