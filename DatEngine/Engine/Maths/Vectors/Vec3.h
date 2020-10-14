@@ -67,7 +67,7 @@ struct Vec<3, VecType> {
 	 * @param OtherVec The other Vector to cast from
 	 */
 	template<typename OtherType>
-	Vec(const Vec<3, OtherType>& OtherVec);
+	explicit Vec(const Vec<3, OtherType>& OtherVec);
 
 	// Setters
 	/**
