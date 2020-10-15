@@ -1,79 +1,87 @@
 #pragma once
 
-struct FVector2D {
-	float x, y;
+#include "VecForward.h"
+
+
+template<typename VecType>
+struct Vec<2, VecType> {
+	typedef Vec<2, VecType> type;
+
+	VecType x, y;
 
 	/** A vector pointing up (0,1) */
-	const static FVector2D up;
+	const static type up;
 	/** A vector pointing down (0,-1) */
-	const static FVector2D down;
-	/** A vector pointing north (1,0) */
-	const static FVector2D right;
-	/** A vector pointing south (-1,0) */
-	const static FVector2D left;
+	const static type down;
+	/** A vector pointing right (1,0) */
+	const static type right;
+	/** A vector pointing left (-1, 0) */
+	const static type left;
 
 	/**
 	 * Initialises at 0,0
 	 */
-	FVector2D();
+	Vec();
 
 	/**
 	 * Initialises with xy each set to the given value
 	 * @param Value The value to set xy to
 	 */
-	FVector2D(float Value);
+	Vec(VecType Value);
 
 	/**
 	 * Initialises with xyz set to their respective given value
 	 * @param X The X component of the vector
 	 * @param Y The Y component of the vector
 	 */
-	FVector2D(float X, float Y);
+	Vec(VecType X, VecType Y);
 
 
 	// Copy Constructors
 	/**
 	 * Initialises as a copy of the given vector
-	 * @param Vec The vector to copy
+	 * @param OtherVec The vector to copy
 	 */
-	FVector2D(const FVector2D& Vec);
+	Vec(const type& OtherVec);
 
 	/**
 	 * Initialises as a copy of the given 3D vector, reduced down to a 2d vector
-	 * @param Vec The 3D Vector to copy from
+	 * @param OtherVec The 3D Vector to copy from
 	 */
-	FVector2D(const FVector& Vec);
+	Vec(const Vec<3, VecType>& OtherVec);
 
 	/**
 	 * Initialises as a copy of the given 4D Vector, reduced down to a 2d vector
-	 * @param Vec The 4D Vector to copy from
+	 * @param OtherVec The 4D Vector to copy from
 	 */
-	FVector2D(const FVector4D& Vec);
-
-	// Explicit Conversions
-	explicit operator IVector2D() const;
-
-	explicit operator DVector2D() const;
+	Vec(const Vec<4, VecType>& OtherVec);
+	
+	/**
+	 * Initialises as a copy of a vector of a different type
+	 * @param OtherVec The other Vector to cast from
+	 */
+	template<typename OtherType>
+	explicit Vec(const Vec<2, OtherType>& OtherVec);
 
 	// Setters
 	/**
 	 * Sets the values of the vector to the given vector in place
 	 * @param newX The value to set X to
 	 * @param newY The value to set Y to
-	*/
-	void set(float newX, float newY);
+	 */
+	void set(VecType newX, VecType newY);
 
 	/**
 	 * Sets the values of the vector to the given value in place
 	 * @param newValue The value to set each of the components of the vector to
 	 */
-	void set(float newValue);
+	void set(VecType newValue);
 
 	/**
 	 * Sets the values of the vector to the ones in the given vector, in place
 	 * @param OtherVector The vector to copy the components from
 	 */
-	void set(const FVector2D& OtherVector);
+	void set(const type& OtherVector);
 
 	// Operators
 	/**
@@ -81,169 +89,151 @@ struct FVector2D {
 	 * @param OtherVec The vector you're adding to this one
 	 * @return The resulting vector
 	 */
-	FVector2D operator+(const FVector2D& OtherVec) const;
+	type operator+(const VecType& OtherVec) const;
 
 	/**
 	 * Adds a value to each component of the vector
 	 * @param OtherVec The vector you're adding to this one
 	 * @return The resulting vector
 	 */
-	FVector2D operator+(float Amount) const;
+	type operator+(VecType Amount) const;
 
 	/**
 	 * Adds a vector to this vector
 	 * @param OtherVec The vector you're adding to this one
 	 * @return The resulting vector
 	 */
-	FVector2D operator+=(const FVector2D& OtherVec) const;
+	type operator+=(const type& OtherVec);
 
 	/**
 	 * Adds the value to each component of the vector
 	 * @param OtherVec The vector you're adding to this one
 	 * @return The resulting vector
 	 */
-	FVector2D operator+=(float Amount) const;
+	type operator+=(VecType Amount);
 
 	/**
-	 * Adds a the given amount to each component of the vector
-	 * @param Amount The amount to add to each component
-	 * @return The resulting vector
+	 * Increments each component of the vector and returns the incremented vector
+	 * @return The incremented vector
 	 */
-	FVector2D operator++(int Amount);
+	type operator++();
+
+	/**
+	 * Increments each component of the vector and returns the vector before incrementing
+	 * @return The vector before being incremented
+	 */
+	type operator++(int);
 
 	/**
 	 * Minuses one vector from another
 	 * @param OtherVec The vector you're minusing from this one
 	 * @return The resulting vector
 	 */
-	FVector2D operator-(const FVector2D& OtherVec) const;
+	type operator-(const type& OtherVec) const;
 
 	/**
 	 * Minuses the given amount from each component
 	 * @param Amount the amount to take from each component
 	 * @return The resulting vector
 	 */
-	FVector2D operator-(float Amount) const;
+	type operator-(VecType Amount) const;
 
 	/**
 	 * Minuses a vector from this vector
 	 * @param OtherVec The vector you're minusing from this one
 	 * @return The resulting vector
 	 */
-	FVector2D operator-=(const FVector2D& OtherVec) const;
+	type operator-=(const type& OtherVec);
 
 	/**
 	 * Minuses the given amount from each component
 	 * @param Amount The amount to take from each vector
 	 * @return The resulting vector
 	 */
-	FVector2D operator-=(float Amount) const;
+	type operator-=(VecType Amount);
 
 	/**
-	 * Minuses the given amount from each component
-	 * @param Amount The amount to take from each vector
-	 * @return The resulting vector
+	 * decrements each component of the vector and returns the dencremented vector
+	 * @return The dencremented vector
 	 */
-	FVector2D operator--(int Amount);
+	type operator--();
 
-	/**
-	 * Multiplies each component by the equivilent component in the other vector
-	 * @param OtherVec The other vector
-	 * @return The resulting vector
-	 */
-	FVector2D operator*(const FVector2D& OtherVec) const;
-
-	/**
-	 * Multiplies each component of the vector by the given value
-	 * @param Value The value to multiply each component by
-	 * @return The resulting vector
-	 */
-	FVector2D operator*(float Value) const;
+	 /**
+	  * decrements each component of the vector and returns the vector before being decremented
+	  * @return The vector before being decremented
+	  */
+	type operator--(int);
 
 	/**
 	 * Multiplies each component by the equivilent component in the other vector
 	 * @param OtherVec The other vector
 	 * @return The resulting vector
 	 */
-	FVector2D operator*=(const FVector2D& OtherVec) const;
+	type operator*(const type& OtherVec) const;
 
 	/**
 	 * Multiplies each component of the vector by the given value
 	 * @param Value The value to multiply each component by
 	 * @return The resulting vector
 	 */
-	FVector2D operator*=(float Value) const;
+	type operator*(VecType Value) const;
+
+	/**
+	 * Multiplies each component by the equivilent component in the other vector
+	 * @param OtherVec The other vector
+	 * @return The resulting vector
+	 */
+	type operator*=(const type& OtherVec);
+
+	/**
+	 * Multiplies each component of the vector by the given value
+	 * @param Value The value to multiply each component by
+	 * @return The resulting vector
+	 */
+	type operator*=(VecType Value);
 
 	/**
 	 * Divides each component by the equivilent component in the other vector
 	 * @param OtherVec The other vector
 	 * @return The resulting vector
 	 */
-	FVector2D operator/(const FVector2D& OtherVec) const;
+	type operator/(const type& OtherVec) const;
 
 	/**
 	 * Divides each component of the vector by the given Value
 	 * @param Value The value to multiply each component by
 	 * @return The resulting vector
 	 */
-	FVector2D operator/(float Value) const;
+	type operator/(VecType Value) const;
 
 	/**
 	 * Divides each component by the equivilent component in the other vector
 	 * @param OtherVec The other vector
 	 * @return The resulting vector
 	 */
-	FVector2D operator/=(const FVector2D& OtherVec) const;
+	type operator/=(const type& OtherVec);
 
 	/**
 	 * Divides each component of the vector by the given Value
 	 * @param Value The value to multiply each component by
 	 * @return The resulting vector
 	 */
-	FVector2D operator/=(float Value) const;
+	type operator/=(VecType Value);
 
 	// Comparison
-	/**
-	 * Compares the magnitude of the 2 vectors, returning true if the first vector's magnitude is less than the second's
-	 * @param OtherVec The vector to compare to
-	 * @return Whether the vector's magnitude is smaller or not
-	 */
-	bool operator<(const FVector2D& OtherVec) const;
-
-	/**
-	 * Compares the magnitude of the 2 vectors, returning true if the first vector's magnitude is more than the second's
-	 * @param OtherVec The vector to compare to
-	 * @return Whether the vector's magnitude is bigger or not
-	 */
-	bool operator>(const FVector2D& OtherVec) const;
-
-	/**
-	 * Compares the magnitude of the 2 vectors, returning true if the first vector's magnitude is less than or equal to the second's
-	 * @param OtherVec The vector to compare to
-	 * @return Whether the vector's magnitude is less than or equal to the other or not
-	 */
-	bool operator<=(const FVector2D& OtherVec) const;
-
-	/**
-	 * Compares the magnitude of the 2 vectors, returning true if the first vector's magnitude is more than or equal to the second's
-	 * @param OtherVec The vector to compare to
-	 * @return Whether the vector's magnitude is more than or equal to the other or not
-	 */
-	bool operator>=(const FVector2D& OtherVec) const;
-
 	/**
 	 * Compares the components of the 2 vectors, returning true if all the components first vectors components are equal to the seconds
 	 * @param OtherVec The vector to compare to
 	 * @return Whether the vector's components are equal to the other
 	 */
-	bool operator==(const FVector2D& OtherVec) const;
+	bool operator==(const type& OtherVec) const;
 
 	/**
 	 * Compares the components of the 2 vectors, returning true if all the components first vectors components are not equal to the seconds
 	 * @param OtherVec The vector to compare to
 	 * @return Whether the vector's components are equal to the other
 	 */
-	bool operator!=(const FVector2D& OtherVec) const;
+	bool operator!=(const type& OtherVec) const;
 
 	/**
 	 * Compares the components of this vector to the equivalent components of the given vector, returns true if the components are within ± the given tolerence of the given vector's components
@@ -251,29 +241,36 @@ struct FVector2D {
 	 * @param Tolerence How far off the vector can be before
 	 * @return Whether the components are equal
 	 */
-	bool equals(const FVector2D& OtherVec, float Tolerence = Numbers::tiny) const;
+	bool equals(const type& OtherVec, VecType Tolerance = Numbers::tiny) const;
 
 	/**
-	 * Gets the magnitude squared of the vector
-	 * @return The magnitude squared of the vector
+	 * Gets the squared scalar size of the vector
+	 * The sum of the squares of each component
+	 * Useful for comparing the size of vectors as the length squared will remain bigger or smaller like the actualy lengths compared, but it skips the expensive square root calculation
+	 * @return The squared scalar size of the vector
 	 */
-	float magnitudeSquared() const;
+	VecType lengthSquared() const;
 
 	/**
-	 * Gets the magnitude of the vector
-	 * @return The magnitude of the vector
+	 * Gets the scalar size of the vector
+	 * The square root of the sum of the squares of each component
+	 * @return The scalar size of the vector
 	 */
-	float magnitude() const;
+	VecType length() const;
 
 	/**
-	 * Gets the equivalent unit vector, returns a zero vector if the length is too small
-	 * @return The equivalent unit vector
+	 * Gets the vector pointing in the same direction, but with a length of 1
+	 * @return A unit vector pointing in the same direction
 	 */
-	FVector2D normalise() const;
+	template<typename ResultType = float>
+	Vec<2, ResultType> normalise() const;
 
 	/**
-	 * Checks if the vector is normalised
-	 * @return If the vector is normalised
+	 * Gets if the vector is normalised
+	 * (Has a length of one)
+	 * @return True if the vector is normalised
 	 */
-	bool isNormalised(float Tolerence = Tolerances::normalisedTolerance) const;
+	bool isNormalised(VecType Tolerance = Tolerances::normalisedTolerance) const;
 };
+
+#include "Source/Vec2.inl"

@@ -9,19 +9,19 @@
 #define GLM_FORCE_DEPTH_ZERO_TO_ONE
 #include <glm/mat4x4.hpp>
 
-#include <Maths/Vectors/Vec3.h>
+#include <Maths/Vector.h>
 
 VulkanRenderer theRenderer;
 
 int main() {
 
-	Vec<3, int> test = Vec<3, float>(20);
+	FVector test = FVector();
 
-	test *= 200;
+	test += FVector(200, 10, 3);
 
-	Vec<3, float> test2 = test.normalise();
+	test = test.normalise();
 
-	test2.isNormalised();
+	test.isNormalised();
 
 	AssetManager assMan;
 	assMan.registerFactory<FragShader>(new FragShaderFactory());

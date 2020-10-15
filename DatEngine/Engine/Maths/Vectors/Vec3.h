@@ -50,7 +50,7 @@ struct Vec<3, VecType> {
 	Vec(const type& OtherVec);
 
 	/**
-	 * Initialises as a copy of the given 2D vector and with the given Z vector
+	 * Initialises as a copy of the given 2D vector and with the given Z component
 	 * @param OtherVec The 2D Vector to copy from
 	 * @param Z The Z component of the vector
 	 */
@@ -248,7 +248,7 @@ struct Vec<3, VecType> {
 	 * @param Tolerence How far off the vector can be before
 	 * @return Whether the components are equal
 	 */
-	bool equals(const type& OtherVec, VecType Tolerence = Numbers::tiny) const;
+	bool equals(const type& OtherVec, VecType Tolerance = Numbers::tiny) const;
 
 	/**
 	 * Gets the squared scalar size of the vector
@@ -280,4 +280,4 @@ struct Vec<3, VecType> {
 	bool isNormalised(VecType Tolerance = Tolerances::normalisedTolerance) const;
 };
 
-#include "../Source/Vec3.inl"
+#include "Source/Vec3.inl"
