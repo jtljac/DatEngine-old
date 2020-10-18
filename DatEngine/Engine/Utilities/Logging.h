@@ -3,6 +3,8 @@
 #include <fstream>
 #include <Utilities/Console.h>
 
+#undef ERROR
+
 enum class LogLevel {
 	ERROR = 0,
 	WARNING = 1,

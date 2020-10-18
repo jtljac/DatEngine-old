@@ -323,10 +323,11 @@ VkPresentModeKHR VulkanRenderer::chooseSwapPresentMode(const std::vector<VkPrese
         }
     }
 
-    Log::w(TAG, "Prefered present mode unavailable, defaulting to FIFO");
+    Log::w(TAG, "Prefered present mode unavailable, defaulting to IMMEDIATE");
 
     // Return guaranteed present mode (because our prefered isn't there)
-    return VK_PRESENT_MODE_FIFO_KHR;
+    // return VK_PRESENT_MODE_FIFO_KHR;
+    return VK_PRESENT_MODE_IMMEDIATE_KHR;
 }
 
 /**

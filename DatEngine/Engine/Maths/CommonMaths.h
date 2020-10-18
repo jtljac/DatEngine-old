@@ -11,13 +11,16 @@ constexpr double eulersNum = 2.718281828459045;
 constexpr double goldenRatio = 1.618033988749895;
 
 namespace Numbers {
-	constexpr double small = 1.e-4;
-	constexpr double tiny = 1.e-8;
+	constexpr double smallNumber = 1.e-4;
+	constexpr double tinyNumber = 1.e-8;
 }
 
 namespace Tolerances {
 	constexpr float normalisedTolerance = 0.01;
 }
+
+#undef min
+#undef max
 
 // Functions
 template <class T>

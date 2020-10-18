@@ -1,9 +1,12 @@
 #include <iostream>
+#include <Windows.h>
 #include <Utilities/Logging.h>
 #include <Rendering/Vulkan/VulkanRenderer.h>
 #include <AssetManager/AssetManager.h>
 #include <AssetManager/Factories/VertShaderFactory.h>
 #include <AssetManager/Factories/FragShaderFactory.h>
+
+#include <Profiling/Profiler.h>
 
 #define GLM_FORCE_RADIANS
 #define GLM_FORCE_DEPTH_ZERO_TO_ONE
@@ -14,26 +17,26 @@
 VulkanRenderer theRenderer;
 
 int main() {
-
-	FVector test = FVector();
-
-	test += FVector(200, 10, 3);
-
-	test = test.normalise();
-
-	test.isNormalised();
-
 	AssetManager assMan;
 	assMan.registerFactory<FragShader>(new FragShaderFactory());
 	assMan.registerFactory<VertShader>(new VertShaderFactory());
-
 	theRenderer.initialise(800, 600, "Vulkan Test", &assMan);
 
 
 	// Main Loop
+	LARGE_INTEGER Frequency;
+	QueryPerformanceFrequency(&Frequency);
+	LARGE_INTEGER LastTime, newTime;
+	QueryPerformanceCounter(&LastTime);
+	double deltaTime = 0.f;
 	while (!theRenderer.windowWantsToClose()) {
+		// QueryPerformanceCounter(&newTime);
+		// deltaTime = ((double) (newTime.QuadPart - LastTime.QuadPart)) / Frequency.QuadPart;
+		// QueryPerformanceCounter(&LastTime);
+		// std::cout << deltaTime << " seconds" << std::endl;
 		glfwPollEvents();
 		theRenderer.drawFrame();
+		
 	}
 
 

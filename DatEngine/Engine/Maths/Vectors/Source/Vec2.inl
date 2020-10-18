@@ -6,10 +6,10 @@ template<typename VecType>
 const Vec<2, VecType> Vec<2, VecType>::down = Vec<2, VecType>(0, -1);
 /** A vector pointing right (1,0) */
 template<typename VecType>
-const Vec<2, VecType> Vec<2, VecType>::north = Vec<2, VecType>(1, 0);
+const Vec<2, VecType> Vec<2, VecType>::right = Vec<2, VecType>(1, 0);
 /** A vector pointing left (-1,0) */
 template<typename VecType>
-const Vec<2, VecType> Vec<2, VecType>::south = Vec<2, VecType>(-1, 0);
+const Vec<2, VecType> Vec<2, VecType>::left = Vec<2, VecType>(-1, 0);
 
 /**
  * Initialises at 0,0
@@ -30,7 +30,7 @@ Vec<2, VecType>::Vec(VecType Value) : x(Value), y(Value) {}
  * @param Y The Y component of the vector
  */
 template<typename VecType>
-Vec<2, VecType>::Vec(VecType X, VecType Y, VecType Z) : x(X), y(Y) {}
+Vec<2, VecType>::Vec(VecType X, VecType Y) : x(X), y(Y) {}
 
 
 // Copy Constructors

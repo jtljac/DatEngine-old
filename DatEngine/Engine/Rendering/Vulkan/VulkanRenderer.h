@@ -15,6 +15,7 @@
 #include <AssetManager/AssetManager.h>
 #include <AssetManager/Assets/Shaders/VertShader.h>
 #include <AssetManager/Assets/Shaders/FragShader.h>
+#include <Mesh/Primitives/Vertex.h>
 
 struct QueueFamilyIndices {
     std::optional<uint32_t> graphicsFamily;
@@ -35,7 +36,8 @@ class VulkanRenderer : public Renderer {
     inline const static std::string TAG = "Vulkan";
 
     std::vector<const char*> validationLayers = {
-        "VK_LAYER_KHRONOS_validation"
+        "VK_LAYER_KHRONOS_validation",
+        "VK_LAYER_LUNARG_monitor"
     };
 
     const std::vector<const char*> deviceExtensions = {
@@ -82,11 +84,24 @@ private:
     VkCommandPool commandPool;                              // The command pool
     std::vector<VkCommandBuffer> commandBuffers;            // The command buffers
 
+    VkBuffer vertexBuffer;                                  // The vertex buffer
+    VkDeviceMemory vertexBufferMemory;                      // The allocated memory for the vertex buffer
+
     std::vector<VkSemaphore> imageAvailableSemaphores;      // Image Available semaphores
     std::vector<VkSemaphore> renderFinishedSemaphores;      // Render Finished semaphores
     std::vector<VkFence> inFlightFences;                    // The in flight fences
     std::vector<VkFence> imagesInFlight;                    // The images in flight
     size_t currentFrame = 0;                                // The current frame
+
+
+    const std::vector<Vertex> vertices = {
+        {{-.75f, -0.75f}, {1.f, 0.f, 0.0f}},
+        {{0.75f, 0.75f}, {0.0f, 1.0f, 0.0f}},
+        {{-0.75f, 0.75f}, {0.0f, 0.0f, 1.0f}},
+        {{.75f, 0.75f}, {1.f, 0.f, 0.0f}},
+        {{-0.75f, -0.75f}, {0.0f, 1.0f, 0.0f}},
+        {{0.75f, -0.75f}, {0.0f, 0.0f, 1.0f}}
+    };
 
     /**
      * Checks the machine supports the required validation layers
@@ -246,6 +261,27 @@ private:
     void createCommandPool();
 
     /**
+     * Finds and returns the memory type fit for the given requirements
+     */
+    uint32_t findMemoryType(uint32_t typeFilter, VkMemoryPropertyFlags properties) {
+        VkPhysicalDeviceMemoryProperties memProperties;
+        vkGetPhysicalDeviceMemoryProperties(physicalDevice, &memProperties);
+
+        for (uint32_t i = 0; i < memProperties.memoryTypeCount; i++) {
+            if (typeFilter & (1 << i) && (memProperties.memoryTypes[i].propertyFlags & properties) == properties) {
+                return i;
+            }
+        }
+
+        throw std::runtime_error("failed to find suitable memory type!");
+    }
+
+    /**
+     * Creates the vertex buffer
+     */
+    void createVertexBuffer();
+
+    /**
      * Creates the command buffers
      */
     void createCommandBuffers();
@@ -301,6 +337,7 @@ public:
         createGraphicsPipeline();
         createFramebuffers();
         createCommandPool();
+        createVertexBuffer();
         createCommandBuffers();
         createSyncObjects();
 
@@ -407,6 +444,9 @@ public:
         vkDeviceWaitIdle(device);
 
         cleanupSwapChain();
+
+        vkDestroyBuffer(device, vertexBuffer, nullptr);
+        vkFreeMemory(device, vertexBufferMemory, nullptr);
 
         // Semaphores and fences
         for (size_t i = 0; i < MAX_FRAMES_IN_FLIGHT; i++) {
