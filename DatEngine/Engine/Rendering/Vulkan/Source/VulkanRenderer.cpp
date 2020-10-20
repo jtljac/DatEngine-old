@@ -39,16 +39,16 @@ VKAPI_ATTR VkBool32 VKAPI_CALL VulkanRenderer::debugCallback(VkDebugUtilsMessage
 
     // Convert severity to log level
     if (messageSeverity & VK_DEBUG_UTILS_MESSAGE_SEVERITY_ERROR_BIT_EXT) {
-        loggerLevel = LogLevel::ERROR;
+        loggerLevel = LogLevel::LOGERROR;
     }
     else if (messageSeverity & VK_DEBUG_UTILS_MESSAGE_SEVERITY_WARNING_BIT_EXT) {
-        loggerLevel = LogLevel::WARNING;
+        loggerLevel = LogLevel::LOGWARNING;
     }
     else if (messageSeverity & VK_DEBUG_UTILS_MESSAGE_SEVERITY_INFO_BIT_EXT) {
-        loggerLevel = LogLevel::INFO;
+        loggerLevel = LogLevel::LOGINFO;
     }
     else if (messageSeverity & VK_DEBUG_UTILS_MESSAGE_SEVERITY_VERBOSE_BIT_EXT) {
-        loggerLevel = LogLevel::DEBUG;
+        loggerLevel = LogLevel::LOGDEBUG;
     }
 
     // Log

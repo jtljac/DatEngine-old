@@ -1,5 +1,5 @@
 #include <iostream>
-#include <Windows.h>
+#include <Platform/Timing.h>
 #include <Utilities/Logging.h>
 #include <Rendering/Vulkan/VulkanRenderer.h>
 #include <AssetManager/AssetManager.h>
@@ -22,18 +22,15 @@ int main() {
 	assMan.registerFactory<VertShader>(new VertShaderFactory());
 	theRenderer.initialise(800, 600, "Vulkan Test", &assMan);
 
+	FVector test(20);
+
+	test.normalise();
 
 	// Main Loop
-	LARGE_INTEGER Frequency;
-	QueryPerformanceFrequency(&Frequency);
-	LARGE_INTEGER LastTime, newTime;
-	QueryPerformanceCounter(&LastTime);
+	
 	double deltaTime = 0.f;
 	while (!theRenderer.windowWantsToClose()) {
-		// QueryPerformanceCounter(&newTime);
-		// deltaTime = ((double) (newTime.QuadPart - LastTime.QuadPart)) / Frequency.QuadPart;
-		// QueryPerformanceCounter(&LastTime);
-		// std::cout << deltaTime << " seconds" << std::endl;
+		std::cout << Timing::getMilliseconds();  //  deltaTime << " seconds, " << 1 / deltaTime << " fps" << std::endl;
 		glfwPollEvents();
 		theRenderer.drawFrame();
 		

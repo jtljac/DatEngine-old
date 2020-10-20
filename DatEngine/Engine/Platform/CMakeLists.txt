@@ -1,5 +1,12 @@
-
+# Generic
+target_sources (DatEngine
+				PUBLIC
+					"Timing.h"
+)
 
 # Subdirectories
-add_subdirectory ("Windows")
-add_subdirectory ("Linux")
+if(WIN32)
+	add_subdirectory ("Windows")
+else(WIN32)
+	add_subdirectory ("Linux")
+endif(WIN32)

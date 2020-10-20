@@ -3,26 +3,24 @@
 #include <fstream>
 #include <Utilities/Console.h>
 
-#undef ERROR
-
 enum class LogLevel {
-	ERROR = 0,
-	WARNING = 1,
-	INFO = 2,
-	DEBUG = 3
+	LOGERROR = 0,
+	LOGWARNING = 1,
+	LOGINFO = 2,
+	LOGDEBUG = 3
 };
 
 class Log {
 private:
 	static std::string getLogLevelAsString(LogLevel level) {
 		switch (level) {
-		case LogLevel::INFO:
+		case LogLevel::LOGINFO:
 			return "Info";
-		case LogLevel::WARNING:
+		case LogLevel::LOGWARNING:
 			return "Warning";
-		case LogLevel::ERROR:
+		case LogLevel::LOGERROR:
 			return "Error";
-		case LogLevel::DEBUG:
+		case LogLevel::LOGDEBUG:
 			return "Debug";
 		default:
 			return "";
@@ -38,13 +36,13 @@ public:
 	static void log(const LogLevel logLevel, const std::string logTag, const std::string logMessage) {
 		ConsoleColour colour = ConsoleColour::DEFAULT;
 		switch (logLevel) {
-		case LogLevel::WARNING:
+		case LogLevel::LOGWARNING:
 			colour = ConsoleColour::YELLOW;
 			break;
-		case LogLevel::ERROR:
+		case LogLevel::LOGERROR:
 			colour = ConsoleColour::RED;
 			break;
-		case LogLevel::DEBUG:
+		case LogLevel::LOGDEBUG:
 			colour = ConsoleColour::GREEN;
 			break;
 		}
@@ -53,18 +51,18 @@ public:
 	}
 
 	static void i(const std::string logTag, const std::string logMessage) {
-		log(LogLevel::INFO, logTag, logMessage);
+		log(LogLevel::LOGINFO, logTag, logMessage);
 	}
 
 	static void e(const std::string logTag, const std::string logMessage) {
-		log(LogLevel::ERROR, logTag, logMessage);
+		log(LogLevel::LOGERROR, logTag, logMessage);
 	}
 
 	static void w(const std::string logTag, const std::string logMessage) {
-		log(LogLevel::WARNING, logTag, logMessage);
+		log(LogLevel::LOGWARNING, logTag, logMessage);
 	}
 
 	static void v(const std::string logTag, const std::string logMessage) {
-		log(LogLevel::DEBUG, logTag, logMessage);
+		log(LogLevel::LOGDEBUG, logTag, logMessage);
 	}
 };
