@@ -3,3 +3,7 @@
 
 # CMake Output
 out/
+
+# Doxygen output
+html/
+latex/

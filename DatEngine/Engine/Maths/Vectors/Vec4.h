@@ -87,7 +87,7 @@ struct Vec<4, VecType> {
 	 * @param OtherVec The vector you're adding to this one
 	 * @return The resulting vector
 	 */
-	type operator+(const VecType& OtherVec) const;
+	type operator+(const type& OtherVec) const;
 
 	/**
 	 * Adds a value to each component of the vector
@@ -121,6 +121,12 @@ struct Vec<4, VecType> {
 	 * @return The vector before being incremented
 	 */
 	type operator++(int);
+
+	/**
+	 * Gets the negation of the vector
+	 * @return The negated vector
+	 */
+	type operator-() const;
 
 	/**
 	 * Minuses one vector from another

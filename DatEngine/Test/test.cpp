@@ -20,20 +20,25 @@ int main() {
 	AssetManager assMan;
 	assMan.registerFactory<FragShader>(new FragShaderFactory());
 	assMan.registerFactory<VertShader>(new VertShaderFactory());
+	Timing::initialise();
 	theRenderer.initialise(800, 600, "Vulkan Test", &assMan);
 
 	FVector test(20);
+	FVector test2(24);
+	
+	test = -test;
 
 	test.normalise();
 
 	// Main Loop
-	
-	double deltaTime = 0.f;
+	double lastTime = Timing::getTime();
+	double deltaTime;
 	while (!theRenderer.windowWantsToClose()) {
-		std::cout << Timing::getMilliseconds();  //  deltaTime << " seconds, " << 1 / deltaTime << " fps" << std::endl;
+		deltaTime = Timing::getTime() - lastTime;
+		lastTime = Timing::getTime();
+		// if (fmod(Timing::getTime(), 1) ) std::cout << deltaTime << " seconds, " << 1 / deltaTime << " fps" << std::endl;
 		glfwPollEvents();
 		theRenderer.drawFrame();
-		
 	}
 
 

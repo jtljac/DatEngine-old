@@ -17,6 +17,8 @@
 #include <AssetManager/Assets/Shaders/FragShader.h>
 #include <Mesh/Primitives/Vertex.h>
 
+#include <glm/glm.hpp>
+
 struct QueueFamilyIndices {
     std::optional<uint32_t> graphicsFamily;
     std::optional<uint32_t> presentFamily;
@@ -24,6 +26,12 @@ struct QueueFamilyIndices {
     bool isComplete() {
         return graphicsFamily.has_value() && presentFamily.has_value();
     }
+};
+
+struct UniformBufferObject {
+    glm::mat4 model;
+    glm::mat4 view;
+    glm::mat4 proj;
 };
 
 struct SwapChainSupportDetails {
@@ -86,6 +94,8 @@ private:
 
     VkBuffer vertexBuffer;                                  // The vertex buffer
     VkDeviceMemory vertexBufferMemory;                      // The allocated memory for the vertex buffer
+    VkBuffer indexBuffer;
+    VkDeviceMemory indexBufferMemory;
 
     std::vector<VkSemaphore> imageAvailableSemaphores;      // Image Available semaphores
     std::vector<VkSemaphore> renderFinishedSemaphores;      // Render Finished semaphores
@@ -95,12 +105,14 @@ private:
 
 
     const std::vector<Vertex> vertices = {
-        {{-.75f, -0.75f}, {1.f, 0.f, 0.0f}},
-        {{0.75f, 0.75f}, {0.0f, 1.0f, 0.0f}},
-        {{-0.75f, 0.75f}, {0.0f, 0.0f, 1.0f}},
-        {{.75f, 0.75f}, {1.f, 0.f, 0.0f}},
-        {{-0.75f, -0.75f}, {0.0f, 1.0f, 0.0f}},
-        {{0.75f, -0.75f}, {0.0f, 0.0f, 1.0f}}
+        {{-0.5f, -0.5f}, {1.0f, 0.0f, 0.0f}},
+        {{0.5f, -0.5f}, {0.0f, 1.0f, 0.0f}},
+        {{0.5f, 0.5f}, {0.0f, 0.0f, 1.0f}},
+        {{-0.5f, 0.5f}, {1.0f, 1.0f, 1.0f}}
+    };
+
+    const std::vector<uint16_t> indices = {
+        0, 1, 2, 2, 3, 0
     };
 
     /**
@@ -225,6 +237,7 @@ private:
 
     /**
      * Creates a swap chan for vulkan to use
+     * @param OldSwapChain The old swap chain (optional)
      */
     void createSwapChain(VkSwapchainKHR OldSwapChain = VK_NULL_HANDLE);
 
@@ -277,9 +290,32 @@ private:
     }
 
     /**
+     * Creates a memory buffer on the video card
+     * @param size The required size of the buffer
+     * @param usage The usage flags for the buffer
+     * @param properties The memory property flags for the buffer
+     * @param buffer A reference to the Buffer
+     * @param buffer A reference to the Buffer Memory
+     */
+    void createBuffer(VkDeviceSize size, VkBufferUsageFlags usage, VkMemoryPropertyFlags properties, VkBuffer& buffer, VkDeviceMemory& bufferMemory);
+
+    /**
+     * Copies data from one video card buffer to another
+     * @param srcBuffer The buffer to copy from
+     * @param dstBuffer The buffer to copy to
+     * @param size The size of the data to copy
+     */
+    void copyBuffer(VkBuffer srcBuffer, VkBuffer dstBuffer, VkDeviceSize size);
+
+    /**
      * Creates the vertex buffer
      */
     void createVertexBuffer();
+
+    /**
+     * Creates the index buffer
+     */
+    void createIndexBuffer();
 
     /**
      * Creates the command buffers
@@ -338,6 +374,7 @@ public:
         createFramebuffers();
         createCommandPool();
         createVertexBuffer();
+        createIndexBuffer();
         createCommandBuffers();
         createSyncObjects();
 
@@ -444,6 +481,9 @@ public:
         vkDeviceWaitIdle(device);
 
         cleanupSwapChain();
+
+        vkDestroyBuffer(device, indexBuffer, nullptr);
+        vkFreeMemory(device, indexBufferMemory, nullptr);
 
         vkDestroyBuffer(device, vertexBuffer, nullptr);
         vkFreeMemory(device, vertexBufferMemory, nullptr);

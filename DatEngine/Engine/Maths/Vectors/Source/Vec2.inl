@@ -102,7 +102,7 @@ void Vec<2, VecType>::set(const type& OtherVector) {
  * @return The resulting vector
  */
 template<typename VecType>
-Vec<2, VecType> Vec<2, VecType>::operator+(const VecType& OtherVec) const {
+Vec<2, VecType> Vec<2, VecType>::operator+(const type& OtherVec) const {
 	return type(x + OtherVec.x, y + OtherVec.y);
 }
 
@@ -161,6 +161,15 @@ Vec<2, VecType> Vec<2, VecType>::operator++(int) {
 	type temp(*this);
 	++(*this);
 	return temp;
+}
+
+/**
+ * Gets the negation of the vector
+ * @return The negated vector
+ */
+template<typename VecType>
+Vec<2, VecType> Vec<2, VecType>::operator-() const {
+	return type(-x, -y);
 }
 
 /**

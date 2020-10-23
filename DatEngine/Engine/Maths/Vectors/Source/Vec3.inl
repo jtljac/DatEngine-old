@@ -114,7 +114,7 @@ void Vec<3, VecType>::set(const type& OtherVector) {
  * @return The resulting vector
  */
 template<typename VecType>
-Vec<3, VecType> Vec<3, VecType>::operator+(const VecType& OtherVec) const {
+Vec<3, VecType> Vec<3, VecType>::operator+(const type& OtherVec) {
 	return type(x + OtherVec.x, y + OtherVec.y, z + OtherVec.z);
 }
 
@@ -186,6 +186,15 @@ Vec<3, VecType> Vec<3, VecType>::operator++(int) {
 template<typename VecType>
 Vec<3, VecType> Vec<3, VecType>::operator-(const type& OtherVec) const {
 	return type(x - OtherVec.x, y - OtherVec.y, z - OtherVec.z);
+}
+
+/**
+ * Gets the negation of the vector
+ * @return The negated vector
+ */
+template<typename VecType>
+Vec<3, VecType> Vec<3, VecType>::operator-() const {
+	return type(-x, -y, -z);
 }
 
 /**

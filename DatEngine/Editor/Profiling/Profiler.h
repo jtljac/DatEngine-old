@@ -1,9 +1,11 @@
 #pragma once
 
-#include <Utilities/Logging.h>
+#include <stdint.h>
 #include <iostream>
 #include <vector>
-#include <chrono>
+
+#include <Utilities/Logging.h>
+#include <Platform/Timing.h>
 
 #ifdef _DEBUG
 
@@ -16,8 +18,7 @@ class Profiler {
 	std::vector<Profiler> subProfilers;
 
 	bool finished = false;
-	unsigned long long start = std::chrono::duration_cast<std::chrono::nanoseconds>(std::chrono::high_resolution_clock::now().time_since_epoch()).count();
-	unsigned long long end;
+	uint64_t start, end;
 
 	std::string name;
 	std::string fileName;
@@ -25,7 +26,7 @@ class Profiler {
 	int line;
 
 public:
-	Profiler() {}
+	Profiler() : start(Timing::getTime()) {}
 
 	~Profiler() {
 		finish();
@@ -38,7 +39,7 @@ public:
 		}
 
 		// TODO: Platform specific timing
-		end = std::chrono::duration_cast<std::chrono::nanoseconds>(std::chrono::high_resolution_clock::now().time_since_epoch()).count();
+		end = Timing::getTime();
 		finished = true;
 	}
 
