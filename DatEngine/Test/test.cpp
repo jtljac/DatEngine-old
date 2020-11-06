@@ -11,8 +11,10 @@
 #define GLM_FORCE_RADIANS
 #define GLM_FORCE_DEPTH_ZERO_TO_ONE
 #include <glm/mat4x4.hpp>
+#include <glm/gtc/matrix_transform.hpp>
 
 #include <Maths/Vector.h>
+#include <Maths/Matrices/MatForward.h>
 
 VulkanRenderer theRenderer;
 
@@ -23,12 +25,13 @@ int main() {
 	Timing::initialise();
 	theRenderer.initialise(800, 600, "Vulkan Test", &assMan);
 
-	FVector test(20);
-	FVector test2(24);
-	
-	test = -test;
+	float start[2][4] = {{2.f, 3.f, 4.f, 5.f}, {2.f, 3.f, 4.f, 6.f}};
 
-	test.normalise();
+	glm::perspective
+
+	Mat<4, 2, float> matTest(start);
+
+	float test = matTest[1][2];
 
 	// Main Loop
 	double lastTime = Timing::getTime();
