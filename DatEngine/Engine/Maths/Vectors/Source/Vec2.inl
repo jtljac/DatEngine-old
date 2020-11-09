@@ -122,7 +122,7 @@ Vec<2, VecType> Vec<2, VecType>::operator+(VecType Amount) const {
  * @return The resulting vector
  */
 template<typename VecType>
-Vec<2, VecType> Vec<2, VecType>::operator+=(const type& OtherVec) {
+Vec<2, VecType>& Vec<2, VecType>::operator+=(const type& OtherVec) {
 	x += OtherVec.x;
 	y += OtherVec.y;
 	return *this;
@@ -134,7 +134,7 @@ Vec<2, VecType> Vec<2, VecType>::operator+=(const type& OtherVec) {
  * @return The resulting vector
  */
 template<typename VecType>
-Vec<2, VecType> Vec<2, VecType>::operator+=(VecType Amount) {
+Vec<2, VecType>& Vec<2, VecType>::operator+=(VecType Amount) {
 	x += Amount;
 	y += Amount;
 
@@ -146,7 +146,7 @@ Vec<2, VecType> Vec<2, VecType>::operator+=(VecType Amount) {
  * @return The incremented vector
  */
 template<typename VecType>
-Vec<2, VecType> Vec<2, VecType>::operator++() {
+Vec<2, VecType>& Vec<2, VecType>::operator++() {
 	x += 1;
 	y += 1;
 	return *this;
@@ -198,7 +198,7 @@ Vec<2, VecType> Vec<2, VecType>::operator-(VecType Amount) const {
  * @return The resulting vector
  */
 template<typename VecType>
-Vec<2, VecType> Vec<2, VecType>::operator-=(const type& OtherVec) {
+Vec<2, VecType>& Vec<2, VecType>::operator-=(const type& OtherVec) {
 	x -= OtherVec.x;
 	y -= OtherVec.y;
 	return *this;
@@ -210,7 +210,7 @@ Vec<2, VecType> Vec<2, VecType>::operator-=(const type& OtherVec) {
  * @return The resulting vector
  */
 template<typename VecType>
-Vec<2, VecType> Vec<2, VecType>::operator-=(VecType Amount) {
+Vec<2, VecType>& Vec<2, VecType>::operator-=(VecType Amount) {
 	x -= Amount;
 	y -= Amount;
 
@@ -222,7 +222,7 @@ Vec<2, VecType> Vec<2, VecType>::operator-=(VecType Amount) {
  * @return The dencremented vector
  */
 template<typename VecType>
-Vec<2, VecType> Vec<2, VecType>::operator--() {
+Vec<2, VecType>& Vec<2, VecType>::operator--() {
 	x -= 1;
 	y -= 1;
 	return *this;
@@ -265,7 +265,7 @@ Vec<2, VecType> Vec<2, VecType>::operator*(VecType Value) const {
  * @return The resulting vector
  */
 template<typename VecType>
-Vec<2, VecType> Vec<2, VecType>::operator*=(const type& OtherVec) {
+Vec<2, VecType>& Vec<2, VecType>::operator*=(const type& OtherVec) {
 	x *= OtherVec.x;
 	y *= OtherVec.y;
 	return *this;
@@ -277,7 +277,7 @@ Vec<2, VecType> Vec<2, VecType>::operator*=(const type& OtherVec) {
  * @return The resulting vector
  */
 template<typename VecType>
-Vec<2, VecType> Vec<2, VecType>::operator*=(VecType Value) {
+Vec<2, VecType>& Vec<2, VecType>::operator*=(VecType Value) {
 	x *= Value;
 	y *= Value;
 
@@ -310,7 +310,7 @@ Vec<2, VecType> Vec<2, VecType>::operator/(VecType Value) const {
  * @return The resulting vector
  */
 template<typename VecType>
-Vec<2, VecType> Vec<2, VecType>::operator/=(const type& OtherVec) {
+Vec<2, VecType>& Vec<2, VecType>::operator/=(const type& OtherVec) {
 	x /= OtherVec.x;
 	y /= OtherVec.y;
 	return *this;
@@ -322,7 +322,7 @@ Vec<2, VecType> Vec<2, VecType>::operator/=(const type& OtherVec) {
  * @return The resulting vector
  */
 template<typename VecType>
-Vec<2, VecType> Vec<2, VecType>::operator/=(VecType Value) {
+Vec<2, VecType>& Vec<2, VecType>::operator/=(VecType Value) {
 	x /= Value;
 	y /= Value;
 

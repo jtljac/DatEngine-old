@@ -122,7 +122,7 @@ Vec<4, VecType> Vec<4, VecType>::operator+(VecType Amount) const {
  * @return The resulting vector
  */
 template<typename VecType>
-Vec<4, VecType> Vec<4, VecType>::operator+=(const type& OtherVec) {
+Vec<4, VecType>& Vec<4, VecType>::operator+=(const type& OtherVec) {
 	x += OtherVec.x;
 	y += OtherVec.y;
 	z += OtherVec.z;
@@ -136,7 +136,7 @@ Vec<4, VecType> Vec<4, VecType>::operator+=(const type& OtherVec) {
  * @return The resulting vector
  */
 template<typename VecType>
-Vec<4, VecType> Vec<4, VecType>::operator+=(VecType Amount) {
+Vec<4, VecType>& Vec<4, VecType>::operator+=(VecType Amount) {
 	x += Amount;
 	y += Amount;
 	z += Amount;
@@ -150,7 +150,7 @@ Vec<4, VecType> Vec<4, VecType>::operator+=(VecType Amount) {
  * @return The incremented vector
  */
 template<typename VecType>
-Vec<4, VecType> Vec<4, VecType>::operator++() {
+Vec<4, VecType>& Vec<4, VecType>::operator++() {
 	x += 1;
 	y += 1;
 	z += 1;
@@ -204,7 +204,7 @@ Vec<4, VecType> Vec<4, VecType>::operator-(VecType Amount) const {
  * @return The resulting vector
  */
 template<typename VecType>
-Vec<4, VecType> Vec<4, VecType>::operator-=(const type& OtherVec) {
+Vec<4, VecType>& Vec<4, VecType>::operator-=(const type& OtherVec) {
 	x -= OtherVec.x;
 	y -= OtherVec.y;
 	z -= OtherVec.z;
@@ -218,7 +218,7 @@ Vec<4, VecType> Vec<4, VecType>::operator-=(const type& OtherVec) {
  * @return The resulting vector
  */
 template<typename VecType>
-Vec<4, VecType> Vec<4, VecType>::operator-=(VecType Amount) {
+Vec<4, VecType>& Vec<4, VecType>::operator-=(VecType Amount) {
 	x -= Amount;
 	y -= Amount;
 	z -= Amount;
@@ -232,7 +232,7 @@ Vec<4, VecType> Vec<4, VecType>::operator-=(VecType Amount) {
  * @return The dencremented vector
  */
 template<typename VecType>
-Vec<4, VecType> Vec<4, VecType>::operator--() {
+Vec<4, VecType>& Vec<4, VecType>::operator--() {
 	x -= 1;
 	y -= 1;
 	z -= 1;
@@ -277,7 +277,7 @@ Vec<4, VecType> Vec<4, VecType>::operator*(VecType Value) const {
  * @return The resulting vector
  */
 template<typename VecType>
-Vec<4, VecType> Vec<4, VecType>::operator*=(const type& OtherVec) {
+Vec<4, VecType>& Vec<4, VecType>::operator*=(const type& OtherVec) {
 	x *= OtherVec.x;
 	y *= OtherVec.y;
 	z *= OtherVec.z;
@@ -291,7 +291,7 @@ Vec<4, VecType> Vec<4, VecType>::operator*=(const type& OtherVec) {
  * @return The resulting vector
  */
 template<typename VecType>
-Vec<4, VecType> Vec<4, VecType>::operator*=(VecType Value) {
+Vec<4, VecType>& Vec<4, VecType>::operator*=(VecType Value) {
 	x *= Value;
 	y *= Value;
 	z *= Value;
@@ -326,7 +326,7 @@ Vec<4, VecType> Vec<4, VecType>::operator/(VecType Value) const {
  * @return The resulting vector
  */
 template<typename VecType>
-Vec<4, VecType> Vec<4, VecType>::operator/=(const type& OtherVec) {
+Vec<4, VecType>& Vec<4, VecType>::operator/=(const type& OtherVec) {
 	x /= OtherVec.x;
 	y /= OtherVec.y;
 	z /= OtherVec.z;
@@ -340,7 +340,7 @@ Vec<4, VecType> Vec<4, VecType>::operator/=(const type& OtherVec) {
  * @return The resulting vector
  */
 template<typename VecType>
-Vec<4, VecType> Vec<4, VecType>::operator/=(VecType Value) {
+Vec<4, VecType>& Vec<4, VecType>::operator/=(VecType Value) {
 	x /= Value;
 	y /= Value;
 	z /= Value;

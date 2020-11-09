@@ -25,13 +25,16 @@ int main() {
 	Timing::initialise();
 	theRenderer.initialise(800, 600, "Vulkan Test", &assMan);
 
-	float start[2][4] = {{2.f, 3.f, 4.f, 5.f}, {2.f, 3.f, 4.f, 6.f}};
+	float start[4][4] = {{2.f, 3.f, 4.f, 5.f}, {2.f, 3.f, 4.f, 6.f}, {2.f, 3.f, 4.f, 7.f}, {2.f, 3.f, 4.f, 8.f} };
+	float start2[4][4] = {{3.f, 4.f, 5.f, 6.f }, {3.f, 4.f, 5.f, 7.f }, {3.f, 4.f, 5.f, 8.f }, {3.f, 4.f, 5.f, 9.f } };
 
-	glm::perspective
+	// glm::perspective
 
-	Mat<4, 2, float> matTest(start);
+	Mat<4, 4, float> matTest(start);
 
-	float test = matTest[1][2];
+	Mat<4, 4, float> matTest2(start2);
+
+	matTest *= matTest2;
 
 	// Main Loop
 	double lastTime = Timing::getTime();

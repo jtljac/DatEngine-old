@@ -111,20 +111,20 @@ struct Vec<3, VecType> {
 	 * @param OtherVec The vector you're adding to this one
 	 * @return The resulting vector
 	 */
-	type operator+=(const type& OtherVec);
+	type& operator+=(const type& OtherVec);
 
 	/**
 	 * Adds the value to each component of the vector
 	 * @param OtherVec The vector you're adding to this one
 	 * @return The resulting vector
 	 */
-	type operator+=(VecType Amount);
+	type& operator+=(VecType Amount);
 
 	/**
 	 * Increments each component of the vector and returns the incremented vector
 	 * @return The incremented vector
 	 */
-	type operator++();
+	type& operator++();
 
 	/**
 	 * Increments each component of the vector and returns the vector before incrementing
@@ -157,20 +157,20 @@ struct Vec<3, VecType> {
 	 * @param OtherVec The vector you're minusing from this one
 	 * @return The resulting vector
 	 */
-	type operator-=(const type& OtherVec);
+	type& operator-=(const type& OtherVec);
 
 	/**
 	 * Minuses the given amount from each component
 	 * @param Amount The amount to take from each vector
 	 * @return The resulting vector
 	 */
-	type operator-=(VecType Amount);
+	type& operator-=(VecType Amount);
 
 	/**
 	 * decrements each component of the vector and returns the dencremented vector
 	 * @return The dencremented vector
 	 */
-	type operator--();
+	type& operator--();
 
 	 /**
 	  * decrements each component of the vector and returns the vector before being decremented
@@ -197,14 +197,14 @@ struct Vec<3, VecType> {
 	 * @param OtherVec The other vector
 	 * @return The resulting vector
 	 */
-	type operator*=(const type& OtherVec);
+	type& operator*=(const type& OtherVec);
 
 	/**
 	 * Multiplies each component of the vector by the given value
 	 * @param Value The value to multiply each component by
 	 * @return The resulting vector
 	 */
-	type operator*=(VecType Value);
+	type& operator*=(VecType Value);
 
 	/**
 	 * Divides each component by the equivilent component in the other vector
@@ -225,14 +225,14 @@ struct Vec<3, VecType> {
 	 * @param OtherVec The other vector
 	 * @return The resulting vector
 	 */
-	type operator/=(const type& OtherVec);
+	type& operator/=(const type& OtherVec);
 
 	/**
 	 * Divides each component of the vector by the given Value
 	 * @param Value The value to multiply each component by
 	 * @return The resulting vector
 	 */
-	type operator/=(VecType Value);
+	type& operator/=(VecType Value);
 
 	// Comparison
 	/**
