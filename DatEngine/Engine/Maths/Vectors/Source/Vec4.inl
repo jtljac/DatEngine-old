@@ -19,7 +19,16 @@ Vec<4, VecType>::Vec(VecType Value) : x(Value), y(Value), z(Value), w(Value) {}
  * @param W The W component of the vector
  */
 template<typename VecType>
-Vec<4, VecType>::Vec(VecType X, VecType Y, VecType Z) : x(X), y(Y), z(Z), w(W) {}
+Vec<4, VecType>::Vec(VecType X, VecType Y, VecType Z, VecType W) : x(X), y(Y), z(Z), w(W) {}
+
+/**
+ * Initialises with an array
+ * @param Array The Array containing the components of the vector
+ */
+template<typename VecType>
+Vec<4, VecType>::Vec(VecType Array[4]) {
+	std::memcpy(&x, Array, 4 * sizeof(VecType));
+}
 
 
 // Copy Constructors
@@ -96,6 +105,32 @@ void Vec<4, VecType>::set(const type& OtherVector) {
 }
 
 // Operators
+/**
+ * Gets a reference to the component at the given index
+ * @param Index The index of the component (0 -> X, 1 -> Y, 2 -> Z, 3 -> W)
+ * @return A reference to the component at the given index
+ */
+template<typename VecType>
+VecType& Vec<4, VecType>::operator[](const size_t Index) {
+#ifdef _DEBUG
+	if (Index > 3) throw std::out_of_range("Index out of range");
+#endif
+	return *(&x + Index);
+}
+
+/**
+	 * Gets a const reference to the component at the given index
+	 * @param Index The index of the component (0 -> X, 1 -> Y, 2 -> Z, 3 -> W)
+	 * @return A const reference to the component at the given index
+	 */
+template<typename VecType>
+VecType const& Vec<4, VecType>::operator[](const size_t Index) const {
+#ifdef _DEBUG
+	if (Index > 3) throw std::out_of_range("Index out of range");
+#endif
+	return *(&x + Index);
+}
+
 /**
  * Adds together two vectors
  * @param OtherVec The vector you're adding to this one
@@ -398,7 +433,7 @@ VecType Vec<4, VecType>::lengthSquared() const {
  * @return The scalar size of the vector
  */
 template<typename VecType>
-VecType Vec<3, VecType>::length() const {
+VecType Vec<4, VecType>::length() const {
 	return sqrt(lengthSquared());
 }
 

@@ -9,12 +9,14 @@
 #include <Profiling/Profiler.h>
 
 #define GLM_FORCE_RADIANS
+#define GLM_FORCE_XYZW_ONLY
 #define GLM_FORCE_DEPTH_ZERO_TO_ONE
-#include <glm/mat4x4.hpp>
+#include <glm/glm.hpp>
 #include <glm/gtc/matrix_transform.hpp>
+#include <glm/gtc/type_ptr.hpp>
 
 #include <Maths/Vector.h>
-#include <Maths/Matrices/MatForward.h>
+#include <Maths/Matrix.h>
 
 VulkanRenderer theRenderer;
 
@@ -25,16 +27,27 @@ int main() {
 	Timing::initialise();
 	theRenderer.initialise(800, 600, "Vulkan Test", &assMan);
 
-	float start[4][4] = {{2.f, 3.f, 4.f, 5.f}, {2.f, 3.f, 4.f, 6.f}, {2.f, 3.f, 4.f, 7.f}, {2.f, 3.f, 4.f, 8.f} };
-	float start2[4][4] = {{3.f, 4.f, 5.f, 6.f }, {3.f, 4.f, 5.f, 7.f }, {3.f, 4.f, 5.f, 8.f }, {3.f, 4.f, 5.f, 9.f } };
+	float start[2][4] = {{2.f, 3.f, 4.f, 5.f}, {2.f, 3.f, 4.f, 6.f}};
+	float start2[2][4] = {{3.f, 4.f, 5.f, 6.f }, {3.f, 4.f, 5.f, 7.f }};
 
 	// glm::perspective
 
-	Mat<4, 4, float> matTest(start);
+	FMat4 matTest = Mat<4, 4, float>::identity();
 
-	Mat<4, 4, float> matTest2(start2);
+	// Mat<4, 4, float> matTest(start);
+	glm::mat4 testMAT(1.f);
 
-	matTest *= matTest2;
+	glm::vec3 testVEC(2.f, 3.f, 4.f);
+	glm::vec4 testVEC2(0.f, 0.f, 0.f, 1.f);
+
+	glm::translate(testMAT, testVEC);
+
+	testVEC2 = glm::translate(testMAT, testVEC) * testVEC2;
+
+	FVector vecTest(4., 6., 3.);
+	vecTest.normalise();
+
+	// matTest *= matTest2;
 
 	// Main Loop
 	double lastTime = Timing::getTime();

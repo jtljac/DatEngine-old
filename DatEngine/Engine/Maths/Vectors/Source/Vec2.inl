@@ -32,6 +32,15 @@ Vec<2, VecType>::Vec(VecType Value) : x(Value), y(Value) {}
 template<typename VecType>
 Vec<2, VecType>::Vec(VecType X, VecType Y) : x(X), y(Y) {}
 
+/**
+ * Initialises with an array
+ * @param Array The Array containing the components of the vector
+ */
+template<typename VecType>
+Vec<2, VecType>::Vec(VecType Array[2]) {
+	std::memcpy(&x, Array, 2 * sizeof(VecType));
+}
+
 
 // Copy Constructors
 /**
@@ -96,6 +105,32 @@ void Vec<2, VecType>::set(const type& OtherVector) {
 }
 
 // Operators
+/**
+ * Gets a reference to the component at the given index
+ * @param Index The index of the component (0 -> X, 1 -> Y)
+ * @return A reference to the component at the given index
+ */
+template<typename VecType>
+VecType& Vec<2, VecType>::operator[](const size_t Index) {
+#ifdef _DEBUG
+	if (Index > 1) throw std::out_of_range("Index out of range");
+#endif
+	return *(&x + Index);
+}
+
+/**
+ * Gets a const reference to the component at the given index
+ * @param Index The index of the component (0 -> X, 1 -> Y)
+ * @return A const reference to the component at the given index
+ */
+template<typename VecType>
+VecType& Vec<2, VecType>::operator[](const size_t Index) const {
+#ifdef _DEBUG
+	if (Index > 1) throw std::out_of_range("Index out of range");
+#endif
+	return *(&x + Index);
+}
+
 /**
  * Adds together two vectors
  * @param OtherVec The vector you're adding to this one

@@ -5,10 +5,8 @@ target_sources (DatEngine
 )
 
 # Vectors
-
 target_sources (DatEngine 
 				PUBLIC
-				
 					"Vector.h"
 					"Vector2D.h"
 					"Vector4D.h"
@@ -16,8 +14,17 @@ target_sources (DatEngine
 					"Vectors/Vec2.h"
 					"Vectors/Vec3.h"
 					"Vectors/Vec4.h"
+					"Vectors/VecMaths.h"
 				PRIVATE
 					"Vectors/Source/Vec3.inl"
 					"Vectors/Source/Vec2.inl"
 					"Vectors/Source/Vec4.inl"
+)
+
+# Matrices
+target_sources (DatEngine
+				PUBLIC
+					"Matrix.h"
+					"Matrices/MatForward.h"
+					"Matrices/MatMaths.h"
 )

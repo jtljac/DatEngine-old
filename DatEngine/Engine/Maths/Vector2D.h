@@ -2,7 +2,8 @@
 
 #include <cstdint>
 
-#include <Maths/Vectors/Vec2.h>
+#include "Vectors/Vec2.h"
+#include "Vectors/VecMaths.h"
 
 // Floating Point
 typedef Vec<2, float> FVector2D;

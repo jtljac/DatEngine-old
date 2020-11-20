@@ -2,6 +2,9 @@
 
 #include "VecForward.h"
 
+#ifdef _DEBUG
+	#include <stdexcept>
+#endif
 
 template<typename VecType>
 struct Vec<3, VecType> {
@@ -40,6 +43,12 @@ struct Vec<3, VecType> {
 	 * @param Z The Z component of the vector
 	 */
 	Vec(VecType X, VecType Y, VecType Z);
+
+	/**
+	 * Initialises with an array
+	 * @param Array The Array containing the components of the vector
+	 */
+	Vec(VecType Array[3]);
 
 
 	// Copy Constructors
@@ -91,6 +100,19 @@ struct Vec<3, VecType> {
 	void set(const type& OtherVector);
 
 	// Operators
+	/**
+	 * Gets a reference to the component at the given index
+	 * @param Index The index of the component (0 -> X, 1 -> Y, 2 -> Z)
+	 * @return A reference to the component at the given index
+	 */
+	VecType& operator[](const size_t Index);
+
+	/**
+	 * Gets a const reference to the component at the given index
+	 * @param Index The index of the component (0 -> X, 1 -> Y, 2 -> Z)
+	 * @return A const reference to the component at the given index
+	 */
+	VecType& operator[](const size_t Index) const;
 
 	/**
 	 * Adds together two vectors

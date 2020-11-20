@@ -2,7 +2,8 @@
 
 #include <cstdint>
 
-#include <Maths/Vectors/Vec4.h>
+#include "Vectors/Vec4.h"
+#include "Vectors/VecMaths.h"
 
 // Floating Point
 typedef Vec<4, float> FVector4D;

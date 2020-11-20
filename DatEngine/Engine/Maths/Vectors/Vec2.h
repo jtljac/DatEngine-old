@@ -36,6 +36,12 @@ struct Vec<2, VecType> {
 	 */
 	Vec(VecType X, VecType Y);
 
+	/**
+	 * Initialises with an array
+	 * @param Array The Array containing the components of the vector
+	 */
+	Vec(VecType Array[2]);
+
 
 	// Copy Constructors
 	/**
@@ -84,6 +90,20 @@ struct Vec<2, VecType> {
 	void set(const type& OtherVector);
 
 	// Operators
+	/**
+	 * Gets a reference to the component at the given index
+	 * @param Index The index of the component (0 -> X, 1 -> Y)
+	 * @return A reference to the component at the given index
+	 */
+	VecType& operator[](const size_t Index);
+
+	/**
+	 * Gets a const reference to the component at the given index
+	 * @param Index The index of the component (0 -> X, 1 -> Y)
+	 * @return A const reference to the component at the given index
+	 */
+	VecType& operator[](const size_t Index) const;
+
 	/**
 	 * Adds together two vectors
 	 * @param OtherVec The vector you're adding to this one

@@ -1,8 +1,12 @@
 #pragma once
 
 #include <Maths/CommonMaths.h>
-#include <iostream>
-#include <stdexcept>
+
+#include "../Vectors/VecForward.h"
+
+#ifdef _DEBUG
+	#include <stdexcept>
+#endif
 
 
 template<int rows, int columns, typename MatType> 
@@ -39,10 +43,6 @@ struct Mat {
 				cells[row][column] = Value;
 			}
 		}
-	}
-
-	inline MatType const& get(int Row, int Column) const {
-		return cells[Row][Column];
 	}
 
 	// Constructors
@@ -82,8 +82,27 @@ struct Mat {
 		}
 	}
 
+	explicit Mat(const Vec<columns, MatType>& OtherVec) {
+		std::memcpy(cells, &OtherVec.x, columns * sizeof(MatType));
+	}
+
+	// Vector Conversion
+	explicit operator Vec<columns, MatType>() {
+		return Vec<columns, MatType>(cells[0]);
+	}
+
+	// Identity Matrix
+	static type identity() {
+		static_assert(rows == columns, "Only square matrices can be Identities");
+		type temp = type(static_cast<MatType>(0));
+		for (int i = 0; i < rows; ++i) {
+			temp[i][i] = 1;
+		}
+		return temp;
+	}
+
 	// Subscript
-	MatType const* operator[](size_t rowIndex) const {
+	MatType* operator[](const size_t rowIndex) {
 #if _DEBUG
 		if (rowIndex >= rows) {
 			throw std::out_of_range("Index out of range");
@@ -93,8 +112,7 @@ struct Mat {
 		return cells[rowIndex];
 	}
 
-	// Subscript
-	MatType* operator[](size_t rowIndex) {
+	MatType const* operator[](const size_t rowIndex) const {
 #if _DEBUG
 		if (rowIndex >= rows) {
 			throw std::out_of_range("Index out of range");
@@ -111,7 +129,7 @@ struct Mat {
 		type temp = type(0.f);
 		for (int row = 0; row < rows; ++row) {
 			for (int column = 0; column < columns; ++column) {
-				temp[row][column] = get(row, column) + otherMat.get(row, column);
+				temp[row][column] = (*this)[row][column] + otherMat[row][column];
 			}
 		}
 		return temp;
@@ -122,7 +140,7 @@ struct Mat {
 		type temp = type(0.f);
 		for (int row = 0; row < rows; ++row) {
 			for (int column = 0; column < columns; ++column) {
-				temp[row][column] = get(row, column) + Value;
+				temp[row][column] = (*this)[row][column] + Value;
 			}
 		}
 		return temp;
@@ -132,7 +150,7 @@ struct Mat {
 	type& operator+=(const type& otherMat) {
 		for (int row = 0; row < rows; ++row) {
 			for (int column = 0; column < columns; ++column) {
-				(*this)[row][column] += otherMat.get(row, column);
+				(*this)[row][column] += otherMat[row][column];
 			}
 		}
 		return (*this);
@@ -173,7 +191,7 @@ struct Mat {
 		type temp = type(0.f);
 		for (int row = 0; row < rows; ++row) const {
 			for (int column = 0; column < columns; ++column) {
-				temp[row][column] = -get(row, column);
+				temp[row][column] = -(*this)[row][column];
 			}
 		}
 		return temp;
@@ -184,7 +202,7 @@ struct Mat {
 		type temp = type();
 		for (int row = 0; row < rows; ++row) {
 			for (int column = 0; column < columns; ++column) {
-				temp[row][column] = get(row, column) - otherMat.get(row, column);
+				temp[row][column] = (*this)[row][column] - otherMat[row][column];
 			}
 		}
 		return temp;
@@ -195,7 +213,7 @@ struct Mat {
 		type temp = type();
 		for (int row = 0; row < rows; ++row) {
 			for (int column = 0; column < columns; ++column) {
-				temp[row][column] = get(row, column) - Value;
+				temp[row][column] = (*this)[row][column] - Value;
 			}
 		}
 		return temp;
@@ -205,7 +223,7 @@ struct Mat {
 	type& operator-=(const type& otherMat) {
 		for (int row = 0; row < rows; ++row) {
 			for (int column = 0; column < columns; ++column) {
-				(*this)[row][column] -= otherMat.get(row, column);
+				(*this)[row][column] -= otherMat[row][column];
 			}
 		}
 		return (*this);
@@ -242,15 +260,31 @@ struct Mat {
 	}
 
 	// Multiplication
-	template<int Columns>
-	Mat<rows, Columns, MatType> operator*(const Mat<columns, Columns, MatType>& OtherMat) {
+	template <int Columns>
+	Mat<rows, Columns, MatType> operator*(const Mat<columns, Columns, MatType>& OtherMat) const {
 		Mat<rows, Columns, MatType> temp = Mat<rows, Columns, MatType>();
+#pragma unroll
 		for (int row = 0; row < rows; ++row) {
+#pragma unroll
 			for (int column = 0; column < Columns; ++column) {
 				temp[row][column] = 0;
 				for (int i = 0; i < columns; ++i) {
-					temp[row][column] += (*this)[row][i] * OtherMat[i][column];
+					temp[row][column] += cells[row][i] * OtherMat[i][column];
 				}			
+			}
+		}
+		return temp;
+	}
+
+	// Vector Multiplication
+	Vec<columns, MatType> operator*(const Vec<columns, MatType>& OtherVec) const {
+		Vec<columns, MatType> temp = Vec<columns, MatType>();
+#pragma unroll
+		for (int component = 0; component < columns; ++component) {
+			temp[component] = 0;
+#pragma unroll
+			for (int i = 0; i < columns; ++i) {
+				temp[component] += (*this)[component][i] * OtherVec[i];
 			}
 		}
 		return temp;
@@ -259,9 +293,11 @@ struct Mat {
 	// Single value Multiplication
 	type operator*(MatType Value) const {
 		type temp = type();
+#pragma unroll
 		for (int row = 0; row < rows; ++row) {
+#pragma unroll
 			for (int column = 0; column < columns; ++column) {
-				temp[row][column] = get(row, column) * Value;
+				temp[row][column] = (*this)[row][column] * Value;
 			}
 		}
 		return temp;
@@ -269,11 +305,14 @@ struct Mat {
 
 	// In place Multiplication
 	type& operator*=(const type& OtherMat) {
+		static_assert(rows == columns, "In place Matrices multiplication only works for square matrices");
 		type copy = type(*this);
+#pragma unroll
 		for (int row = 0; row < rows; ++row) {
+#pragma unroll
 			for (int column = 0; column < columns; ++column) {
 				(*this)[row][column] = 0;
-
+#pragma unroll
 				for (int i = 0; i < columns; ++i) {
 					(*this)[row][column] += copy[row][i] * OtherMat[i][column];
 				}
@@ -284,30 +323,214 @@ struct Mat {
 
 	// Single value in place Multiplication
 	type& operator*=(MatType Value) {
+#pragma unroll
 		for (int row = 0; row < rows; ++row) {
+#pragma unroll
 			for (int column = 0; column < columns; ++column) {
-				(*this)[row][column] = get(row, column) * Value;
+				(*this)[row][column] *= Value;
 			}
 		}
 		return (*this);
 	}
 
-	// Division
 	// Single value Division
-	// In place Division
+	type operator/(MatType Value) const {
+		type temp = type();
+#pragma unroll
+		for (int row = 0; row < rows; ++row) {
+#pragma unroll
+			for (int column = 0; column < columns; ++column) {
+				temp[row][column] = (*this)[row][column] / Value;
+			}
+		}
+		return temp;
+	}
+
 	// Single value in place Division
+	type& operator/=(MatType Value) {
+#pragma unroll
+		for (int row = 0; row < rows; ++row) {
+#pragma unroll
+			for (int column = 0; column < columns; ++column) {
+				(*this)[row][column] /= Value;
+			}
+		}
+		return (*this);
+	}
 
 	// Bitwise Maths
 	// And
+	type operator&(const type& otherMat) const {
+		type temp = type(0.f);
+#pragma unroll
+		for (int row = 0; row < rows; ++row) {
+#pragma unroll
+			for (int column = 0; column < columns; ++column) {
+				temp[row][column] = (*this)[row][column] & otherMat[row][column];
+			}
+		}
+		return temp;
+	}
+
 	// Single Value And
+	type operator&(MatType Value) const {
+		type temp = type(0.f);
+#pragma unroll
+		for (int row = 0; row < rows; ++row) {
+#pragma unroll
+			for (int column = 0; column < columns; ++column) {
+				temp[row][column] = (*this)[row][column] & Value;
+			}
+		}
+		return temp;
+	}
+
+	// In Place And
+	type& operator&=(const type& otherMat) {
+#pragma unroll
+		for (int row = 0; row < rows; ++row) {
+#pragma unroll
+			for (int column = 0; column < columns; ++column) {
+				(*this)[row][column] &= otherMat[row][column];
+			}
+		}
+		return (*this);
+	}
+
+	// Single Value In Place And
+	type& operator&=(MatType Value) {
+#pragma unroll
+		for (int row = 0; row < rows; ++row) {
+#pragma unroll
+			for (int column = 0; column < columns; ++column) {
+				(*this)[row][column] &= Value;
+			}
+		}
+		return (*this);
+	}
+
 	// Or
+	type operator|(const type& otherMat) const {
+		type temp = type(0.f);
+#pragma unroll
+		for (int row = 0; row < rows; ++row) {
+#pragma unroll
+			for (int column = 0; column < columns; ++column) {
+				temp[row][column] = (*this)[row][column] | otherMat[row][column];
+			}
+		}
+		return temp;
+	}
+
 	// Single Value Or
+	type operator|(MatType Value) const {
+		type temp = type(0.f);
+#pragma unroll
+		for (int row = 0; row < rows; ++row) {
+#pragma unroll
+			for (int column = 0; column < columns; ++column) {
+				temp[row][column] = (*this)[row][column] | Value;
+			}
+		}
+		return temp;
+	}
+
+	// In Place Or
+	type& operator|=(const type& otherMat) {
+#pragma unroll
+		for (int row = 0; row < rows; ++row) {
+#pragma unroll
+			for (int column = 0; column < columns; ++column) {
+				(*this)[row][column] |= otherMat[row][column];
+			}
+		}
+		return (*this);
+	}
+
+	// Single Value In Place Or
+	type& operator|=(MatType Value) {
+#pragma unroll
+		for (int row = 0; row < rows; ++row) {
+#pragma unroll
+			for (int column = 0; column < columns; ++column) {
+				(*this)[row][column] |= Value;
+			}
+		}
+		return (*this);
+	}
+
 	// XOR
+	type operator^(const type& otherMat) const {
+		type temp = type(0.f);
+#pragma unroll
+		for (int row = 0; row < rows; ++row) {
+#pragma unroll
+			for (int column = 0; column < columns; ++column) {
+				temp[row][column] = (*this)[row][column] ^ otherMat[row][column];
+			}
+		}
+		return temp;
+	}
+
 	// Single Value XOR
-	// Shift
-	// Single Value Shift
+	type operator^(MatType Value) const {
+		type temp = type(0.f);
+#pragma unroll
+		for (int row = 0; row < rows; ++row) {
+#pragma unroll
+			for (int column = 0; column < columns; ++column) {
+				temp[row][column] = (*this)[row][column] ^ Value;
+			}
+		}
+		return temp;
+	}
+
+	// In Place XOR
+	type& operator^=(const type& otherMat) {
+#pragma unroll
+		for (int row = 0; row < rows; ++row) {
+#pragma unroll
+			for (int column = 0; column < columns; ++column) {
+				(*this)[row][column] ^= otherMat[row][column];
+			}
+		}
+		return (*this);
+	}
+
+	// Single Value In Place XOR
+	type& operator^=(MatType Value) {
+#pragma unroll
+		for (int row = 0; row < rows; ++row) {
+#pragma unroll
+			for (int column = 0; column < columns; ++column) {
+				(*this)[row][column] ^= Value;
+			}
+		}
+		return (*this);
+	}
 
 	// Comparisons
-	// Equals
-	// 
+	// Equal
+	bool operator==(const type& otherMat) {
+#pragma unroll
+		for (int row = 0; row < rows; ++row) {
+#pragma unroll
+			for (int column = 0; column < columns; ++column) {
+				if (*this)[row][column] != otherMat[row][column] return false;
+			}
+		}
+		return true;
+	}
+
+	// Not Equal
+	bool operator!=(const type& otherMat) {
+#pragma unroll
+		for (int row = 0; row < rows; ++row) {
+#pragma unroll
+			for (int column = 0; column < columns; ++column) {
+				if (*this)[row][column] != otherMat[row][column] return true;
+			}
+		}
+		return false;
+	}
 };
