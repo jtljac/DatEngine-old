@@ -101,6 +101,19 @@ struct Mat {
 		return temp;
 	}
 
+	// Transpose
+	Mat<columns, rows, MatType> transpose() const {
+		Mat<columns, rows, MatType> temp();
+#pragma unroll
+		for (int y = 0; y < rows; ++y) {
+#pragma unroll
+			for (int x = 0; x < columns; ++x) {
+				temp[x][y] = (*this)[y][x];
+			}
+		}
+		return temp;
+	}
+
 	// Subscript
 	MatType* operator[](const size_t rowIndex) {
 #if _DEBUG
@@ -534,3 +547,5 @@ struct Mat {
 		return false;
 	}
 };
+
+#include "Source/Matrix.inl"

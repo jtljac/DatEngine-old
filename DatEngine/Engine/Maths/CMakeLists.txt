@@ -27,4 +27,18 @@ target_sources (DatEngine
 					"Matrix.h"
 					"Matrices/MatForward.h"
 					"Matrices/MatMaths.h"
+				PRIVATE
+					"Matrices/Source/Matrix.inl"
+)
+
+# Quaternions
+target_sources (DatEngine
+				PUBLIC
+					"Quaternions/QuatForward.h"
+)
+
+# Rotators
+target_sources (DatEngine
+				PUBLIC
+					"Rotators/RotForward.h"
 )
