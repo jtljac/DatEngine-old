@@ -3,8 +3,8 @@
 #include <stdint.h>
 
 class Timing {
-	inline static uint64_t frequency;
-	inline static uint64_t offset;
+	inline static uint64_t frequency = 0.;
+	inline static uint64_t offset = 0.;
 	inline static uint64_t getTimerValue();
 public:
 	/**
