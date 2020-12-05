@@ -5,16 +5,16 @@
 #include "../Vectors/VecForward.h"
 
 
-template<int rows, int columns, typename MatType> 
+template<int columns, int rows, typename MatType> 
 struct Mat {
-	typedef Mat<rows, columns, MatType> type;
+	typedef Mat<columns, rows, MatType> type;
 	typedef MatType rowType[rows], columnType[columns];
 
-	MatType cells[rows][columns];
+	MatType cells[columns][rows];
 
 	// Set cell values
 	// Set specific cells
-	void set(int Row, int Column, MatType Value);
+	void set(int Column, int Row, MatType Value);
 
 	// Set Column
 	void setColumn(int ColumnIndex, columnType Column);
@@ -33,10 +33,10 @@ struct Mat {
 	Mat(MatType Value);
 
 	// 2D Array
-	Mat(MatType Cells[rows][columns]);
+	Mat(MatType Cells[columns][rows]);
 
 	// 1D Array
-	Mat(const MatType Cells[rows*columns]);
+	Mat(const MatType Cells[columns * rows]);
 
 	// Copy Constructor
 	Mat(const type &OtherMat);
@@ -47,19 +47,16 @@ struct Mat {
 
 	explicit Mat(const Vec<columns, MatType>& OtherVec);
 
-	// Vector Conversion
-	explicit operator Vec<columns, MatType>();
-
 	// Identity Matrix
 	static type identity();
 
 	// Transpose
-	Mat<columns, rows, MatType> transpose() const;
+	Mat<rows, columns, MatType> transpose() const;
 
 	// Subscript
-	MatType* operator[](const size_t rowIndex);
+	MatType* operator[](const size_t columnIndex);
 
-	MatType const* operator[](const size_t rowIndex) const;
+	MatType const* operator[](const size_t columnIndex) const;
 
 
 	// Maths
@@ -102,9 +99,11 @@ struct Mat {
 	// Postdecrement
 	type operator--(int);
 
+
+	// TODO: rewrite to be column major
 	// Multiplication
-	template <int Columns>
-	Mat<rows, Columns, MatType> operator*(const Mat<columns, Columns, MatType>& OtherMat) const;
+	template <int Rows>
+	Mat<columns, Rows, MatType> operator*(const Mat<Columns, columns, MatType>& OtherMat) const;
 
 	// Vector Multiplication
 	Vec<columns, MatType> operator*(const Vec<columns, MatType>& OtherVec) const;
