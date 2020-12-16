@@ -8,6 +8,10 @@ template <typename MatType>
 Mat<4, 4, MatType> translate(Mat<4, 4, MatType> Matrix, Vec<3, MatType> TranslationVector);
 
 // Rotate
+// Pitch
+// Yaw
+// Roll
+// Axis Angle
 // Rotator
 // Quat
 

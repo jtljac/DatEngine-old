@@ -27,28 +27,6 @@ int main() {
 	Timing::initialise();
 	theRenderer.initialise(800, 600, "Vulkan Test", &assMan);
 
-	float start[2][4] = {{2.f, 3.f, 4.f, 5.f}, {2.f, 3.f, 4.f, 6.f}};
-	float start2[2][4] = {{3.f, 4.f, 5.f, 6.f }, {3.f, 4.f, 5.f, 7.f }};
-
-	// glm::perspective
-
-	FMat4 matTest = Mat<4, 4, float>::identity();
-
-	// Mat<4, 4, float> matTest(start);
-	glm::mat4 testMAT(1.f);
-
-	glm::vec3 testVEC(2.f, 3.f, 4.f);
-	glm::vec4 testVEC2(0.f, 0.f, 0.f, 1.f);
-
-	glm::translate(testMAT, testVEC);
-
-	testVEC2 = glm::translate(testMAT, testVEC) * testVEC2;
-
-	FVector vecTest(4., 6., 3.);
-	vecTest.normalise();
-
-	// matTest *= matTest2;
-
 	// Main Loop
 	double lastTime = Timing::getTime();
 	double deltaTime;

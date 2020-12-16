@@ -50,16 +50,14 @@ struct Mat {
 	// Identity Matrix
 	static type identity();
 
+	// Subscript
+	MatType* operator[](const size_t columnIndex);
+	MatType const* operator[](const size_t columnIndex) const;
+
+	// Maths
 	// Transpose
 	Mat<rows, columns, MatType> transpose() const;
 
-	// Subscript
-	MatType* operator[](const size_t columnIndex);
-
-	MatType const* operator[](const size_t columnIndex) const;
-
-
-	// Maths
 	// Addition
 	type operator+(const type& otherMat) const;
 
@@ -99,11 +97,9 @@ struct Mat {
 	// Postdecrement
 	type operator--(int);
 
-
-	// TODO: rewrite to be column major
 	// Multiplication
-	template <int Rows>
-	Mat<columns, Rows, MatType> operator*(const Mat<Columns, columns, MatType>& OtherMat) const;
+	template <int Columns>
+	Mat<Columns, rows, MatType> operator*(const Mat<Columns, columns, MatType>& OtherMat) const;
 
 	// Vector Multiplication
 	Vec<columns, MatType> operator*(const Vec<columns, MatType>& OtherVec) const;

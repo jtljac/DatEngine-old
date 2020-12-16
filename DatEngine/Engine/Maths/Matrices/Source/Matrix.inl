@@ -93,20 +93,6 @@ Mat<columns, rows, MatType> Mat<columns, rows, MatType>::identity() {
 	return temp;
 }
 
-// Transpose
-template<int columns, int rows, typename MatType>
-Mat<rows, columns, MatType> Mat<columns, rows, MatType>::transpose() const {
-	Mat<rows, columns, MatType> temp();
-#pragma unroll
-	for (int column = 0; column < columns; ++column) {
-#pragma unroll
-		for (int row = 0; row < rows; ++row) {
-			temp[column][row] = (*this)[row][column];
-		}
-	}
-	return temp;
-}
-
 // Subscript
 template<int columns, int rows, typename MatType>
 MatType* Mat<columns, rows, MatType>::operator[](const size_t columnIndex) {
@@ -122,7 +108,7 @@ MatType* Mat<columns, rows, MatType>::operator[](const size_t columnIndex) {
 template<int columns, int rows, typename MatType>
 MatType const* Mat<columns, rows, MatType>::operator[](const size_t columnIndex) const {
 #if _DEBUG
-	if (columnIndex >= rows) {
+	if (columnIndex >= columns) {
 		throw std::out_of_range("Index out of range");
 	}
 #endif // _DEBUG
@@ -130,8 +116,21 @@ MatType const* Mat<columns, rows, MatType>::operator[](const size_t columnIndex)
 	return cells[columnIndex];
 }
 
-
 // Maths
+// Transpose
+template<int columns, int rows, typename MatType>
+Mat<rows, columns, MatType> Mat<columns, rows, MatType>::transpose() const {
+	Mat<rows, columns, MatType> temp();
+#pragma unroll
+	for (int column = 0; column < columns; ++column) {
+#pragma unroll
+		for (int row = 0; row < rows; ++row) {
+			temp[column][row] = (*this)[row][column];
+		}
+	}
+	return temp;
+}
+
 // Addition
 template<int columns, int rows, typename MatType>
 Mat<columns, rows, MatType> Mat<columns, rows, MatType>::operator+(const type& otherMat) const {
@@ -285,14 +284,41 @@ Mat<columns, rows, MatType> Mat<columns, rows, MatType>::operator--(int) {
 // Multiplication
 template<int columns, int rows, typename MatType>
 template <int Columns>
-Mat<columns, rows, MatType> Mat<columns, rows, MatType>::operator*(const Mat<columns, Columns, MatType>& OtherMat) const {
+Mat<Columns, rows, MatType> Mat<columns, rows, MatType>::operator*(const Mat<Columns, columns, MatType>& OtherMat) const {
+	Mat<Columns, rows, MatType> temp = Mat<Columns, rows, MatType>();
 
+#pragma unroll
+	for (int column = 0; column < Columns; ++column) {
+#pragma unroll
+		for (int row = 0; row < rows; ++row) {
+			MatType newValue = 0;
+#pragma unroll
+			for (int i = 0; i < columns; ++i) {
+				newValue += cells[i][row] * OtherMat[column][i];
+			}
+			temp[column][row] = newValue;
+		}
+	}
+
+	return temp;
 }
 
 // Vector Multiplication
 template<int columns, int rows, typename MatType>
 Vec<columns, MatType> Mat<columns, rows, MatType>::operator*(const Vec<columns, MatType>& OtherVec) const {
+	Vec<columns, MatType> temp = Vec<columns, MatType>();
 
+#pragma unroll
+	for (int row = 0; row < columns; ++row) {
+#pragma unroll
+		MatType newValue = 0;
+		for (int i = 0; i < columns; ++i) {
+			newValue += cells[i][row] * OtherVec[i];
+		}
+		temp[row] = newValue;
+	}
+
+	return temp;
 }
 
 // Single value Multiplication
