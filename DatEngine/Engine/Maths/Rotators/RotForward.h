@@ -3,17 +3,32 @@
 // Simple Pitch Yaw Roll Rotations
 template <typename RotType>
 struct Rotator {
-	RotType Pitch, Yaw, Roll;
+	typedef Rotator<RotType> type;
+	RotType pitch, yaw, roll;
 
 	// Constructors
 	// Empty
+	Rotator();
+
 	// Single Value
+	Rotator(const RotType Value);
+
 	// Full
+	Rotator(const RotType Pitch, const RotType Yaw, const RotType Roll);
+
 	// Vector Axis
+
+
 	// Copy
+
+	Rotator(const Rotator<RotType>& OtherRot);
+
 	// Type Conversion
+	template<typename OtherType>
+	explicit Rotator(const Rotator<OtherType>& OtherRot);
 
 	// Set values
+	void set(const RotType Pitch, const RotType Yaw, const RotType Roll);
 
 	// Maths
 	// Reverse
@@ -39,3 +54,5 @@ struct Rotator {
 	// Equals with precision
 
 };
+
+#include "Source/Rotator.inl"

@@ -12,13 +12,13 @@ struct Vec<3, VecType> {
 
 	VecType x, y, z;
 
-	/** A vector pointing up (0,0,1) */
+	/** A vector pointing up (0,1,0) */
 	const static type up;
-	/** A vector pointing down (0,0,-1) */
+	/** A vector pointing down (0,-1,0) */
 	const static type down;
-	/** A vector pointing north (0,1,0) */
+	/** A vector pointing north (0,0,1) */
 	const static type north;
-	/** A vector pointing south (0,-1,0) */
+	/** A vector pointing south (0,0,-1) */
 	const static type south;
 	/** A vector pointing east (1,0,0) */
 	const static type east;

@@ -40,5 +40,6 @@ target_sources (DatEngine
 # Rotators
 target_sources (DatEngine
 				PUBLIC
+					"Rotator.h"
 					"Rotators/RotForward.h"
 )

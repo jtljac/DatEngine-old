@@ -15,7 +15,8 @@
 #include <glm/gtc/matrix_transform.hpp>
 #include <glm/gtc/type_ptr.hpp>
 
-#include <Maths/Vector.h>
+#include <Maths/Vector4D.h>
+#include <Maths/Rotator.h>
 #include <Maths/Matrix.h>
 
 VulkanRenderer theRenderer;
@@ -26,6 +27,14 @@ int main() {
 	assMan.registerFactory<VertShader>(new VertShaderFactory());
 	Timing::initialise();
 	theRenderer.initialise(800, 600, "Vulkan Test", &assMan);
+	
+	FRotator rot(0.f, 0.f, Maths::degToRad(-90.f));
+
+	FMat4 test = rotate(FMat4::identity(), rot);
+
+	FVector4D teste = FVector4D(1.f, 0.f, 0.f, 1.f);
+
+	FVector4D testVec = test * teste;
 
 	// Main Loop
 	double lastTime = Timing::getTime();

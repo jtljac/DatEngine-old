@@ -1,18 +1,23 @@
-/** A vector pointing up (0,0,1) */
+/** A vector pointing up (0,1,0) */
 template<typename VecType>
-const Vec<3, VecType> Vec<3, VecType>::up = Vec<3, VecType>(0, 0, 1);
-/** A vector pointing down (0,0,-1) */
+const Vec<3, VecType> Vec<3, VecType>::up = Vec<3, VecType>(0, 1, 0);
+
+/** A vector pointing down (0,-1,0) */
 template<typename VecType>
-const Vec<3, VecType> Vec<3, VecType>::down = Vec<3, VecType>(0, 0, -1);
-/** A vector pointing north (0,1,0) */
+const Vec<3, VecType> Vec<3, VecType>::down = Vec<3, VecType>(0, -1, 0);
+
+/** A vector pointing north (0,0,1) */
 template<typename VecType>
-const Vec<3, VecType> Vec<3, VecType>::north = Vec<3, VecType>(0, 1, 0);
-/** A vector pointing south (0,-1,0) */
+const Vec<3, VecType> Vec<3, VecType>::north = Vec<3, VecType>(0, 0, 1);
+
+/** A vector pointing south (0,0,-1) */
 template<typename VecType>
-const Vec<3, VecType> Vec<3, VecType>::south = Vec<3, VecType>(0, -1, 0);
+const Vec<3, VecType> Vec<3, VecType>::south = Vec<3, VecType>(0, 0, -1);
+
 /** A vector pointing east (1,0,0) */
 template<typename VecType>
 const Vec<3, VecType> Vec<3, VecType>::east = Vec<3, VecType>(1, 0, 0);
+
 /** A vector pointing west (-1,0,0) */
 template<typename VecType>
 const Vec<3, VecType> Vec<3, VecType>::west = Vec<3, VecType>(-1, 0, 0);
