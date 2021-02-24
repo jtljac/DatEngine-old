@@ -5,6 +5,7 @@
 #include "MatForward.h"
 #include "../Vectors/VecForward.h"
 #include "../Rotators/RotForward.h"
+#include "../Quaternions/QuatForward.h"
 
 // Translate
 template <typename MatType>
@@ -53,7 +54,23 @@ Matrix<4, 4, MatType> scale(const Matrix<4, 4, MatType>& Matrix, const MatType X
 template <typename MatType>
 Matrix<4, 4, MatType> scale(const Matrix<4, 4, MatType>& Matrix, const Vector<3, MatType>& scaleVec);
 
+// Perspective
 template <typename MatType>
-Mat<4, 4, MatType> perspectiveProjection(const Vec<3, MatType>& scaleVec);
+Matrix<4, 4, MatType> perspectiveProjection(MatType FOV, MatType AspectRatio, MatType NearPlane, MatType FarPlane);
+
+// TODO: Orthographic
+
+// Look at
+template <typename MatType>
+Matrix<4, 4, MatType> viewMatrix(Vector<3, MatType> CameraPosition, Rotator<MatType> CameraRotation);
+
+// View Matrix
+// Rotator
+template <typename MatType>
+Matrix<4, 4, MatType> viewMatrix(Vector<3, MatType> CameraPosition, Rotator<MatType> CameraRotation);
+
+// Quarternion
+template <typename MatType>
+Matrix<4, 4, MatType> viewMatrix(Vector<3, MatType> CameraPosition, Rotator<MatType> CameraRotation);
 
 #include "Source/MatrixMaths.inl"

@@ -40,10 +40,11 @@ struct Rotator {
 	// Subtract Single Value
 	// Subtract in place
 	// Subtract Single Value in place
-	// Multiplay
-	// Multiplay Single Value
-	// Multiplay in place
-	// Multiplay Single Value in place
+	// Multiply
+	// Multiply Vector
+	// Multiply Single Value
+	// Multiply in place
+	// Multiply Single Value in place
 	// Divide
 	// Divide Single Value
 	// Divide in place

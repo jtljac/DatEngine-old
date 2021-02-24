@@ -260,3 +260,32 @@ Matrix<4, 4, MatType> scale(const Matrix<4, 4, MatType>& Matrix, const Vector<3,
 
 	return temp;
 }
+
+template <typename MatType>
+Matrix<4, 4, MatType> perspective(MatType FOV, MatType AspectRatio, MatType NearPlane, MatType FarPlane) {
+	Matrix<4, 4, MatType> temp = Matrix<4, 4, MatType>();
+
+	MatType f = 1 / tan(Maths::halfpi * FOV);
+
+	MatType planeDistanceInv = 1 / (FarPlane - NearPlane);
+	
+	temp[0][0] = f / AspectRatio;
+	temp[1][0] = 0;
+	temp[2][0] = 0;
+	temp[3][0] = 0;
+
+	temp[0][1] = 0;
+	temp[1][1] = -f;
+	temp[2][1] = 0;
+	temp[3][1] = 0;
+
+	temp[0][2] = 0;
+	temp[1][2] = 0;
+	temp[2][2] = FarPlane * planeDistanceInv;
+	temp[3][2] = NearPlane * FarPlane * planeDistanceInv;
+
+	temp[0][3] = 0;
+	temp[1][3] = 0;
+	temp[2][3] = -1;
+	temp[3][3] = 0;
+}
