@@ -1,5 +1,4 @@
-#include <Windows.h>
-
+#include <profileapi.h>
 #include <Platform/Timing.h>
 #include <Utilities/Logging.h>
 
