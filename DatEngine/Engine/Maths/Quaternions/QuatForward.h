@@ -1,11 +1,11 @@
 #pragma once
 
 // TODO: Shit's about to get fuckey
-template <typedef QuatType>
-struct Quat {
+template <typename QuatType>
+struct Quaternian {
 	QuatType x, y, z, w;
 
-	typedef Quat<QuatType> type;
+	typedef Quaternian<QuatType> type;
 
 	// Constructors
 	// Empty

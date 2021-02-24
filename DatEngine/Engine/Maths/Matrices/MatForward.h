@@ -4,8 +4,8 @@
 
 
 template<int columns, int rows, typename MatType> 
-struct Mat {
-	typedef Mat<columns, rows, MatType> type;
+struct Matrix {
+	typedef Matrix<columns, rows, MatType> type;
 	typedef MatType rowType[rows], columnType[columns];
 
 	MatType cells[columns][rows];
@@ -25,25 +25,25 @@ struct Mat {
 
 	// Constructors
 	// Empty constructor
-	Mat();
+	Matrix();
 
 	// Single value
-	Mat(MatType Value);
+	Matrix(MatType Value);
 
 	// 2D Array
-	Mat(MatType Cells[columns][rows]);
+	Matrix(MatType Cells[columns][rows]);
 
 	// 1D Array
-	Mat(const MatType Cells[columns * rows]);
+	Matrix(const MatType Cells[columns * rows]);
 
 	// Copy Constructor
-	Mat(const type &OtherMat);
+	Matrix(const type &OtherMat);
 
 	// Conversion Constructor
 	template <int Columns, int Rows, typename OtherType> 
-	explicit Mat(const Mat<Columns, Rows, OtherType>& OtherMat);
+	explicit Matrix(const Matrix<Columns, Rows, OtherType>& OtherMat);
 
-	explicit Mat(const Vec<columns, MatType>& OtherVec);
+	explicit Matrix(const Vector<columns, MatType>& OtherVec);
 
 	// Identity Matrix
 	static type identity();
@@ -54,7 +54,7 @@ struct Mat {
 
 	// Maths
 	// Transpose
-	Mat<rows, columns, MatType> transpose() const;
+	Matrix<rows, columns, MatType> transpose() const;
 
 	// Addition
 	type operator+(const type& otherMat) const;
@@ -97,10 +97,10 @@ struct Mat {
 
 	// Multiplication
 	template <int Columns>
-	Mat<Columns, rows, MatType> operator*(const Mat<Columns, columns, MatType>& OtherMat) const;
+	Matrix<Columns, rows, MatType> operator*(const Matrix<Columns, columns, MatType>& OtherMat) const;
 
 	// Vector Multiplication
-	Vec<columns, MatType> operator*(const Vec<columns, MatType>& OtherVec) const;
+	Vector<columns, MatType> operator*(const Vector<columns, MatType>& OtherVec) const;
 
 	// Single value Multiplication
 	type operator*(MatType Value) const;

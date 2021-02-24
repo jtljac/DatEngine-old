@@ -2,14 +2,14 @@
  * Initialises at 0,0,0,0
  */
 template<typename VecType>
-Vec<4, VecType>::Vec() : x(0), y(0), z(0), w(0) {}
+Vector<4, VecType>::Vector() : x(0), y(0), z(0), w(0) {}
 
 /**
  * Initialises with xyz each set to the given value
  * @param Value The value to set xyz to
  */
 template<typename VecType>
-Vec<4, VecType>::Vec(VecType Value) : x(Value), y(Value), z(Value), w(Value) {}
+Vector<4, VecType>::Vector(VecType Value) : x(Value), y(Value), z(Value), w(Value) {}
 
 /**
  * Initialises with xyz set to their respective given value
@@ -19,14 +19,14 @@ Vec<4, VecType>::Vec(VecType Value) : x(Value), y(Value), z(Value), w(Value) {}
  * @param W The W component of the vector
  */
 template<typename VecType>
-Vec<4, VecType>::Vec(VecType X, VecType Y, VecType Z, VecType W) : x(X), y(Y), z(Z), w(W) {}
+Vector<4, VecType>::Vector(VecType X, VecType Y, VecType Z, VecType W) : x(X), y(Y), z(Z), w(W) {}
 
 /**
  * Initialises with an array
  * @param Array The Array containing the components of the vector
  */
 template<typename VecType>
-Vec<4, VecType>::Vec(VecType Array[4]) {
+Vector<4, VecType>::Vector(VecType Array[4]) {
 	std::memcpy(&x, Array, 4 * sizeof(VecType));
 }
 
@@ -37,7 +37,7 @@ Vec<4, VecType>::Vec(VecType Array[4]) {
  * @param OtherVec The vector to copy
  */
 template<typename VecType>
-Vec<4, VecType>::Vec(const type& OtherVec) : x(OtherVec.x), y(OtherVec.y), z(OtherVec.z), w(OtherVec.w) {}
+Vector<4, VecType>::Vector(const type& OtherVec) : x(OtherVec.x), y(OtherVec.y), z(OtherVec.z), w(OtherVec.w) {}
 
 /**
  * Initialises as a copy of the given 2D vector and with the given Z and W components
@@ -46,7 +46,7 @@ Vec<4, VecType>::Vec(const type& OtherVec) : x(OtherVec.x), y(OtherVec.y), z(Oth
  * @param W The W component of the vector
  */
 template<typename VecType>
-Vec<4, VecType>::Vec(const Vec<2, VecType>& OtherVec, VecType Z, VecType W) : x(OtherVec.x), y(OtherVec.y), z(Z), w(W);
+Vector<4, VecType>::Vector(const Vector<2, VecType>& OtherVec, VecType Z, VecType W) : x(OtherVec.x), y(OtherVec.y), z(Z), w(W);
 
 /**
  * Initialises as a copy of the given 3D Vector and with the given W component
@@ -54,7 +54,7 @@ Vec<4, VecType>::Vec(const Vec<2, VecType>& OtherVec, VecType Z, VecType W) : x(
  * @param W The W component of the vector
  */
 template<typename VecType>
-Vec<4, VecType>::Vec(const Vec<3, VecType>& OtherVec) : x(OtherVec.x), y(OtherVec.y), z(OtherVec.z), w(OtherVec.w) {}
+Vector<4, VecType>::Vector(const Vector<3, VecType>& OtherVec) : x(OtherVec.x), y(OtherVec.y), z(OtherVec.z), w(OtherVec.w) {}
 
 /**
  * Initialises as a copy of a vector of a different type
@@ -62,7 +62,7 @@ Vec<4, VecType>::Vec(const Vec<3, VecType>& OtherVec) : x(OtherVec.x), y(OtherVe
  */
 template<typename VecType>
 template<typename OtherType>
-Vec<4, VecType>::Vec(const Vec<4, OtherType>& OtherVec) : x(static_cast<VecType>(OtherVec.x)), y(static_cast<VecType>(OtherVec.y)), z(static_cast<VecType>(OtherVec.z)), w(static_cast<VecType>(OtherVec.w)) {}
+Vector<4, VecType>::Vector(const Vector<4, OtherType>& OtherVec) : x(static_cast<VecType>(OtherVec.x)), y(static_cast<VecType>(OtherVec.y)), z(static_cast<VecType>(OtherVec.z)), w(static_cast<VecType>(OtherVec.w)) {}
 
 // Setters
 /**
@@ -73,7 +73,7 @@ Vec<4, VecType>::Vec(const Vec<4, OtherType>& OtherVec) : x(static_cast<VecType>
  * @param newW The value to set W to
  */
 template<typename VecType>
-void Vec<4, VecType>::set(VecType newX, VecType newY, VecType newZ, VecType newW) {
+void Vector<4, VecType>::set(VecType newX, VecType newY, VecType newZ, VecType newW) {
 	x = newX;
 	y = newY;
 	z = newZ;
@@ -85,7 +85,7 @@ void Vec<4, VecType>::set(VecType newX, VecType newY, VecType newZ, VecType newW
  * @param newValue The value to set each of the components of the vector to
  */
 template<typename VecType>
-void Vec<4, VecType>::set(VecType newValue) {
+void Vector<4, VecType>::set(VecType newValue) {
 	x = newValue;
 	y = newValue;
 	z = newValue;
@@ -97,7 +97,7 @@ void Vec<4, VecType>::set(VecType newValue) {
  * @param OtherVector The vector to copy the components from
  */
 template<typename VecType>
-void Vec<4, VecType>::set(const type& OtherVector) {
+void Vector<4, VecType>::set(const type& OtherVector) {
 	x = OtherVector.x;
 	y = OtherVector.y;
 	z = OtherVector.z;
@@ -111,7 +111,7 @@ void Vec<4, VecType>::set(const type& OtherVector) {
  * @return A reference to the component at the given index
  */
 template<typename VecType>
-VecType& Vec<4, VecType>::operator[](const size_t Index) {
+VecType& Vector<4, VecType>::operator[](const size_t Index) {
 #ifdef _DEBUG
 	if (Index > 3) throw std::out_of_range("Index out of range");
 #endif
@@ -124,7 +124,7 @@ VecType& Vec<4, VecType>::operator[](const size_t Index) {
 	 * @return A const reference to the component at the given index
 	 */
 template<typename VecType>
-VecType const& Vec<4, VecType>::operator[](const size_t Index) const {
+VecType const& Vector<4, VecType>::operator[](const size_t Index) const {
 #ifdef _DEBUG
 	if (Index > 3) throw std::out_of_range("Index out of range");
 #endif
@@ -137,7 +137,7 @@ VecType const& Vec<4, VecType>::operator[](const size_t Index) const {
  * @return The resulting vector
  */
 template<typename VecType>
-Vec<4, VecType> Vec<4, VecType>::operator+(const type& OtherVec) const {
+Vector<4, VecType> Vector<4, VecType>::operator+(const type& OtherVec) const {
 	return type(x + OtherVec.x, y + OtherVec.y, z + OtherVec.z, w + OtherVec.w);
 }
 
@@ -147,7 +147,7 @@ Vec<4, VecType> Vec<4, VecType>::operator+(const type& OtherVec) const {
  * @return The resulting vector
  */
 template<typename VecType>
-Vec<4, VecType> Vec<4, VecType>::operator+(VecType Amount) const {
+Vector<4, VecType> Vector<4, VecType>::operator+(VecType Amount) const {
 	return type(x + Amount, y + Amount, z + Amount, w + Amount);
 }
 
@@ -157,7 +157,7 @@ Vec<4, VecType> Vec<4, VecType>::operator+(VecType Amount) const {
  * @return The resulting vector
  */
 template<typename VecType>
-Vec<4, VecType>& Vec<4, VecType>::operator+=(const type& OtherVec) {
+Vector<4, VecType>& Vector<4, VecType>::operator+=(const type& OtherVec) {
 	x += OtherVec.x;
 	y += OtherVec.y;
 	z += OtherVec.z;
@@ -171,7 +171,7 @@ Vec<4, VecType>& Vec<4, VecType>::operator+=(const type& OtherVec) {
  * @return The resulting vector
  */
 template<typename VecType>
-Vec<4, VecType>& Vec<4, VecType>::operator+=(VecType Amount) {
+Vector<4, VecType>& Vector<4, VecType>::operator+=(VecType Amount) {
 	x += Amount;
 	y += Amount;
 	z += Amount;
@@ -185,7 +185,7 @@ Vec<4, VecType>& Vec<4, VecType>::operator+=(VecType Amount) {
  * @return The incremented vector
  */
 template<typename VecType>
-Vec<4, VecType>& Vec<4, VecType>::operator++() {
+Vector<4, VecType>& Vector<4, VecType>::operator++() {
 	x += 1;
 	y += 1;
 	z += 1;
@@ -198,7 +198,7 @@ Vec<4, VecType>& Vec<4, VecType>::operator++() {
  * @return The vector before being incremented
  */
 template<typename VecType>
-Vec<4, VecType> Vec<4, VecType>::operator++(int) {
+Vector<4, VecType> Vector<4, VecType>::operator++(int) {
 	type temp(*this);
 	++(*this);
 	return temp;
@@ -209,7 +209,7 @@ Vec<4, VecType> Vec<4, VecType>::operator++(int) {
  * @return The negated vector
  */
 template<typename VecType>
-Vec<4, VecType> Vec<4, VecType>::operator-() const {
+Vector<4, VecType> Vector<4, VecType>::operator-() const {
 	return type(-x, -y, -z, -w);
 }
 
@@ -219,7 +219,7 @@ Vec<4, VecType> Vec<4, VecType>::operator-() const {
  * @return The resulting vector
  */
 template<typename VecType>
-Vec<4, VecType> Vec<4, VecType>::operator-(const type& OtherVec) const {
+Vector<4, VecType> Vector<4, VecType>::operator-(const type& OtherVec) const {
 	return type(x - OtherVec.x, y - OtherVec.y, z - OtherVec.z, w - OtherVec.w);
 }
 
@@ -229,7 +229,7 @@ Vec<4, VecType> Vec<4, VecType>::operator-(const type& OtherVec) const {
  * @return The resulting vector
  */
 template<typename VecType>
-Vec<4, VecType> Vec<4, VecType>::operator-(VecType Amount) const {
+Vector<4, VecType> Vector<4, VecType>::operator-(VecType Amount) const {
 	return type(x - Amount, y - Amount, z - Amount, w - Amount);
 }
 
@@ -239,7 +239,7 @@ Vec<4, VecType> Vec<4, VecType>::operator-(VecType Amount) const {
  * @return The resulting vector
  */
 template<typename VecType>
-Vec<4, VecType>& Vec<4, VecType>::operator-=(const type& OtherVec) {
+Vector<4, VecType>& Vector<4, VecType>::operator-=(const type& OtherVec) {
 	x -= OtherVec.x;
 	y -= OtherVec.y;
 	z -= OtherVec.z;
@@ -253,7 +253,7 @@ Vec<4, VecType>& Vec<4, VecType>::operator-=(const type& OtherVec) {
  * @return The resulting vector
  */
 template<typename VecType>
-Vec<4, VecType>& Vec<4, VecType>::operator-=(VecType Amount) {
+Vector<4, VecType>& Vector<4, VecType>::operator-=(VecType Amount) {
 	x -= Amount;
 	y -= Amount;
 	z -= Amount;
@@ -267,7 +267,7 @@ Vec<4, VecType>& Vec<4, VecType>::operator-=(VecType Amount) {
  * @return The dencremented vector
  */
 template<typename VecType>
-Vec<4, VecType>& Vec<4, VecType>::operator--() {
+Vector<4, VecType>& Vector<4, VecType>::operator--() {
 	x -= 1;
 	y -= 1;
 	z -= 1;
@@ -280,7 +280,7 @@ Vec<4, VecType>& Vec<4, VecType>::operator--() {
  * @return The vector before being decremented
  */
 template<typename VecType>
-Vec<4, VecType> Vec<4, VecType>::operator--(int) {
+Vector<4, VecType> Vector<4, VecType>::operator--(int) {
 	type temp(*this);
 	--(*this);
 	return temp;
@@ -292,7 +292,7 @@ Vec<4, VecType> Vec<4, VecType>::operator--(int) {
  * @return The resulting vector
  */
 template<typename VecType>
-Vec<4, VecType> Vec<4, VecType>::operator*(const type& OtherVec) const {
+Vector<4, VecType> Vector<4, VecType>::operator*(const type& OtherVec) const {
 	return type(x * OtherVec.x, y * OtherVec.y, z * OtherVec.z, w * OtherVec.w);
 }
 
@@ -302,7 +302,7 @@ Vec<4, VecType> Vec<4, VecType>::operator*(const type& OtherVec) const {
  * @return The resulting vector
  */
 template<typename VecType>
-Vec<4, VecType> Vec<4, VecType>::operator*(VecType Value) const {
+Vector<4, VecType> Vector<4, VecType>::operator*(VecType Value) const {
 	return type(x * Value, y * Value, z * Value, w * Value);
 }
 
@@ -312,7 +312,7 @@ Vec<4, VecType> Vec<4, VecType>::operator*(VecType Value) const {
  * @return The resulting vector
  */
 template<typename VecType>
-Vec<4, VecType>& Vec<4, VecType>::operator*=(const type& OtherVec) {
+Vector<4, VecType>& Vector<4, VecType>::operator*=(const type& OtherVec) {
 	x *= OtherVec.x;
 	y *= OtherVec.y;
 	z *= OtherVec.z;
@@ -326,7 +326,7 @@ Vec<4, VecType>& Vec<4, VecType>::operator*=(const type& OtherVec) {
  * @return The resulting vector
  */
 template<typename VecType>
-Vec<4, VecType>& Vec<4, VecType>::operator*=(VecType Value) {
+Vector<4, VecType>& Vector<4, VecType>::operator*=(VecType Value) {
 	x *= Value;
 	y *= Value;
 	z *= Value;
@@ -341,7 +341,7 @@ Vec<4, VecType>& Vec<4, VecType>::operator*=(VecType Value) {
  * @return The resulting vector
  */
 template<typename VecType>
-Vec<4, VecType> Vec<4, VecType>::operator/(const type& OtherVec) const {
+Vector<4, VecType> Vector<4, VecType>::operator/(const type& OtherVec) const {
 	return type(x / OtherVec.x, y / OtherVec.y, z / OtherVec.z, w / OtherVec.w);
 }
 
@@ -351,7 +351,7 @@ Vec<4, VecType> Vec<4, VecType>::operator/(const type& OtherVec) const {
  * @return The resulting vector
  */
 template<typename VecType>
-Vec<4, VecType> Vec<4, VecType>::operator/(VecType Value) const {
+Vector<4, VecType> Vector<4, VecType>::operator/(VecType Value) const {
 	return type(x / Value, y / Value, z / Value, w / Value);
 }
 
@@ -361,7 +361,7 @@ Vec<4, VecType> Vec<4, VecType>::operator/(VecType Value) const {
  * @return The resulting vector
  */
 template<typename VecType>
-Vec<4, VecType>& Vec<4, VecType>::operator/=(const type& OtherVec) {
+Vector<4, VecType>& Vector<4, VecType>::operator/=(const type& OtherVec) {
 	x /= OtherVec.x;
 	y /= OtherVec.y;
 	z /= OtherVec.z;
@@ -375,7 +375,7 @@ Vec<4, VecType>& Vec<4, VecType>::operator/=(const type& OtherVec) {
  * @return The resulting vector
  */
 template<typename VecType>
-Vec<4, VecType>& Vec<4, VecType>::operator/=(VecType Value) {
+Vector<4, VecType>& Vector<4, VecType>::operator/=(VecType Value) {
 	x /= Value;
 	y /= Value;
 	z /= Value;
@@ -391,7 +391,7 @@ Vec<4, VecType>& Vec<4, VecType>::operator/=(VecType Value) {
  * @return Whether the vector's components are equal to the other
  */
 template<typename VecType>
-bool Vec<4, VecType>::operator==(const type& OtherVec) const {
+bool Vector<4, VecType>::operator==(const type& OtherVec) const {
 	return x == OtherVec.x && y == OtherVec.y && z == OtherVec.z && w == OtherVec.w;
 }
 
@@ -401,7 +401,7 @@ bool Vec<4, VecType>::operator==(const type& OtherVec) const {
  * @return Whether the vector's components are equal to the other
  */
 template<typename VecType>
-bool Vec<4, VecType>::operator!=(const type& OtherVec) const {
+bool Vector<4, VecType>::operator!=(const type& OtherVec) const {
 	return x != OtherVec.x || y != OtherVec.y || z != OtherVec.z || w != OtherVec.w;
 }
 
@@ -412,7 +412,7 @@ bool Vec<4, VecType>::operator!=(const type& OtherVec) const {
  * @return Whether the components are equal
  */
 template<typename VecType>
-bool Vec<4, VecType>::equals(const type& OtherVec, VecType Tolerance) const {
+bool Vector<4, VecType>::equals(const type& OtherVec, VecType Tolerance) const {
 	return fabs(x - OtherVec.x) < Tolerance && fabs(y - OtherVec.y) < Tolerance && fabs(z - OtherVec.z) < Tolerance && fabs(w - OtherVec.w) < Tolerance;
 }
 
@@ -423,7 +423,7 @@ bool Vec<4, VecType>::equals(const type& OtherVec, VecType Tolerance) const {
  * @return The squared scalar size of the vector
  */
 template<typename VecType>
-VecType Vec<4, VecType>::lengthSquared() const {
+VecType Vector<4, VecType>::lengthSquared() const {
 	return pow(x, 2) + pow(y, 2) + pow(z, 2) + pow(w, 2);
 }
 
@@ -433,7 +433,7 @@ VecType Vec<4, VecType>::lengthSquared() const {
  * @return The scalar size of the vector
  */
 template<typename VecType>
-VecType Vec<4, VecType>::length() const {
+VecType Vector<4, VecType>::length() const {
 	return sqrt(lengthSquared());
 }
 
@@ -443,8 +443,8 @@ VecType Vec<4, VecType>::length() const {
  */
 template<typename VecType>
 template<typename ResultType>
-Vec<4, ResultType> Vec<4, VecType>::normalise() const {
-	return (Vec<4, ResultType>)(*this) / length();
+Vector<4, ResultType> Vector<4, VecType>::normalise() const {
+	return (Vector<4, ResultType>)(*this) / length();
 }
 
 /**
@@ -453,6 +453,6 @@ Vec<4, ResultType> Vec<4, VecType>::normalise() const {
  * @return True if the vector is normalised
  */
 template<typename VecType>
-bool Vec<4, VecType>::isNormalised(VecType Tolerance) const {
+bool Vector<4, VecType>::isNormalised(VecType Tolerance) const {
 	return fabs(lengthSquared() - 1.f) < Tolerance;
 }

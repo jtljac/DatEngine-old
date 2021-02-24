@@ -4,21 +4,21 @@
 
 
 template<typename VecType>
-struct Vec<4, VecType> {
-	typedef Vec<4, VecType> type;
+struct Vector<4, VecType> {
+	typedef Vector<4, VecType> type;
 
 	VecType x, y, z, w;
 
 	/**
 	 * Initialises at 0,0,0,0
 	 */
-	Vec();
+	Vector();
 
 	/**
 	 * Initialises with xyzw each set to the given value
 	 * @param Value The value to set xyzw to
 	 */
-	Vec(VecType Value);
+	Vector(VecType Value);
 
 	/**
 	 * Initialises with xyz set to their respective given value
@@ -27,13 +27,13 @@ struct Vec<4, VecType> {
 	 * @param Z The Z component of the vector
 	 * @param W The W component of the vector
 	 */
-	Vec(VecType X, VecType Y, VecType Z, VecType W);
+	Vector(VecType X, VecType Y, VecType Z, VecType W);
 
 	/**
 	 * Initialises with an array
 	 * @param Array The Array containing the components of the vector
 	 */
-	Vec(VecType Array[4]);
+	Vector(VecType Array[4]);
 
 
 	// Copy Constructors
@@ -41,7 +41,7 @@ struct Vec<4, VecType> {
 	 * Initialises as a copy of the given vector
 	 * @param OtherVec The vector to copy
 	 */
-	Vec(const type& OtherVec);
+	Vector(const type& OtherVec);
 
 	/**
 	 * Initialises as a copy of the given 2D vector and with the given Z and W component
@@ -49,21 +49,21 @@ struct Vec<4, VecType> {
 	 * @param Z The Z component of the vector
 	 * @param W The W component of the vector
 	 */
-	Vec(const Vec<2, VecType>& OtherVec, VecType Z, VecType W);
+	Vector(const Vector<2, VecType>& OtherVec, VecType Z, VecType W);
 
 	/**
 	 * Initialises as a copy of the given 3D Vector and with the given W component
 	 * @param OtherVec The 3D Vector to copy from
 	 * @param W The W component of the vector
 	 */
-	Vec(const Vec<3, VecType>& OtherVec);
+	Vector(const Vector<3, VecType>& OtherVec);
 	
 	/**
 	 * Initialises as a copy of a vector of a different type
 	 * @param OtherVec The other Vector to cast from
 	 */
 	template<typename OtherType>
-	explicit Vec(const Vec<4, OtherType>& OtherVec);
+	explicit Vector(const Vector<4, OtherType>& OtherVec);
 
 	// Setters
 	/**
@@ -287,7 +287,7 @@ struct Vec<4, VecType> {
 	 * @return A unit vector pointing in the same direction
 	 */
 	template<typename ResultType = float>
-	Vec<4, ResultType> normalise() const;
+	Vector<4, ResultType> normalise() const;
 
 	/**
 	 * Gets if the vector is normalised

@@ -7,8 +7,8 @@
 #endif
 
 template<typename VecType>
-struct Vec<3, VecType> {
-	typedef Vec<3, VecType> type;
+struct Vector<3, VecType> {
+	typedef Vector<3, VecType> type;
 
 	VecType x, y, z;
 
@@ -28,13 +28,13 @@ struct Vec<3, VecType> {
 	/**
 	 * Initialises at 0,0,0
 	 */
-	Vec();
+	Vector();
 
 	/**
 	 * Initialises with xyz each set to the given value
 	 * @param Value The value to set xyz to
 	 */
-	Vec(VecType Value);
+	Vector(VecType Value);
 
 	/**
 	 * Initialises with xyz set to their respective given value
@@ -42,13 +42,13 @@ struct Vec<3, VecType> {
 	 * @param Y The Y component of the vector
 	 * @param Z The Z component of the vector
 	 */
-	Vec(VecType X, VecType Y, VecType Z);
+	Vector(VecType X, VecType Y, VecType Z);
 
 	/**
 	 * Initialises with an array
 	 * @param Array The Array containing the components of the vector
 	 */
-	Vec(VecType Array[3]);
+	Vector(VecType Array[3]);
 
 
 	// Copy Constructors
@@ -56,27 +56,27 @@ struct Vec<3, VecType> {
 	 * Initialises as a copy of the given vector
 	 * @param OtherVec The vector to copy
 	 */
-	Vec(const type& OtherVec);
+	Vector(const type& OtherVec);
 
 	/**
 	 * Initialises as a copy of the given 2D vector and with the given Z component
 	 * @param OtherVec The 2D Vector to copy from
 	 * @param Z The Z component of the vector
 	 */
-	Vec(const Vec<2, VecType>& OtherVec, VecType Z);
+	Vector(const Vector<2, VecType>& OtherVec, VecType Z);
 
 	/**
 	 * Initialises as a copy of the given 4D Vector, reduced down to a 3d vector
 	 * @param OtherVec The 4D Vector to copy from
 	 */
-	Vec(const Vec<4, VecType>& OtherVec);
+	Vector(const Vector<4, VecType>& OtherVec);
 	
 	/**
 	 * Initialises as a copy of a vector of a different type
 	 * @param OtherVec The other Vector to cast from
 	 */
 	template<typename OtherType>
-	explicit Vec(const Vec<3, OtherType>& OtherVec);
+	explicit Vector(const Vector<3, OtherType>& OtherVec);
 
 	// Setters
 	/**
@@ -299,7 +299,7 @@ struct Vec<3, VecType> {
 	 * @return A unit vector pointing in the same direction
 	 */
 	template<typename ResultType = float>
-	Vec<3, ResultType> normalise() const;
+	Vector<3, ResultType> normalise() const;
 
 	/**
 	 * Gets if the vector is normalised

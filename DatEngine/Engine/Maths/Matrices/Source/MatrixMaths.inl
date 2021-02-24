@@ -1,7 +1,7 @@
 // Translate
 template <typename MatType>
-Mat<4, 4, MatType> translate(const Mat<4, 4, MatType>& Matrix, const Vec<3, MatType>& TranslationVector) {
-	Mat<4, 4, MatType> temp(Matrix);
+Matrix<4, 4, MatType> translate(const Matrix<4, 4, MatType>& Matrix, const Vector<3, MatType>& TranslationVector) {
+	Matrix<4, 4, MatType> temp(Matrix);
 
 	temp[3][0] = Matrix[0][0] * TranslationVector.x + Matrix[1][0] * TranslationVector.y + Matrix[2][0] * TranslationVector.z + Matrix[3][0];
 	temp[3][1] = Matrix[0][1] * TranslationVector.x + Matrix[1][1] * TranslationVector.y + Matrix[2][1] * TranslationVector.z + Matrix[3][1];
@@ -14,8 +14,8 @@ Mat<4, 4, MatType> translate(const Mat<4, 4, MatType>& Matrix, const Vec<3, MatT
 // Rotate
 // Pitch
 template <typename MatType>
-Mat<4, 4, MatType> rotatePitch(const Mat<4, 4, MatType>& Matrix, const MatType angle) {
-	Mat<4, 4, MatType> temp = Mat<4, 4, MatType>();
+Matrix<4, 4, MatType> rotatePitch(const Matrix<4, 4, MatType>& Matrix, const MatType angle) {
+	Matrix<4, 4, MatType> temp = Matrix<4, 4, MatType>();
 
 	MatType cp = cos(angle);
 	MatType sp = sin(angle);
@@ -45,8 +45,8 @@ Mat<4, 4, MatType> rotatePitch(const Mat<4, 4, MatType>& Matrix, const MatType a
 
 // Yaw
 template <typename MatType>
-Mat<4, 4, MatType> rotateYaw(const Mat<4, 4, MatType>& Matrix, const MatType angle) {
-	Mat<4, 4, MatType> temp = Mat<4, 4, MatType>();
+Matrix<4, 4, MatType> rotateYaw(const Matrix<4, 4, MatType>& Matrix, const MatType angle) {
+	Matrix<4, 4, MatType> temp = Matrix<4, 4, MatType>();
 
 	MatType cy = cos(angle);
 	MatType sy = sin(angle);
@@ -76,8 +76,8 @@ Mat<4, 4, MatType> rotateYaw(const Mat<4, 4, MatType>& Matrix, const MatType ang
 
 // Roll
 template <typename MatType>
-Mat<4, 4, MatType> rotateRoll(const Mat<4, 4, MatType>& Matrix, const MatType angle) {
-	Mat<4, 4, MatType> temp = Mat<4, 4, MatType>();
+Matrix<4, 4, MatType> rotateRoll(const Matrix<4, 4, MatType>& Matrix, const MatType angle) {
+	Matrix<4, 4, MatType> temp = Matrix<4, 4, MatType>();
 
 	MatType cr = cos(angle);
 	MatType sr = sin(angle);
@@ -107,8 +107,8 @@ Mat<4, 4, MatType> rotateRoll(const Mat<4, 4, MatType>& Matrix, const MatType an
 
 // Rotator
 template <typename MatType>
-Mat<4, 4, MatType> rotate(const Mat<4, 4, MatType>& Matrix, const Rotator<MatType>& Rotation) {
-	Mat<4, 4, MatType> temp = Mat<4, 4, MatType>();
+Matrix<4, 4, MatType> rotate(const Matrix<4, 4, MatType>& Matrix, const Rotator<MatType>& Rotation) {
+	Matrix<4, 4, MatType> temp = Matrix<4, 4, MatType>();
 
 	MatType cp = cos(Rotation.pitch);
 	MatType sp = sin(Rotation.pitch);
@@ -148,13 +148,13 @@ Mat<4, 4, MatType> rotate(const Mat<4, 4, MatType>& Matrix, const Rotator<MatTyp
  * @param Axis The axis to rotate around, must be normalised
  */
 template<typename MatType>
-inline Mat<4, 4, MatType> rotate(const Mat<4, 4, MatType>& Matrix, const MatType Angle, const FVector& Axis)
+inline Matrix<4, 4, MatType> rotate(const Matrix<4, 4, MatType>& Matrix, const MatType Angle, const FVector& Axis)
 {
-	Mat<4, 4, MatType> temp = Mat<4, 4, MatType>();
+	Matrix<4, 4, MatType> temp = Matrix<4, 4, MatType>();
 	MatType c = cos(angle);
 	MatType s = sin(angle);
 
-	Vec<3, MatType> t = (1 - c) * Axis;
+	Vector<3, MatType> t = (1 - c) * Axis;
 
 	temp[0][0] = t.x * Axis.x + c;
 	temp[0][1] = t.x * Axis.y - Axis.z * s;
@@ -181,8 +181,8 @@ inline Mat<4, 4, MatType> rotate(const Mat<4, 4, MatType>& Matrix, const MatType
 
 // Scale
 template <typename MatType>
-Mat<4, 4, MatType> scale(const Mat<4, 4, MatType>& Matrix, const MatType Amount) {
-	Mat<4, 4, MatType> temp = Mat<4, 4, MatType>();
+Matrix<4, 4, MatType> scale(const Matrix<4, 4, MatType>& Matrix, const MatType Amount) {
+	Matrix<4, 4, MatType> temp = Matrix<4, 4, MatType>();
 
 	temp[0][0] = Matrix[0][0] * Amount;
 	temp[1][0] = Matrix[1][0] * Amount;
@@ -208,8 +208,8 @@ Mat<4, 4, MatType> scale(const Mat<4, 4, MatType>& Matrix, const MatType Amount)
 }
 
 template <typename MatType>
-Mat<4, 4, MatType> scale(const Mat<4, 4, MatType>& Matrix, const MatType X, const MatType Y, const MatType Z) {
-	Mat<4, 4, MatType> temp = Mat<4, 4, MatType>();
+Matrix<4, 4, MatType> scale(const Matrix<4, 4, MatType>& Matrix, const MatType X, const MatType Y, const MatType Z) {
+	Matrix<4, 4, MatType> temp = Matrix<4, 4, MatType>();
 
 	temp[0][0] = Matrix[0][0] * X;
 	temp[1][0] = Matrix[1][0] * X;
@@ -235,8 +235,8 @@ Mat<4, 4, MatType> scale(const Mat<4, 4, MatType>& Matrix, const MatType X, cons
 }
 
 template <typename MatType>
-Mat<4, 4, MatType> scale(const Mat<4, 4, MatType>& Matrix, const Vec<3, MatType>& scaleVec) {
-	Mat<4, 4, MatType> temp = Mat<4, 4, MatType>();
+Matrix<4, 4, MatType> scale(const Matrix<4, 4, MatType>& Matrix, const Vector<3, MatType>& scaleVec) {
+	Matrix<4, 4, MatType> temp = Matrix<4, 4, MatType>();
 
 	temp[0][0] = Matrix[0][0] * scaleVec.x;
 	temp[1][0] = Matrix[1][0] * scaleVec.x;

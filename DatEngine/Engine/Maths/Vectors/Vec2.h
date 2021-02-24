@@ -4,8 +4,8 @@
 
 
 template<typename VecType>
-struct Vec<2, VecType> {
-	typedef Vec<2, VecType> type;
+struct Vector<2, VecType> {
+	typedef Vector<2, VecType> type;
 
 	VecType x, y;
 
@@ -21,26 +21,26 @@ struct Vec<2, VecType> {
 	/**
 	 * Initialises at 0,0
 	 */
-	Vec();
+	Vector();
 
 	/**
 	 * Initialises with xy each set to the given value
 	 * @param Value The value to set xy to
 	 */
-	Vec(VecType Value);
+	Vector(VecType Value);
 
 	/**
 	 * Initialises with xyz set to their respective given value
 	 * @param X The X component of the vector
 	 * @param Y The Y component of the vector
 	 */
-	Vec(VecType X, VecType Y);
+	Vector(VecType X, VecType Y);
 
 	/**
 	 * Initialises with an array
 	 * @param Array The Array containing the components of the vector
 	 */
-	Vec(VecType Array[2]);
+	Vector(VecType Array[2]);
 
 
 	// Copy Constructors
@@ -48,26 +48,26 @@ struct Vec<2, VecType> {
 	 * Initialises as a copy of the given vector
 	 * @param OtherVec The vector to copy
 	 */
-	Vec(const type& OtherVec);
+	Vector(const type& OtherVec);
 
 	/**
 	 * Initialises as a copy of the given 3D vector, reduced down to a 2d vector
 	 * @param OtherVec The 3D Vector to copy from
 	 */
-	Vec(const Vec<3, VecType>& OtherVec);
+	Vector(const Vector<3, VecType>& OtherVec);
 
 	/**
 	 * Initialises as a copy of the given 4D Vector, reduced down to a 2d vector
 	 * @param OtherVec The 4D Vector to copy from
 	 */
-	Vec(const Vec<4, VecType>& OtherVec);
+	Vector(const Vector<4, VecType>& OtherVec);
 	
 	/**
 	 * Initialises as a copy of a vector of a different type
 	 * @param OtherVec The other Vector to cast from
 	 */
 	template<typename OtherType>
-	explicit Vec(const Vec<2, OtherType>& OtherVec);
+	explicit Vector(const Vector<2, OtherType>& OtherVec);
 
 	// Setters
 	/**
@@ -289,7 +289,7 @@ struct Vec<2, VecType> {
 	 * @return A unit vector pointing in the same direction
 	 */
 	template<typename ResultType = float>
-	Vec<2, ResultType> normalise() const;
+	Vector<2, ResultType> normalise() const;
 
 	/**
 	 * Gets if the vector is normalised
