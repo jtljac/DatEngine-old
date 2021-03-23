@@ -107,7 +107,7 @@ Matrix<4, 4, MatType> rotateRoll(const Matrix<4, 4, MatType>& Matrix, const MatT
 
 // Rotator
 template <typename MatType>
-Matrix<4, 4, MatType> rotate(const Matrix<4, 4, MatType>& Matrix, const Rotator<MatType>& Rotation) {
+Matrix<4, 4, MatType> rotate(const Matrix<4, 4, MatType>& theMatrix, const Rotator<MatType>& Rotation) {
 	Matrix<4, 4, MatType> temp = Matrix<4, 4, MatType>();
 
 	MatType cp = cos(Rotation.pitch);
@@ -137,7 +137,7 @@ Matrix<4, 4, MatType> rotate(const Matrix<4, 4, MatType>& Matrix, const Rotator<
 	temp[2][3] = 0.f;
 	temp[3][3] = 1.f;
 
-	return Matrix * temp;
+	return theMatrix * temp;
 }
 
 /**

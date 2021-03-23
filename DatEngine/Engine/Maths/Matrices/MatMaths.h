@@ -69,7 +69,7 @@ Matrix<4, 4, MatType> viewMatrix(Vector<3, MatType> CameraPosition, Rotator<MatT
 template <typename MatType>
 Matrix<4, 4, MatType> viewMatrix(Vector<3, MatType> CameraPosition, Rotator<MatType> CameraRotation);
 
-// Quarternion
+// Quaternion
 template <typename MatType>
 Matrix<4, 4, MatType> viewMatrix(Vector<3, MatType> CameraPosition, Rotator<MatType> CameraRotation);
 
