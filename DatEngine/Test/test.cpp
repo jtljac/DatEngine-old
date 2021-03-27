@@ -16,7 +16,6 @@
 #include <glm/gtc/type_ptr.hpp>
 
 #include <Maths/Vector4D.h>
-#include <Maths/Rotator.h>
 #include <Maths/Matrix.h>
 
 VulkanRenderer theRenderer;
@@ -27,14 +26,17 @@ int main() {
 	assMan.registerFactory<VertShader>(new VertShaderFactory());
 	Timing::initialise();
 	theRenderer.initialise(800, 600, "Vulkan Test", &assMan);
-	
-	FRotator rot(0.f, 0.f, Maths::degToRad(-90.f));
 
-	FMat4 test = rotate(FMat4::identity(), rot);
 
-	FVector4D teste = FVector4D(1.f, 0.f, 0.f, 1.f);
+	Quaternion<float> test(Maths::degToRad(90.f), FVector(0, 0, 1));
+	Quaternion<float> test2(Maths::degToRad(90.f), FVector(0, 1, 0));
 
-	FVector4D testVec = test * teste;
+	std::cout << test2.norm() << std::endl;
+
+	FVector testqw = Maths::rotateVector(FVector(0, 0, 1), test2);
+	testqw = Maths::rotateVector(testqw, test);
+
+	Maths::rotateVector(FVector(0, 0, 1), (test * test2).normalised());
 
 	// Main Loop
 	double lastTime = Timing::getTime();
@@ -46,8 +48,6 @@ int main() {
 		glfwPollEvents();
 		theRenderer.drawFrame();
 	}
-
-
 	theRenderer.cleanup();
 
 	return 0;

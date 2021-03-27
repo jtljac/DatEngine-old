@@ -112,7 +112,7 @@ struct Vector<3, VecType> {
 	 * @param Index The index of the component (0 -> X, 1 -> Y, 2 -> Z)
 	 * @return A const reference to the component at the given index
 	 */
-	VecType& operator[](const size_t Index) const;
+	const VecType& operator[](const size_t Index) const;
 
 	/**
 	 * Adds together two vectors
@@ -295,11 +295,15 @@ struct Vector<3, VecType> {
 	VecType length() const;
 
 	/**
+	 * Normalises the vector in place
+	 */
+	void normalise();
+
+	/**
 	 * Gets the vector pointing in the same direction, but with a length of 1
 	 * @return A unit vector pointing in the same direction
 	 */
-	template<typename ResultType = float>
-	Vector<3, ResultType> normalise() const;
+	Vector<3, VecType> normalised() const;
 
 	/**
 	 * Gets if the vector is normalised

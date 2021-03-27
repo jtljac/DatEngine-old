@@ -1,3 +1,5 @@
+#include <Maths/CommonMaths.h>
+
 /** A vector pointing up (0,1,0) */
 template<typename VecType>
 const Vector<3, VecType> Vector<3, VecType>::up = Vector<3, VecType>(0, 1, 0);
@@ -141,11 +143,12 @@ VecType& Vector<3, VecType>::operator[](const size_t Index) {
  * @return A const reference to the component at the given index
  */
 template<typename VecType>
-VecType& Vector<3, VecType>::operator[](const size_t Index) const{
+const VecType& Vector<3, VecType>::operator[](const size_t Index) const {
 #ifdef _DEBUG
 	if (Index > 2) throw std::out_of_range("Index out of range");
 #endif
-	return *(&x + Index);
+	const VecType* item = (&x + Index);
+	return *item;
 }
 
 /**
@@ -445,13 +448,20 @@ VecType Vector<3, VecType>::length() const {
 }
 
 /**
+ * Normalises the vector in place
+ */
+template<typename VecType>
+void Vector<3, VecType>::normalise() {
+	(*this) *= Maths::inverseSqrt(lengthSquared());
+}
+
+/**
  * Gets the vector pointing in the same direction, but with a length of 1
  * @return A unit vector pointing in the same direction
  */
 template<typename VecType>
-template<typename ResultType>
-Vector<3, ResultType> Vector<3, VecType>::normalise() const {
-	return (Vector<3, ResultType>)(*this) / length();
+Vector<3, VecType> Vector<3, VecType>::normalised() const {
+	return (*this) * Maths::inverseSqrt(lengthSquared());
 }
 
 /**
@@ -461,5 +471,5 @@ Vector<3, ResultType> Vector<3, VecType>::normalise() const {
  */
 template<typename VecType>
 bool Vector<3, VecType>::isNormalised(VecType Tolerance) const {
-	return fabs(lengthSquared() - 1.f) < Tolerance;
+	return abs(lengthSquared() - 1.f) < Tolerance;
 }

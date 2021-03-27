@@ -35,6 +35,9 @@ target_sources (DatEngine
 target_sources (DatEngine
 				PUBLIC
 					"Quaternions/QuatForward.h"
+				PRIVATE
+					"Quaternions/Source/Quaternion.inl"
+					"Quaternions/Source/QuatMaths.inl"
 )
 
 # Rotators
@@ -42,4 +45,6 @@ target_sources (DatEngine
 				PUBLIC
 					"Rotator.h"
 					"Rotators/RotForward.h"
+				PRIVATE
+					"Rotators/Source/Rotator.inl"
 )

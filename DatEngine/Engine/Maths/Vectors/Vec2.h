@@ -285,11 +285,15 @@ struct Vector<2, VecType> {
 	VecType length() const;
 
 	/**
+	 * Normalises the vector in place
+	 */
+	void normalise();
+
+	/**
 	 * Gets the vector pointing in the same direction, but with a length of 1
 	 * @return A unit vector pointing in the same direction
 	 */
-	template<typename ResultType = float>
-	Vector<2, ResultType> normalise() const;
+	Vector<2, VecType> normalised() const;
 
 	/**
 	 * Gets if the vector is normalised

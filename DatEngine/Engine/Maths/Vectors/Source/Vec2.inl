@@ -1,3 +1,5 @@
+#include <Maths/CommonMaths.h>
+
 /** A vector pointing up (0,1) */
 template<typename VecType>
 const Vector<2, VecType> Vector<2, VecType>::up = Vector<2, VecType>(0, 1);
@@ -418,13 +420,20 @@ VecType Vector<2, VecType>::length() const {
 }
 
 /**
+ * Normalises the vector in place
+ */
+template<typename VecType>
+void Vector<2, VecType>::normalise() {
+	(*this) *= Maths::inverseSqrt(lengthSquared());
+}
+
+/**
  * Gets the vector pointing in the same direction, but with a length of 1
  * @return A unit vector pointing in the same direction
  */
 template<typename VecType>
-template<typename ResultType>
-Vector<2, ResultType> Vector<2, VecType>::normalise() const {
-	return (Vector<2, ResultType>)(*this) / length();
+Vector<2, VecType> Vector<2, VecType>::normalised() const {
+	return (Vector<2, ResultType>)(*this) * Maths::inverseSqrt(lengthSquared());
 }
 
 /**

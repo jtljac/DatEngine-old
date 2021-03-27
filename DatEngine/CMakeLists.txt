@@ -8,7 +8,7 @@ IF(MSVC)
 ENDIF(MSVC)
 
 # Add source to this project's executable.
-add_executable (DatEngine "Test/test.cpp" "Engine/Maths/Rotators/Source/Rotator.inl")
+add_executable (DatEngine "Test/test.cpp")
 
 configure_file (EngineDetails.h.in EngineDetails.h)
 target_include_directories (DatEngine PRIVATE "${PROJECT_BINARY_DIR}")

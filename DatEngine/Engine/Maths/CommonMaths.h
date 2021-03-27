@@ -19,12 +19,16 @@ namespace Maths {
 
 	namespace Tolerances {
 		constexpr float normalisedTolerance = 0.01;
+		constexpr float Tolerance = 0.001;
 	}
 
-#undef min
-#undef max
-
 	// Functions
+	template <typename T>
+	constexpr T inverseSqrt(T value) {
+		//TODO: Make Better
+		return 1 / sqrt(value);
+	}
+
 	template <typename T>
 	T min(T Value1, T Value2) {
 		return (Value1 < Value2 ? Value1 : Value2);
@@ -55,7 +59,7 @@ namespace Maths {
 	// Interpolation
 	template <typename T, typename AlphaType = float>
 	T lerp(T A, T B, AlphaType Alpha) {
-		return (T)(A + Alpha * (B - A));
+		return (A + Alpha * (B - A));
 	}
 
 	template <typename T>
