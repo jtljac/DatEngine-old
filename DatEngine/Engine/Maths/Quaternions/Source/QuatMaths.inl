@@ -15,17 +15,23 @@ QuatType Maths::angleBetweenUnitNorm(const Quaternion<QuatType>& Quat1, const Qu
 }
 
 template<typename Type>
-Vector<3, Type> Maths::rotateVector(const Vector<3, Type>& Vec, const Quaternion<Type> Quat) {
+Vector<3, Type> Maths::rotateVector(const Vector<3, Type>& Vec, const Quaternion<Type>& Quat) {
+	/*
+	
 	Quaternion<Type> p(0, Vec);
-	Quaternion<Type> q = Quat.unitNormalised();
-	Quaternion<Type> qInverse = q.inverse();
+	Quaternion<Type> qInverse = Quat.inverse();
 
-	return (q * p * qInverse).vec;
+	return (Quat * p * qInverse).vec;
+	*/
+
+	Vector<3, Type> cross = Maths::crossProduct(Quat.vec, Vec) * 2;
+
+	return ((cross * Quat.s) + Maths::crossProduct(Quat.vec, cross)) + Vec;
 }
 
 // Interpolation
 template<typename QuatType>
-Quaternion<QuatType> Maths::slerp(Quaternion<QuatType> Quat1, Quaternion<QuatType> Quat2, QuatType Alpha){
+Quaternion<QuatType> Maths::slerp(const Quaternion<QuatType>& Quat1, const Quaternion<QuatType>& Quat2, QuatType Alpha){
 	QuatType cosTheta = Maths::dotProduct(Quat1, Quat2);
 
 	Quaternion<QuatType> quat1;

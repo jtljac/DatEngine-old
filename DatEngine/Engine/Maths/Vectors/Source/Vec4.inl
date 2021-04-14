@@ -56,7 +56,7 @@ Vector<4, VecType>::Vector(const Vector<2, VecType>& OtherVec, VecType Z, VecTyp
  * @param W The W component of the vector
  */
 template<typename VecType>
-Vector<4, VecType>::Vector(const Vector<3, VecType>& OtherVec) : x(OtherVec.x), y(OtherVec.y), z(OtherVec.z), w(OtherVec.w) {}
+Vector<4, VecType>::Vector(const Vector<3, VecType>& OtherVec, VecType W) : x(OtherVec.x), y(OtherVec.y), z(OtherVec.z), w(W) {}
 
 /**
  * Initialises as a copy of a vector of a different type

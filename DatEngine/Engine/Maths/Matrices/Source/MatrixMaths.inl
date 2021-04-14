@@ -148,7 +148,7 @@ Matrix<4, 4, MatType> Maths::rotate(const Matrix<4, 4, MatType>& theMatrix, cons
  * @param Axis The axis to rotate around, must be normalised
  */
 template<typename MatType>
-inline Matrix<4, 4, MatType> Maths::rotate(const Matrix<4, 4, MatType>& Matrix, const MatType Angle, const FVector& Axis)
+inline Matrix<4, 4, MatType> Maths::rotate(const Matrix<4, 4, MatType>& theMatrix, const MatType Angle, const FVector& Axis)
 {
 	Matrix<4, 4, MatType> temp = Matrix<4, 4, MatType>();
 	MatType c = cos(angle);
@@ -176,33 +176,48 @@ inline Matrix<4, 4, MatType> Maths::rotate(const Matrix<4, 4, MatType>& Matrix, 
 	temp[3][2] = 0.f;
 	temp[3][3] = 1.f;
 
-	return Matrix * temp;
+	return theMatrix * temp;
 }
 
 // Quat
 template <typename MatType>
-Matrix<4, 4, MatType> Maths::rotate(const Matrix<4, 4, MatType>& Matrix, Quaternion<MatType>& Quat) {
+Matrix<4, 4, MatType> Maths::rotate(const Matrix<4, 4, MatType>& theMatrix, const Quaternion<MatType>& Quat) {
 	Matrix<4, 4, MatType> temp = Matrix<4, 4, MatType>();
 
-	temp[0][0] = ;
-	temp[0][1] = ;
-	temp[0][2] = ;
+	MatType xx2 = 2 * Quat.vec.x * Quat.vec.x;
+	MatType xy2 = 2 * Quat.vec.x * Quat.vec.y;
+
+	MatType yy2 = 2 * Quat.vec.y * Quat.vec.y;
+
+	MatType xz2 = 2 * Quat.vec.x * Quat.vec.z;
+	MatType yz2 = 2 * Quat.vec.y * Quat.vec.z;
+	MatType zz2 = 2 * Quat.vec.z * Quat.vec.z;
+
+	MatType xw2 = 2 * Quat.vec.x * Quat.s;
+	MatType yw2 = 2 * Quat.vec.y * Quat.s;
+	MatType zw2 = 2 * Quat.vec.z * Quat.s;
+
+	temp[0][0] = 1 - yy2 - zz2;
+	temp[0][1] = xy2 - zw2;
+	temp[0][2] = xz2 + yw2;
 	temp[0][3] = 0.f;
 
-	temp[1][0] = ;
-	temp[1][1] = ;
-	temp[1][2] = ;
+	temp[1][0] = xy2 + zw2;
+	temp[1][1] = 1 - xx2 - zz2;
+	temp[1][2] = yz2 - xw2;
 	temp[1][3] = 0.f;
 
-	temp[2][0] = ;
-	temp[2][1] = ;
-	temp[2][2] = ;
+	temp[2][0] = xz2 - yw2;
+	temp[2][1] = yz2 + xw2;
+	temp[2][2] = 1 - xx2 - yy2;
 	temp[2][3] = 0.f;
 
 	temp[3][0] = 0.f;
 	temp[3][1] = 0.f;
 	temp[3][2] = 0.f;
 	temp[3][3] = 1.f;
+
+	return theMatrix * temp;
 }
 
 // Scale

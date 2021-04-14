@@ -17,29 +17,38 @@ Quaternion<QuatType>::Quaternion(Quaternion<OtherType> OtherQuat) : s((QuatType)
 
 // Rotator
 template<typename QuatType>
-Quaternion<QuatType>::Quaternion(Rotator<QuatType> OtherRot) : Quarternion(OtherRot.pitch, OtherRot.yaw, OtherRot.roll) {}
+Quaternion<QuatType> Quaternion<QuatType>::rotator(Rotator<QuatType> OtherRot) {
+    return rotator(OtherRot.pitch, OtherRot.yaw, OtherRot.roll);
+}
 
 // Rotator Components
 template<typename QuatType>
-Quaternion<QuatType>::Quaternion(QuatType Pitch, QuatType Yaw, QuatType Roll) {
+Quaternion<QuatType> Quaternion<QuatType>::rotator(QuatType Pitch, QuatType Yaw, QuatType Roll) {
     // Attitude: Pitch
     // Heading: Yaw
     // Bank: Roll
     QuatType c1 = cos(Yaw / 2);
     QuatType s1 = sin(Yaw / 2);
-    QuatType c2 = cos(Pitch / 2);
-    QuatType s2 = sin(Pitch / 2);
-    QuatType c3 = cos(Roll / 2);
-    QuatType s3 = sin(Roll / 2);
+    QuatType c2 = cos(Roll / 2);
+    QuatType s2 = sin(Roll / 2);
+    QuatType c3 = cos(Pitch / 2);
+    QuatType s3 = sin(Pitch / 2);
     QuatType c1c2 = c1 * c2;
     QuatType s1s2 = s1 * s2;
-
-    s = c1c2 * c3 - s1s2 * s3;
 
     QuatType x = c1c2 * s3 + s1s2 * c3;
     QuatType y = s1 * c2 * c3 + c1 * s2 * s3;
     QuatType z = c1 * s2 * c3 - s1 * c2 * s3;
-    vec = VecType(x, y, z);
+
+    return type(c1c2 * c3 - s1s2 * s3, VecType(x, y, z));
+}
+
+// Axis Angle
+template<typename QuatType>
+Quaternion<QuatType> Quaternion<QuatType>::axisAngle(VecType axis, QuatType angle) {
+    const QuatType halfAngle = angle * .5;
+
+    return type(cos(halfAngle), axis * sin(halfAngle));
 }
 
 // Tests
@@ -118,6 +127,12 @@ Quaternion<QuatType>& Quaternion<QuatType>::operator*=(const QuatType& Scalar) {
     return *this;
 }
 
+// Vec Multiplication
+template<typename QuatType>
+Vector<3, QuatType> Quaternion<QuatType>::operator*(const VecType& OtherVec) const {
+    return Maths::rotateVector(OtherVec, this*);
+}
+
 // Norm
 template<typename QuatType>
 QuatType Quaternion<QuatType>::normSquared() const {
@@ -144,28 +159,6 @@ Quaternion<QuatType> Quaternion<QuatType>::normalised() const {
     QuatType iNorm = Maths::inverseSqrt(normSquared());
 
     return type(s * iNorm, vec * iNorm);
-}
-
-// Unit Normalise
-template<typename QuatType>
-void Quaternion<QuatType>::unitNormalise() {
-    QuatType halfAngle = s * .5;
-
-    vec.normalise();
-
-    s = cos(halfAngle);
-    vec *= sin(halfAngle);
-}
-
-template<typename QuatType>
-Quaternion<QuatType> Quaternion<QuatType>::unitNormalised() const {
-    QuatType halfAngle = s * .5;
-
-    QuatType scalar = cos(halfAngle);
-
-    VecType theVec = vec.normalised() * sin(halfAngle);
-
-    return type(scalar, theVec);
 }
 
 // Conjugate

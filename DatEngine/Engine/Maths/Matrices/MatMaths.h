@@ -43,7 +43,7 @@ namespace Maths {
 
 	// Quat
 	template <typename MatType>
-	Matrix<4, 4, MatType> rotate(const Matrix<4, 4, MatType>& Matrix, Quaternion<MatType>& Quat);
+	Matrix<4, 4, MatType> rotate(const Matrix<4, 4, MatType>& Matrix, const Quaternion<MatType>& Quat);
 
 	// Scale
 	// Single Value
@@ -75,7 +75,7 @@ namespace Maths {
 
 	// Quaternion
 	template <typename MatType>
-	Matrix<4, 4, MatType> viewMatrix(Vector<3, MatType> CameraPosition, Rotator<MatType> CameraRotation);
+	Matrix<4, 4, MatType> viewMatrix(Vector<3, MatType> CameraPosition, Quaternion<MatType> CameraRotation);
 }
 
 #include "Source/MatrixMaths.inl"

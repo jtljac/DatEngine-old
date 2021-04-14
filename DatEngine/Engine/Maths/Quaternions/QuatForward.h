@@ -32,10 +32,13 @@ struct Quaternion {
 	Quaternion(Quaternion<OtherType> OtherQuat);
 
 	// Rotator
-	Quaternion(Rotator<QuatType> OtherRot);
+	static type rotator(Rotator<QuatType> OtherRot);
 
 	// Rotator Components
-	Quaternion(QuatType Pitch, QuatType Yaw, QuatType Roll);
+	static type rotator(QuatType Pitch, QuatType Yaw, QuatType Roll);
+
+	// Axis Angle
+	static type axisAngle(VecType axis, QuatType angle);
 
 	// Tests
 	bool isPure() const;
@@ -59,6 +62,9 @@ struct Quaternion {
 	type operator*(const QuatType& Scalar) const;
 	type& operator*=(const QuatType& Scalar);
 
+	// Vec Multiplication
+	VecType operator*(const VecType& OtherVec) const;
+
 	// Norm
 	QuatType normSquared() const;
 	QuatType norm() const;
@@ -66,10 +72,6 @@ struct Quaternion {
 	// Normalise
 	void normalise();
 	type normalised() const;
-
-	// Unit Normalise
-	void unitNormalise();
-	type unitNormalised() const;
 
 	// Conjugate
 	type conjugate() const;
@@ -96,11 +98,11 @@ namespace Maths {
 
 	// Rotation
 	template<typename Type>
-	Vector<3, Type> rotateVector(const Vector<3, Type>& Vec, const Quaternion< Type> Quat);
+	Vector<3, Type> rotateVector(const Vector<3, Type>& Vec, const Quaternion<Type>& Quat);
 
 	// Interpolation
 	template<typename QuatType>
-	Quaternion<QuatType> slerp(Quaternion<QuatType> Quat1, Quaternion<QuatType> Quat2, QuatType Alpha);
+	Quaternion<QuatType> slerp(const Quaternion<QuatType>& Quat1, const Quaternion<QuatType>& Quat2, QuatType Alpha);
 }
 
 #include "Source/Quaternion.inl"

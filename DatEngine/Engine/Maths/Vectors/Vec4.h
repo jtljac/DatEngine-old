@@ -56,7 +56,7 @@ struct Vector<4, VecType> {
 	 * @param OtherVec The 3D Vector to copy from
 	 * @param W The W component of the vector
 	 */
-	Vector(const Vector<3, VecType>& OtherVec);
+	Vector(const Vector<3, VecType>& OtherVec, VecType W);
 	
 	/**
 	 * Initialises as a copy of a vector of a different type

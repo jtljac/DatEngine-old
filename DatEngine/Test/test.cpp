@@ -12,8 +12,10 @@
 #define GLM_FORCE_XYZW_ONLY
 #define GLM_FORCE_DEPTH_ZERO_TO_ONE
 #include <glm/glm.hpp>
-#include <glm/gtc/matrix_transform.hpp>
-#include <glm/gtc/type_ptr.hpp>
+#include <glm/gtc/quaternion.hpp> 
+#include <glm/gtx/quaternion.hpp>
+#include <glm/ext/quaternion_trigonometric.hpp>
+#include <glm/ext/quaternion_transform.hpp>
 
 #include <Maths/Vector4D.h>
 #include <Maths/Matrix.h>
@@ -27,16 +29,6 @@ int main() {
 	Timing::initialise();
 	theRenderer.initialise(800, 600, "Vulkan Test", &assMan);
 
-
-	Quaternion<float> test(Maths::degToRad(90.f), FVector(0, 0, 1));
-	Quaternion<float> test2(Maths::degToRad(90.f), FVector(0, 1, 0));
-
-	std::cout << test2.norm() << std::endl;
-
-	FVector testqw = Maths::rotateVector(FVector(0, 0, 1), test2);
-	testqw = Maths::rotateVector(testqw, test);
-
-	Maths::rotateVector(FVector(0, 0, 1), (test * test2).normalised());
 
 	// Main Loop
 	double lastTime = Timing::getTime();
