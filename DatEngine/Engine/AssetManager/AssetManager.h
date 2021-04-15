@@ -3,7 +3,7 @@
 #include <typeinfo>
 #include <unordered_map>
 #include <set>
-#include <Dat-VFS/DatVFS.h>
+#include <DatVFS.h>
 #include <Utilities/FileUtilities.h>
 #include <Utilities/Logging.h>
 #include <Utilities/Exceptions/UnknownResourceFactoryException.h>

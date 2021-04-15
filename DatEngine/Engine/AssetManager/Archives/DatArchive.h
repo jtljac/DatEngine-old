@@ -1,6 +1,6 @@
 #pragma once
-#include <Dat-VFS/DatVFS/DatVFSCommon.h>
-#include <Dat-Archive/DatArchive.h>
+#include <DatVFS/DatVFSCommon.h>
+#include <DatArchive.h>
 
 class DVFSArchiveFile : public DVFSFile {
 	std::shared_ptr<DatFile> archiveFile;

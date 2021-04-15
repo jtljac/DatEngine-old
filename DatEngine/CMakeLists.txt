@@ -19,7 +19,7 @@ target_include_directories (DatEngine PUBLIC "Editor")
 add_subdirectory ("ThirdParty")
 
 # Add First Party Stuff
-target_include_directories (DatEngine PUBLIC "FirstParty")
+add_subdirectory ("FirstParty")
 
 # Start Adding subfiles
 add_subdirectory ("Engine")
