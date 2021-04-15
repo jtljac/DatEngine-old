@@ -4,3 +4,6 @@
 [submodule "DatEngine/FirstParty/Dat-VFS"]
 	path = DatEngine/FirstParty/Dat-VFS
 	url = https://github.com/jtljac/Dat-VFS
+[submodule "DatEngine/ThirdParty/GLFW"]
+	path = DatEngine/ThirdParty/GLFW
+	url = https://github.com/glfw/glfw.git

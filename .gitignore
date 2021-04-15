@@ -1,8 +1,11 @@
 # Visual Studio Stuff
 /.vs/
+# CLion
+/.idea/
 
 # CMake Output
 out/
+cmake-build-debug/
 
 # Doxygen output
 html/
