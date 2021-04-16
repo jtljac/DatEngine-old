@@ -5,13 +5,14 @@ cmake_minimum_required (VERSION 3.17)
 
 IF(MSVC)
    ADD_DEFINITIONS(/arch:SSE)
-ENDIF(MSVC)
+ELSE()
+   set(CMAKE_CXX_FLAGS_DEBUG "${CMAKE_CXX_FLAGS_DEBUG} -D_DEBUG")
+ENDIF()
+
 
 # Add source to this project's executable.
 add_executable (DatEngine "Test/test.cpp")
 
-configure_file (EngineDetails.h.in EngineDetails.h)
-target_include_directories (DatEngine PRIVATE "${PROJECT_BINARY_DIR}")
 target_include_directories (DatEngine PUBLIC "Engine")
 target_include_directories (DatEngine PUBLIC "Editor")
 

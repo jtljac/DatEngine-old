@@ -8,5 +8,5 @@ target_sources (DatEngine
 if(WIN32)
 	add_subdirectory ("Windows")
 else(WIN32)
-	add_subdirectory ("Linux")
+	add_subdirectory ("Poisx")
 endif(WIN32)

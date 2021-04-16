@@ -8,7 +8,9 @@
 #include <windows.h>
 #include <shlobj.h>
 #elif __linux__
+#include <libgen.h>
 #include <unistd.h>
+#include <climits>
 #include <sys/types.h>
 #include <pwd.h>
 #endif
@@ -98,15 +100,16 @@ std::filesystem::path FileUtilities::getDataPath() {
 #elif __linux__
 	// If Linux ask for Data documents env
 	
-	char* homeDir = getenv("XDG_DATA_HOME");
-	if (homeDir == null) {
+	std::string homeDir = getenv("XDG_DATA_HOME");
+	if (homeDir.empty()) {
 		homeDir = getenv("HOME");
-		if (homeDir == null) {
+		if (homeDir.empty()) {
 			// If not defined, get it from pwd
-			homedir = getpwuid(getuid())->pw_dir;
+            homeDir = getpwuid(getuid())->pw_dir;
 		}
-		dest = std::filesystem::path(homeDir + ".local/share");
+		homeDir += "/.config";
 	}
+    dest = std::filesystem::path(homeDir);
 
 #endif
 	return dest / "GAMENAME"; // TODO: Game name
@@ -121,8 +124,12 @@ std::filesystem::path FileUtilities::getGamePath() {
 	GetModuleFileName(NULL, buffer, MAX_PATH);
 	dest = std::filesystem::path(buffer);
 #elif __linux__
-	char* thePath = readSymLink("/proc/self/exe");
-	dest = Path(thePath);
+    char result[PATH_MAX];
+    ssize_t count = readlink("/proc/self/exe", result, PATH_MAX);
+    const char *path;
+    if (count != -1) {
+        path = dirname(result);
+    }
 #endif
 	return dest;
 }
