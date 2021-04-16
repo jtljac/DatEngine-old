@@ -1,42 +1,20 @@
 #pragma once
 #include <iostream>
-#include <unordered_map>
-#include "EngineConfig.gen"
+#include <EngineDetails.h>
 
-
-DatFunction()
-// testes
-	void de(int te, char* tell, mems test);
-
-DatClass(test, tes2)
-class EngineConfig
+struct
 {
-public:
-	EngineConfig() {};
+    struct {
 
-	int test = 1;
-	DatMember(Reflect)
-	std::string test2 = "hi";
-	DatMember()
-	float test3 = 2.3f;
+    } engineConstants;
 
-	DatEnum()
-	enum class testests {
-		t,
-		t2,
-		t3
-	};
+    struct {
 
-	DatMember()
-	test* tester = &test3;
+    } engineDisplay;
 
-	DatMember()
-	test& testere = test3;
+    struct {
 
-	// test
-	DatFunction()
-	template <typename test, class tester>
-	void test(int te, char* tell, test test);
+    } ;
 
-	ENGINE_GENERATED()
-};
+    void initialise();
+} config;

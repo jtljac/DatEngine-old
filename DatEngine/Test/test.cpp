@@ -1,6 +1,7 @@
 #include <iostream>
 #include <Platform/Timing.h>
 #include <Utilities/Logging.h>
+#include <Config/EngineConfig.h>
 #include <Rendering/Vulkan/VulkanRenderer.h>
 #include <AssetManager/AssetManager.h>
 #include <AssetManager/Factories/VertShaderFactory.h>
@@ -28,7 +29,6 @@ int main() {
 	assMan.registerFactory<VertShader>(new VertShaderFactory());
 	Timing::initialise();
 	theRenderer.initialise(800, 600, "Vulkan Test", &assMan);
-
 
 	// Main Loop
 	double lastTime = Timing::getTime();
