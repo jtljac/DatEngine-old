@@ -1,5 +1,5 @@
 #pragma once
-#include <Dat-VFS/DatVFS/DataPtr.h>
+#include <DatVFS/DataPtr.h>
 
 class BaseAsset {
 public:

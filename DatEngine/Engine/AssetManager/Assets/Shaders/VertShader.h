@@ -1,6 +1,6 @@
 #pragma once
 #include <iostream>
-#include <Dat-VFS/DatVFS/DataPtr.h>
+#include <DatVFS/DataPtr.h>
 #include "../BaseAsset.h"
 
 class VertShader : public BaseAsset {
