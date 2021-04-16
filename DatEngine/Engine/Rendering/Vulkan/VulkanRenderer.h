@@ -112,7 +112,7 @@ private:
     };
 
     const std::vector<uint16_t> indices = {
-        0, 1, 2, 
+        0, 1, 2,
         2, 3, 0
     };
 
@@ -157,7 +157,7 @@ private:
      * Get all the extensions required by the engine
      * @return A vector containing all the required extensions
      */
-    std::vector<const char*> getRequiredExtensions();
+    std::vector<const char*> getRequiredExtensions() const;
 
     /**
      * Creates the vulkan instance
@@ -171,44 +171,44 @@ private:
 
     /**
      * A little debug function to print the capabilities of the gpu to the console
-     * @param device the device to query
+     * @param vkPhysicalDevice the vkPhysicalDevice to query
      */
-    void listQueueFamilies(VkPhysicalDevice device);
+    [[maybe_unused]] static void listQueueFamilies(VkPhysicalDevice vkPhysicalDevice);
 
     // Physical Device stuff
     /**
-     * Looks through the queue families of the given device to make sure it has the ones we need
-     * @param device The device we're checking
+     * Looks through the queue families of the given vkPhysicalDevice to make sure it has the ones we need
+     * @param vkPhysicalDevice The vkPhysicalDevice we're checking
      * @return The indicies of the queue family
      */
-    QueueFamilyIndices findQueueFamilies(VkPhysicalDevice device);
+    QueueFamilyIndices findQueueFamilies(VkPhysicalDevice vkPhysicalDevice);
 
     /**
-     * Checks to see if the given device supports all of the required extensions
-     * @param device The device to check
+     * Checks to see if the given vkPhysicalDevice supports all of the required extensions
+     * @param vkPhysicalDevice The vkPhysicalDevice to check
      */
-    bool checkDeviceExtensionSupport(VkPhysicalDevice device);
+    bool checkDeviceExtensionSupport(VkPhysicalDevice vkPhysicalDevice);
 
     /**
      * Get the details for the the swap chain
-     * @param device The device to query
+     * @param vkPhysicalDevice The vkPhysicalDevice to query
      * @return The details for the swapchain
      */
-    SwapChainSupportDetails querySwapChainSupport(VkPhysicalDevice device);
+    SwapChainSupportDetails querySwapChainSupport(VkPhysicalDevice vkPhysicalDevice);
 
     /**
      * Get the best format for the device
      * @param availableFormats A vector of the available formats
      * @return The best swap surface format
      */
-    VkSurfaceFormatKHR chooseSwapSurfaceFormat(const std::vector<VkSurfaceFormatKHR>& availableFormats);
+    static VkSurfaceFormatKHR chooseSwapSurfaceFormat(const std::vector<VkSurfaceFormatKHR>& availableFormats);
 
     /**
      * Get the best present mode for the device
      * @param availableFormats A vector of the available present mode
      * @return The best present mode
      */
-    VkPresentModeKHR chooseSwapPresentMode(const std::vector<VkPresentModeKHR>& availablePresentModes);
+    static VkPresentModeKHR chooseSwapPresentMode(const std::vector<VkPresentModeKHR>& availablePresentModes);
 
     /**
      * Get the closest extent to our window size we can manage
@@ -218,11 +218,11 @@ private:
     VkExtent2D chooseSwapExtent(const VkSurfaceCapabilitiesKHR& capabilities);
 
     /**
-     * Rates the given device on how suitable it is for the engine
-     * @param device the device to rate
-     * @return A score representing how suitable the device is
+     * Rates the given vkPhysicalDevice on how suitable it is for the engine
+     * @param vkPhysicalDevice the vkPhysicalDevice to rate
+     * @return A score representing how suitable the vkPhysicalDevice is
      */
-    int rateDeviceSuitability(VkPhysicalDevice device);
+    int rateDeviceSuitability(VkPhysicalDevice vkPhysicalDevice);
 
     /**
      * Selects a suitable device from all the devices available for rendering
@@ -477,7 +477,7 @@ public:
         currentFrame = (currentFrame + 1) % MAX_FRAMES_IN_FLIGHT;
     }
 
-    void cleanup() {
+    void cleanup() override {
         // Wait for vulkan to finish
         vkDeviceWaitIdle(device);
 

@@ -32,7 +32,7 @@ public:
 		return glfwWindowShouldClose(window);
 	}
 
-	void cleanup() {
+    virtual void cleanup() {
 		glfwDestroyWindow(window);
 		window = nullptr;
 		glfwTerminate();
