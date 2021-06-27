@@ -21,7 +21,12 @@
 
 struct QueueFamilyIndices {
     std::optional<uint32_t> graphicsFamily;
+    std::optional<uint32_t> transferFamily;
     std::optional<uint32_t> presentFamily;
+
+    uint32_t getTransferFamily() {
+        return transferFamily.has_value() ? transferFamily.value() : graphicsFamily.value();
+    }
 
     bool isComplete() {
         return graphicsFamily.has_value() && presentFamily.has_value();
@@ -76,6 +81,7 @@ private:
     VkDevice device;                                        // The logical device vulkan is using
 
     VkQueue graphicsQueue;                                  // The queue for graphics commands
+    VkQueue transferQueue;                                  // The queue for transfer commands
     VkQueue presentQueue;                                   // The queue for present commands
 
     VkSwapchainKHR swapChain = VK_NULL_HANDLE;              // The swap chain
@@ -105,10 +111,9 @@ private:
 
 
     const std::vector<Vertex> vertices = {
-        {{-0.5f, -0.5f}, {1.0f, 0.0f, 0.0f}},
-        {{0.5f, -0.5f}, {0.0f, 1.0f, 0.0f}},
-        {{0.5f, 0.5f}, {0.0f, 0.0f, 1.0f}},
-        {{-0.5f, 0.5f}, {1.0f, 1.0f, 1.0f}}
+        {{0.0f, -0.5f}, {1.0f, 1.0f, 1.0f}},
+        {{0.5f, 0.5f}, {0.0f, 1.0f, 0.0f}},
+        {{-0.5f, 0.5f}, {0.0f, 0.0f, 1.0f}}
     };
 
     const std::vector<uint16_t> indices = {

@@ -205,6 +205,7 @@ void VulkanRenderer::createSurface() {
  * @return The indicies of the queue family
  */
 QueueFamilyIndices VulkanRenderer::findQueueFamilies(VkPhysicalDevice vkPhysicalDevice) {
+    listQueueFamilies(vkPhysicalDevice);
     QueueFamilyIndices queueFamilyIndices;
 
     // Get the queue family properties
@@ -216,9 +217,9 @@ QueueFamilyIndices VulkanRenderer::findQueueFamilies(VkPhysicalDevice vkPhysical
     // Find one with graphics and present support
     int i = 0;
     for (const VkQueueFamilyProperties& queueFamily : queueFamilies) {
-        if (queueFamily.queueFlags & VK_QUEUE_GRAPHICS_BIT) {
-            queueFamilyIndices.graphicsFamily = i;
-        }
+        if (queueFamily.queueFlags & VK_QUEUE_GRAPHICS_BIT) queueFamilyIndices.graphicsFamily = i;
+
+        if (queueFamily.queueFlags & VK_QUEUE_TRANSFER_BIT && !(queueFamily.queueFlags & VK_QUEUE_GRAPHICS_BIT || queueFamily.queueFlags & VK_QUEUE_COMPUTE_BIT)) queueFamilyIndices.transferFamily = i;
 
         VkBool32 presentSupport = false;
         vkGetPhysicalDeviceSurfaceSupportKHR(vkPhysicalDevice, i, surface, &presentSupport);
@@ -426,11 +427,10 @@ void VulkanRenderer::createLogicalDevice() {
     // Find some queue families
     QueueFamilyIndices queueFamilyIndices = findQueueFamilies(physicalDevice);
 
-
     std::vector<VkDeviceQueueCreateInfo> queueCreateInfos;
 
     // By using a set, we can guarantee if the graphics family and present family are the same, we won't create the queue more than once
-    std::set<uint32_t> uniqueQueueFamilies = {queueFamilyIndices.graphicsFamily.value(), queueFamilyIndices.presentFamily.value() };
+    std::set<uint32_t> uniqueQueueFamilies = {queueFamilyIndices.graphicsFamily.value(), queueFamilyIndices.getTransferFamily(), queueFamilyIndices.presentFamily.value() };
 
     float queuePriority = 1.0f;
     for (uint32_t queueFamily : uniqueQueueFamilies) {
@@ -467,6 +467,7 @@ void VulkanRenderer::createLogicalDevice() {
 
     // Get our created queues
     vkGetDeviceQueue(device, queueFamilyIndices.graphicsFamily.value(), 0, &graphicsQueue);
+    vkGetDeviceQueue(device, queueFamilyIndices.getTransferFamily(), 0, &transferQueue);
     vkGetDeviceQueue(device, queueFamilyIndices.presentFamily.value(), 0, &presentQueue);
 }
 

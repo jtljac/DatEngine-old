@@ -6,7 +6,8 @@ class Renderer {
 protected:
 	GLFWwindow* window = nullptr;
 	bool framebufferResized = false;
-	virtual void glfwHints() {};
+
+    virtual void glfwHints() {};
 
 	virtual void framebufferResizeCallback_internal(GLFWwindow* window, int width, int height) {
 		framebufferResized = true;

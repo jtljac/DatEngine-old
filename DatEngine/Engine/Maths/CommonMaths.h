@@ -87,7 +87,7 @@ namespace Maths {
 	template <typename T, typename AlphaType = float>
 	T interpEaseIn(T A, T B, AlphaType Alpha, float Exponent) {
 		const AlphaType newAlpha = pow(Alpha, Exponent);
-		return lerp<T, AlphaTypeT>(A, B, newAlpha);
+		return lerp<T, AlphaType>(A, B, newAlpha);
 	}
 
 	template <typename T, typename AlphaType = float>
@@ -105,25 +105,25 @@ namespace Maths {
 	template <typename T, typename AlphaType = float>
 	T interpCircularIn(T A, T B, AlphaType Alpha) {
 		const AlphaType newAlpha = 1 - sqrt(1 - pow(Alpha, 2));
-		return lerp<T, AlphaTypeT>(A, B, newAlpha);
+		return lerp<T, AlphaType>(A, B, newAlpha);
 	}
 
 	template <typename T, typename AlphaType = float>
 	T interpCircularOut(T A, T B, AlphaType Alpha) {
 		const AlphaType newAlpha = sqrt(1.f - pow((1.f - x), 2));
-		return lerp<T, AlphaTypeT>(A, B, newAlpha);
+		return lerp<T, AlphaType>(A, B, newAlpha);
 	}
 
 	template <typename T, typename AlphaType = float>
 	T interpCircularInOut(T A, T B, AlphaType Alpha) {
 		const AlphaType newAlpha = (Alpha < 0.5 ? interpCircularIn<float, AlphaType>(0.f, 1.f, alpha * 2) * 0.5 : interpCircularOut(0.f, 1.f, 2 * alpha - 1));
-		return lerp<T, AlphaTypeT>(A, B, newAlpha);
+		return lerp<T, AlphaType>(A, B, newAlpha);
 	}
 
 	template <typename T, typename AlphaType = float>
 	T interpSeatInOut(T A, T B, AlphaType Alpha, float Inflection) {
 		const AlphaType newAlpha = (Alpha < Inflection ? sqrt(pow(Inflection, 2) - pow(Alpha - Inflection, 2)) : 1 - sqrt(pow(1 - Inflection, 2) - pow(Alpha - Inflection, 2)));
-		return lerp<T, AlphaTypeT>(A, B, newAlpha);
+		return lerp<T, AlphaType>(A, B, newAlpha);
 	}
 
 	//TODO: Sin Cos Cubic Spline Exponential COMMENTS
