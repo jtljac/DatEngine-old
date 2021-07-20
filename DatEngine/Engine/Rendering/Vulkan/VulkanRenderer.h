@@ -17,7 +17,7 @@
 #include <AssetManager/Assets/Shaders/FragShader.h>
 #include <Mesh/Primitives/Vertex.h>
 
-#include <glm/glm.hpp>
+#include <Maths/Matrix.h>
 
 struct QueueFamilyIndices {
     std::optional<uint32_t> graphicsFamily;
@@ -34,9 +34,9 @@ struct QueueFamilyIndices {
 };
 
 struct UniformBufferObject {
-    glm::mat4 model;
-    glm::mat4 view;
-    glm::mat4 proj;
+    FMat4 model;
+    FMat4 view;
+    FMat4 proj;
 };
 
 struct SwapChainSupportDetails {

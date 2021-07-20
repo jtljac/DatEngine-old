@@ -1,5 +1,5 @@
 #pragma once
-#include <math.h>
+#include <cmath>
 
 namespace Maths {
 	// Pi
@@ -25,7 +25,7 @@ namespace Maths {
 	// Functions
 	template <typename T>
 	constexpr T inverseSqrt(T value) {
-		//TODO: Make Better
+		//TODO: Make Better using intrinsics
 		return 1 / sqrt(value);
 	}
 
@@ -68,7 +68,7 @@ namespace Maths {
 	}
 
 	template <typename T, typename AlphaType = float>
-	T steppedLerp(T A, T B, AlphaType Alpha) {
+	T steppedLerp(T A, T B, AlphaType Alpha, int steps) {
 		const AlphaType newAlpha = floor(Alpha * steps) / (steps - 1);
 		return lerp<T, AlphaType>(A, B, newAlpha);
 	}
@@ -110,13 +110,13 @@ namespace Maths {
 
 	template <typename T, typename AlphaType = float>
 	T interpCircularOut(T A, T B, AlphaType Alpha) {
-		const AlphaType newAlpha = sqrt(1.f - pow((1.f - x), 2));
+		const AlphaType newAlpha = sqrt(1.f - pow((1.f - Alpha), 2));
 		return lerp<T, AlphaType>(A, B, newAlpha);
 	}
 
 	template <typename T, typename AlphaType = float>
 	T interpCircularInOut(T A, T B, AlphaType Alpha) {
-		const AlphaType newAlpha = (Alpha < 0.5 ? interpCircularIn<float, AlphaType>(0.f, 1.f, alpha * 2) * 0.5 : interpCircularOut(0.f, 1.f, 2 * alpha - 1));
+		const AlphaType newAlpha = (Alpha < 0.5 ? interpCircularIn<float, AlphaType>(0.f, 1.f, Alpha * 2) * 0.5 : interpCircularOut(0.f, 1.f, 2 * Alpha - 1));
 		return lerp<T, AlphaType>(A, B, newAlpha);
 	}
 
