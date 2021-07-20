@@ -24,12 +24,12 @@ struct QueueFamilyIndices {
     std::optional<uint32_t> transferFamily;
     std::optional<uint32_t> presentFamily;
 
-    uint32_t getTransferFamily() {
-        return transferFamily.has_value() ? transferFamily.value() : graphicsFamily.value();
+    bool isComplete() {
+        return graphicsFamily.has_value() && presentFamily.has_value() && transferFamily.has_value();
     }
 
-    bool isComplete() {
-        return graphicsFamily.has_value() && presentFamily.has_value();
+    bool isUniqueTransferQueue() {
+        return transferFamily.value() != graphicsFamily.value();
     }
 };
 
@@ -77,6 +77,7 @@ private:
     VkDebugUtilsMessengerEXT debugMessenger;                // The debug messenger for debug from vulkan
 
     VkSurfaceKHR surface;                                   // The vulkan surface
+    QueueFamilyIndices queueFamilies;                       // The queue families in use
     VkPhysicalDevice physicalDevice = VK_NULL_HANDLE;       // The physical device vulkan is using
     VkDevice device;                                        // The logical device vulkan is using
 
@@ -95,7 +96,8 @@ private:
     VkPipelineLayout pipelineLayout;                        // The layout of the pipeline
     VkPipeline graphicsPipeline;                            // The graphics pipeline itself
 
-    VkCommandPool commandPool;                              // The command pool
+    VkCommandPool graphicsCommandPool;                              // The graphics command pool
+    VkCommandPool transferCommandPool;                              // The transfer command pool
     std::vector<VkCommandBuffer> commandBuffers;            // The command buffers
 
     VkBuffer vertexBuffer;                                  // The vertex buffer
@@ -277,7 +279,7 @@ private:
     /**
      * Creates the command pool
      */
-    void createCommandPool();
+    void createCommandPool(uint32_t queueFamilyIndex, VkCommandPool &commandPool);
 
     /**
      * Finds and returns the memory type fit for the given requirements
@@ -339,7 +341,7 @@ private:
             vkDestroyFramebuffer(device, framebuffer, nullptr);
         }
 
-        vkFreeCommandBuffers(device, commandPool, static_cast<uint32_t>(commandBuffers.size()), commandBuffers.data());
+        vkFreeCommandBuffers(device, graphicsCommandPool, static_cast<uint32_t>(commandBuffers.size()), commandBuffers.data());
 
         // Destroy pipeline
         vkDestroyPipeline(device, graphicsPipeline, nullptr);
@@ -378,7 +380,8 @@ public:
         createRenderPass();
         createGraphicsPipeline();
         createFramebuffers();
-        createCommandPool();
+        createCommandPool(queueFamilies.graphicsFamily.value(), graphicsCommandPool);
+        createCommandPool(queueFamilies.transferFamily.value(), transferCommandPool);
         createVertexBuffer();
         createIndexBuffer();
         createCommandBuffers();
@@ -501,7 +504,8 @@ public:
             vkDestroyFence(device, inFlightFences[i], nullptr);
         }
 
-        vkDestroyCommandPool(device, commandPool, nullptr);
+        vkDestroyCommandPool(device, graphicsCommandPool, nullptr);
+        vkDestroyCommandPool(device, transferCommandPool, nullptr);
 
         vkDestroyDevice(device, nullptr);
 

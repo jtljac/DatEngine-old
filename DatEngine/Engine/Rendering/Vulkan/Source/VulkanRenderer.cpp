@@ -217,23 +217,28 @@ QueueFamilyIndices VulkanRenderer::findQueueFamilies(VkPhysicalDevice vkPhysical
     // Find one with graphics and present support
     int i = 0;
     for (const VkQueueFamilyProperties& queueFamily : queueFamilies) {
-        if (queueFamily.queueFlags & VK_QUEUE_GRAPHICS_BIT) queueFamilyIndices.graphicsFamily = i;
-
-        if (queueFamily.queueFlags & VK_QUEUE_TRANSFER_BIT && !(queueFamily.queueFlags & VK_QUEUE_GRAPHICS_BIT || queueFamily.queueFlags & VK_QUEUE_COMPUTE_BIT)) queueFamilyIndices.transferFamily = i;
-
         VkBool32 presentSupport = false;
         vkGetPhysicalDeviceSurfaceSupportKHR(vkPhysicalDevice, i, surface, &presentSupport);
 
-        if (presentSupport) {
+        // Prefer present queue to be the same as graphics queue
+        if (queueFamily.queueFlags & VK_QUEUE_GRAPHICS_BIT) {
+            queueFamilyIndices.graphicsFamily = i;
+            if (presentSupport) queueFamilyIndices.presentFamily = i;
+        } else if (!queueFamilyIndices.presentFamily.has_value() && presentSupport) {
             queueFamilyIndices.presentFamily = i;
         }
 
+        if (queueFamily.queueFlags & VK_QUEUE_TRANSFER_BIT && !(queueFamily.queueFlags & VK_QUEUE_GRAPHICS_BIT || queueFamily.queueFlags & VK_QUEUE_COMPUTE_BIT)) queueFamilyIndices.transferFamily = i;
+
         if (queueFamilyIndices.isComplete()) {
-            break;
+            return queueFamilyIndices;
         }
 
         i++;
     }
+
+    // Set the transfer family if it hasn't already been set
+    queueFamilyIndices.transferFamily = queueFamilyIndices.graphicsFamily.value();
 
     return queueFamilyIndices;
 }
@@ -425,12 +430,12 @@ void VulkanRenderer::pickPhysicalDevice() {
  */
 void VulkanRenderer::createLogicalDevice() {
     // Find some queue families
-    QueueFamilyIndices queueFamilyIndices = findQueueFamilies(physicalDevice);
+    queueFamilies = findQueueFamilies(physicalDevice);
 
     std::vector<VkDeviceQueueCreateInfo> queueCreateInfos;
 
     // By using a set, we can guarantee if the graphics family and present family are the same, we won't create the queue more than once
-    std::set<uint32_t> uniqueQueueFamilies = {queueFamilyIndices.graphicsFamily.value(), queueFamilyIndices.getTransferFamily(), queueFamilyIndices.presentFamily.value() };
+    std::set<uint32_t> uniqueQueueFamilies = {queueFamilies.graphicsFamily.value(), queueFamilies.transferFamily.value(), queueFamilies.presentFamily.value() };
 
     float queuePriority = 1.0f;
     for (uint32_t queueFamily : uniqueQueueFamilies) {
@@ -466,9 +471,9 @@ void VulkanRenderer::createLogicalDevice() {
     }
 
     // Get our created queues
-    vkGetDeviceQueue(device, queueFamilyIndices.graphicsFamily.value(), 0, &graphicsQueue);
-    vkGetDeviceQueue(device, queueFamilyIndices.getTransferFamily(), 0, &transferQueue);
-    vkGetDeviceQueue(device, queueFamilyIndices.presentFamily.value(), 0, &presentQueue);
+    vkGetDeviceQueue(device, queueFamilies.graphicsFamily.value(), 0, &graphicsQueue);
+    vkGetDeviceQueue(device, queueFamilies.transferFamily.value(), 0, &transferQueue);
+    vkGetDeviceQueue(device, queueFamilies.presentFamily.value(), 0, &presentQueue);
 }
 
 /**
@@ -502,7 +507,6 @@ void VulkanRenderer::createSwapChain(VkSwapchainKHR OldSwapChain)
     createInfo.imageArrayLayers = 1;
     createInfo.imageUsage = VK_IMAGE_USAGE_COLOR_ATTACHMENT_BIT;
 
-    QueueFamilyIndices queueFamilies = findQueueFamilies(physicalDevice);
     uint32_t queueFamilyIndices[] = {queueFamilies.graphicsFamily.value(), queueFamilies.presentFamily.value() };
 
     if (queueFamilies.graphicsFamily != queueFamilies.presentFamily) {
@@ -808,13 +812,11 @@ void VulkanRenderer::createFramebuffers()
 /**
  * Creates the command pool
  */
-void VulkanRenderer::createCommandPool()
+void VulkanRenderer::createCommandPool(uint32_t queueFamilyIndex, VkCommandPool &commandPool)
 {
-    QueueFamilyIndices queueFamilyIndices = findQueueFamilies(physicalDevice);
-
     VkCommandPoolCreateInfo poolInfo{};
     poolInfo.sType = VK_STRUCTURE_TYPE_COMMAND_POOL_CREATE_INFO;
-    poolInfo.queueFamilyIndex = queueFamilyIndices.graphicsFamily.value();
+    poolInfo.queueFamilyIndex = queueFamilyIndex;
     poolInfo.flags = 0; // Optional
 
     if (vkCreateCommandPool(device, &poolInfo, nullptr, &commandPool) != VK_SUCCESS) {
@@ -831,11 +833,17 @@ void VulkanRenderer::createCommandPool()
  * @param buffer A reference to the Buffer Memory
  */
 void VulkanRenderer::createBuffer(VkDeviceSize size, VkBufferUsageFlags usage, VkMemoryPropertyFlags properties, VkBuffer& buffer, VkDeviceMemory& bufferMemory) {
+    std::vector<uint32_t> allowedQueueIndices;
+    if (queueFamilies.isUniqueTransferQueue()) allowedQueueIndices = {queueFamilies.graphicsFamily.value(), queueFamilies.transferFamily.value()};
+    else allowedQueueIndices = {queueFamilies.graphicsFamily.value()};
+
     VkBufferCreateInfo bufferInfo{};
     bufferInfo.sType = VK_STRUCTURE_TYPE_BUFFER_CREATE_INFO;
     bufferInfo.size = size;
     bufferInfo.usage = usage;
-    bufferInfo.sharingMode = VK_SHARING_MODE_EXCLUSIVE;
+    bufferInfo.sharingMode = VK_SHARING_MODE_CONCURRENT;
+    bufferInfo.queueFamilyIndexCount = allowedQueueIndices.size();
+    bufferInfo.pQueueFamilyIndices = allowedQueueIndices.data();
 
     if (vkCreateBuffer(device, &bufferInfo, nullptr, &buffer) != VK_SUCCESS) {
         throw std::runtime_error("failed to create vertex buffer!");
@@ -866,7 +874,7 @@ void VulkanRenderer::copyBuffer(VkBuffer srcBuffer, VkBuffer dstBuffer, VkDevice
     VkCommandBufferAllocateInfo allocInfo{};
     allocInfo.sType = VK_STRUCTURE_TYPE_COMMAND_BUFFER_ALLOCATE_INFO;
     allocInfo.level = VK_COMMAND_BUFFER_LEVEL_PRIMARY;
-    allocInfo.commandPool = commandPool;
+    allocInfo.commandPool = transferCommandPool;
     allocInfo.commandBufferCount = 1;
 
     VkCommandBuffer commandBuffer;
@@ -891,10 +899,10 @@ void VulkanRenderer::copyBuffer(VkBuffer srcBuffer, VkBuffer dstBuffer, VkDevice
     submitInfo.commandBufferCount = 1;
     submitInfo.pCommandBuffers = &commandBuffer;
 
-    vkQueueSubmit(graphicsQueue, 1, &submitInfo, VK_NULL_HANDLE);
-    vkQueueWaitIdle(graphicsQueue);
+    vkQueueSubmit(transferQueue, 1, &submitInfo, VK_NULL_HANDLE);
+    vkQueueWaitIdle(transferQueue);
 
-    vkFreeCommandBuffers(device, commandPool, 1, &commandBuffer);
+    vkFreeCommandBuffers(device, transferCommandPool, 1, &commandBuffer);
 }
 
 /**
@@ -950,7 +958,7 @@ void VulkanRenderer::createCommandBuffers()
     commandBuffers.resize(swapChainFramebuffers.size());
     VkCommandBufferAllocateInfo allocInfo{};
     allocInfo.sType = VK_STRUCTURE_TYPE_COMMAND_BUFFER_ALLOCATE_INFO;
-    allocInfo.commandPool = commandPool;
+    allocInfo.commandPool = graphicsCommandPool;
     allocInfo.level = VK_COMMAND_BUFFER_LEVEL_PRIMARY;
     allocInfo.commandBufferCount = (uint32_t)commandBuffers.size();
 
