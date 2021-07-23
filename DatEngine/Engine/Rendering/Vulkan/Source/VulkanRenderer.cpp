@@ -1,4 +1,9 @@
 #include "../VulkanRenderer.h"
+#include <glm/glm.hpp>
+#include <glm/gtc/matrix_transform.hpp>
+
+#define GLM_FORCE_RADIANS
+#define GLM_FORCE_DEPTH_ZERO_TO_ONE
 
 /**
  * Checks the machine supports the required validation layers
@@ -640,6 +645,25 @@ void VulkanRenderer::createRenderPass() {
     }
 }
 
+void VulkanRenderer::createDescriptorSetLayout() {
+    VkDescriptorSetLayoutBinding uboLayoutBinding{};
+    uboLayoutBinding.binding = 0;
+    uboLayoutBinding.descriptorType = VK_DESCRIPTOR_TYPE_UNIFORM_BUFFER;
+    uboLayoutBinding.descriptorCount = 1;
+
+    uboLayoutBinding.stageFlags = VK_SHADER_STAGE_VERTEX_BIT;
+    uboLayoutBinding.pImmutableSamplers = nullptr; // Optional
+
+    VkDescriptorSetLayoutCreateInfo layoutInfo{};
+    layoutInfo.sType = VK_STRUCTURE_TYPE_DESCRIPTOR_SET_LAYOUT_CREATE_INFO;
+    layoutInfo.bindingCount = 1;
+    layoutInfo.pBindings = &uboLayoutBinding;
+
+    if (vkCreateDescriptorSetLayout(device, &layoutInfo, nullptr, &descriptorSetLayout) != VK_SUCCESS) {
+        throw std::runtime_error("failed to create descriptor set layout!");
+    }
+}
+
 void VulkanRenderer::createGraphicsPipeline()
 {
     // Load Shaders
@@ -707,7 +731,7 @@ void VulkanRenderer::createGraphicsPipeline()
     rasterizer.polygonMode = VK_POLYGON_MODE_FILL;
     rasterizer.lineWidth = 1.0f;
     rasterizer.cullMode = VK_CULL_MODE_BACK_BIT;
-    rasterizer.frontFace = VK_FRONT_FACE_CLOCKWISE;
+    rasterizer.frontFace = VK_FRONT_FACE_COUNTER_CLOCKWISE;
     rasterizer.depthBiasEnable = VK_FALSE;
     rasterizer.depthBiasConstantFactor = 0.0f; // Optional
     rasterizer.depthBiasClamp = 0.0f; // Optional
@@ -746,8 +770,8 @@ void VulkanRenderer::createGraphicsPipeline()
     // Pipeline
     VkPipelineLayoutCreateInfo pipelineLayoutInfo{};
     pipelineLayoutInfo.sType = VK_STRUCTURE_TYPE_PIPELINE_LAYOUT_CREATE_INFO;
-    pipelineLayoutInfo.setLayoutCount = 0; // Optional
-    pipelineLayoutInfo.pSetLayouts = nullptr; // Optional
+    pipelineLayoutInfo.setLayoutCount = 1; // Optional
+    pipelineLayoutInfo.pSetLayouts = &descriptorSetLayout; // Optional
     pipelineLayoutInfo.pushConstantRangeCount = 0; // Optional
     pipelineLayoutInfo.pPushConstantRanges = nullptr; // Optional
 
@@ -950,6 +974,70 @@ void VulkanRenderer::createIndexBuffer() {
     vkFreeMemory(device, stagingBufferMemory, nullptr);
 }
 
+void VulkanRenderer::createUniformBuffers() {
+    VkDeviceSize bufferSize = sizeof(UniformBufferObject);
+
+    uniformBuffers.resize(swapChainImages.size());
+    uniformBuffersMemory.resize(swapChainImages.size());
+
+    for (size_t i = 0; i < swapChainImages.size(); i++) {
+        createBuffer(bufferSize, VK_BUFFER_USAGE_UNIFORM_BUFFER_BIT, VK_MEMORY_PROPERTY_HOST_VISIBLE_BIT | VK_MEMORY_PROPERTY_HOST_COHERENT_BIT, uniformBuffers[i], uniformBuffersMemory[i]);
+    }
+}
+
+void VulkanRenderer::createDescriptorPool() {
+    VkDescriptorPoolSize poolSize{};
+    poolSize.type = VK_DESCRIPTOR_TYPE_UNIFORM_BUFFER;
+    poolSize.descriptorCount = static_cast<uint32_t>(swapChainImages.size());
+
+    VkDescriptorPoolCreateInfo poolInfo{};
+    poolInfo.sType = VK_STRUCTURE_TYPE_DESCRIPTOR_POOL_CREATE_INFO;
+    poolInfo.poolSizeCount = 1;
+    poolInfo.pPoolSizes = &poolSize;
+    poolInfo.maxSets = static_cast<uint32_t>(swapChainImages.size());
+
+    if (vkCreateDescriptorPool(device, &poolInfo, nullptr, &descriptorPool) != VK_SUCCESS) {
+        throw std::runtime_error("failed to create descriptor pool!");
+    }
+}
+
+void VulkanRenderer::createDescriptorSets() {
+    std::vector<VkDescriptorSetLayout> layouts(swapChainImages.size(), descriptorSetLayout);
+    VkDescriptorSetAllocateInfo allocInfo{};
+    allocInfo.sType = VK_STRUCTURE_TYPE_DESCRIPTOR_SET_ALLOCATE_INFO;
+    allocInfo.descriptorPool = descriptorPool;
+    allocInfo.descriptorSetCount = static_cast<uint32_t>(swapChainImages.size());
+    allocInfo.pSetLayouts = layouts.data();
+
+    descriptorSets.resize(swapChainImages.size());
+    if (vkAllocateDescriptorSets(device, &allocInfo, descriptorSets.data()) != VK_SUCCESS) {
+        throw std::runtime_error("failed to allocate descriptor sets!");
+    }
+
+    for (size_t i = 0; i < swapChainImages.size(); i++) {
+        VkDescriptorBufferInfo bufferInfo{};
+        bufferInfo.buffer = uniformBuffers[i];
+        bufferInfo.offset = 0;
+        bufferInfo.range = sizeof(UniformBufferObject);
+
+
+        VkWriteDescriptorSet descriptorWrite{};
+        descriptorWrite.sType = VK_STRUCTURE_TYPE_WRITE_DESCRIPTOR_SET;
+        descriptorWrite.dstSet = descriptorSets[i];
+        descriptorWrite.dstBinding = 0;
+        descriptorWrite.dstArrayElement = 0;
+
+        descriptorWrite.descriptorType = VK_DESCRIPTOR_TYPE_UNIFORM_BUFFER;
+        descriptorWrite.descriptorCount = 1;
+
+        descriptorWrite.pBufferInfo = &bufferInfo;
+        descriptorWrite.pImageInfo = nullptr; // Optional
+        descriptorWrite.pTexelBufferView = nullptr; // Optional
+
+        vkUpdateDescriptorSets(device, 1, &descriptorWrite, 0, nullptr);
+    }
+}
+
 /**
  * Creates the command buffers
  */
@@ -997,12 +1085,33 @@ void VulkanRenderer::createCommandBuffers()
 
         vkCmdBindIndexBuffer(commandBuffers[i], indexBuffer, 0, VK_INDEX_TYPE_UINT16);
 
+        vkCmdBindDescriptorSets(commandBuffers[i], VK_PIPELINE_BIND_POINT_GRAPHICS, pipelineLayout, 0, 1, &descriptorSets[i], 0, nullptr);
         vkCmdDrawIndexed(commandBuffers[i], static_cast<uint32_t>(indices.size()), 1, 0, 0, 0);
         vkCmdEndRenderPass(commandBuffers[i]);
         if (vkEndCommandBuffer(commandBuffers[i]) != VK_SUCCESS) {
             throw std::runtime_error("failed to record command buffer!");
         }
     }
+}
+
+void VulkanRenderer::updateUniformBuffer(uint32_t currentImage) {
+    static auto startTime = std::chrono::high_resolution_clock::now();
+
+    auto currentTime = std::chrono::high_resolution_clock::now();
+    float time = std::chrono::duration<float, std::chrono::seconds::period>(currentTime - startTime).count();
+
+
+    UniformBufferObject ubo{};
+    ubo.model = Maths::rotateRoll(Matrix<4, 4, float>::identity(), Maths::degToRad(90.f) * time);
+
+    ubo.view = Maths::lookAt(FVector(0.f, -2.f, -5.f), FVector(0.f, 0.f, 0.f), FVector::up);
+
+    ubo.proj = Maths::perspectiveProjection(Maths::degToRad(45.f), swapChainExtent.width / (float) swapChainExtent.height, 0.1f, 100.f);
+
+    void* data;
+    vkMapMemory(device, uniformBuffersMemory[currentImage], 0, sizeof(ubo), 0, &data);
+    memcpy(data, &ubo, sizeof(ubo));
+    vkUnmapMemory(device, uniformBuffersMemory[currentImage]);
 }
 
 /**

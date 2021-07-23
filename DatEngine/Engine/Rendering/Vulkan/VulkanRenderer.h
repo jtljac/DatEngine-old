@@ -34,9 +34,9 @@ struct QueueFamilyIndices {
 };
 
 struct UniformBufferObject {
-    FMat4 model;
-    FMat4 view;
-    FMat4 proj;
+    alignas(16) FMat4 model;
+    alignas(16) FMat4 view;
+    alignas(16) FMat4 proj;
 };
 
 struct SwapChainSupportDetails {
@@ -50,7 +50,8 @@ class VulkanRenderer : public Renderer {
 
     std::vector<const char*> validationLayers = {
         "VK_LAYER_KHRONOS_validation",
-        "VK_LAYER_LUNARG_monitor"
+        "VK_LAYER_LUNARG_monitor",
+        "VK_LAYER_RENDERDOC_Capture"
     };
 
     const std::vector<const char*> deviceExtensions = {
@@ -93,17 +94,24 @@ private:
     std::vector<VkFramebuffer> swapChainFramebuffers;       // The framebuffers in the swapchain
 
     VkRenderPass renderPass;                                // The renderpass
+    VkDescriptorSetLayout descriptorSetLayout;              // The descriptor layout
     VkPipelineLayout pipelineLayout;                        // The layout of the pipeline
     VkPipeline graphicsPipeline;                            // The graphics pipeline itself
 
-    VkCommandPool graphicsCommandPool;                              // The graphics command pool
-    VkCommandPool transferCommandPool;                              // The transfer command pool
+    VkCommandPool graphicsCommandPool;                      // The graphics command pool
+    VkCommandPool transferCommandPool;                      // The transfer command pool
     std::vector<VkCommandBuffer> commandBuffers;            // The command buffers
+
+    VkDescriptorPool descriptorPool;                        // The descriptor Pool
+    std::vector<VkDescriptorSet> descriptorSets;            // The descriptor Sets
 
     VkBuffer vertexBuffer;                                  // The vertex buffer
     VkDeviceMemory vertexBufferMemory;                      // The allocated memory for the vertex buffer
     VkBuffer indexBuffer;
     VkDeviceMemory indexBufferMemory;
+
+    std::vector<VkBuffer> uniformBuffers;
+    std::vector<VkDeviceMemory> uniformBuffersMemory;
 
     std::vector<VkSemaphore> imageAvailableSemaphores;      // Image Available semaphores
     std::vector<VkSemaphore> renderFinishedSemaphores;      // Render Finished semaphores
@@ -113,14 +121,15 @@ private:
 
 
     const std::vector<Vertex> vertices = {
-        {{0.0f, -0.5f}, {1.0f, 1.0f, 1.0f}},
-        {{0.5f, 0.5f}, {0.0f, 1.0f, 0.0f}},
-        {{-0.5f, 0.5f}, {0.0f, 0.0f, 1.0f}}
+        {{0.5f, 0.5f}, {1.0f, .0f, .0f}},
+        {{-0.5f, 0.5f}, {0.0f, 1.0f, 0.0f}},
+        {{0.5f, -0.5f}, {0.0f, 0.0f, 1.0f}},
+        {{-0.5f, -0.5f}, {0.0f, 0.0f, 1.0f}}
     };
 
     const std::vector<uint16_t> indices = {
         0, 1, 2,
-        2, 3, 0
+        1, 3, 2
     };
 
     /**
@@ -326,6 +335,28 @@ private:
     void createIndexBuffer();
 
     /**
+     * Creates the uniform buffers
+     */
+    void createUniformBuffers();
+
+    void createDescriptorSetLayout();
+
+    /**
+     * Creates the descriptor pool
+     */
+    void createDescriptorPool();
+
+    /**
+     * Creates the descriptor Sets
+     */
+    void createDescriptorSets();
+
+    /**
+     * Updates the uniform buffer with updated info
+     */
+    void updateUniformBuffer(uint32_t currentImage);
+
+    /**
      * Creates the command buffers
      */
     void createCommandBuffers();
@@ -354,6 +385,13 @@ private:
         }
 
         if (FullCleanup) vkDestroySwapchainKHR(device, swapChain, nullptr);
+
+        for (size_t i = 0; i < swapChainImages.size(); i++) {
+            vkDestroyBuffer(device, uniformBuffers[i], nullptr);
+            vkFreeMemory(device, uniformBuffersMemory[i], nullptr);
+        }
+
+        vkDestroyDescriptorPool(device, descriptorPool, nullptr);
     }
 
 public:
@@ -363,7 +401,7 @@ public:
         validationLayers = std::vector<const char*>(ValidationLayers);
     }
 
-	int initialise(int Width, int Height, std::string WindowTitle, AssetManager* AssMan) {
+    int initialise(int Width, int Height, std::string WindowTitle, AssetManager* AssMan) {
         Renderer::initialise(Width, Height, WindowTitle);
 
         Log::i(TAG, "Initialising Vulkan Renderer");
@@ -378,12 +416,16 @@ public:
         createSwapChain();
         createImageViews();
         createRenderPass();
+        createDescriptorSetLayout();
         createGraphicsPipeline();
         createFramebuffers();
         createCommandPool(queueFamilies.graphicsFamily.value(), graphicsCommandPool);
         createCommandPool(queueFamilies.transferFamily.value(), transferCommandPool);
         createVertexBuffer();
         createIndexBuffer();
+        createUniformBuffers();
+        createDescriptorPool();
+        createDescriptorSets();
         createCommandBuffers();
         createSyncObjects();
 
@@ -412,6 +454,9 @@ public:
         createRenderPass();
         createGraphicsPipeline();
         createFramebuffers();
+        createUniformBuffers();
+        createDescriptorPool();
+        createDescriptorSets();
         createCommandBuffers();
     }
 
@@ -435,6 +480,8 @@ public:
         }
         // Mark the image as now being in use by this frame
         imagesInFlight[imageIndex] = inFlightFences[currentFrame];
+
+        updateUniformBuffer(imageIndex);
 
         VkSubmitInfo submitInfo{};
         submitInfo.sType = VK_STRUCTURE_TYPE_SUBMIT_INFO;
@@ -490,6 +537,8 @@ public:
         vkDeviceWaitIdle(device);
 
         cleanupSwapChain();
+
+        vkDestroyDescriptorSetLayout(device, descriptorSetLayout, nullptr);
 
         vkDestroyBuffer(device, indexBuffer, nullptr);
         vkFreeMemory(device, indexBufferMemory, nullptr);
