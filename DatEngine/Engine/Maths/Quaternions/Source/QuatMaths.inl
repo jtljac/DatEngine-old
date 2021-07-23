@@ -11,7 +11,7 @@ QuatType Maths::angleBetween(const Quaternion<QuatType>& Quat1, const Quaternion
 
 template<typename QuatType>
 QuatType Maths::angleBetweenUnitNorm(const Quaternion<QuatType>& Quat1, const Quaternion<QuatType>& Quat2) {
-	return acos(dotProduct(Quat1, Quat2))
+	return acos(dotProduct(Quat1, Quat2));
 }
 
 template<typename Type>
@@ -41,7 +41,7 @@ Quaternion<QuatType> Maths::slerp(const Quaternion<QuatType>& Quat1, const Quate
 		quat1 = -Quat1;
 	}
 	else {
-		quat3 = Quat1;
+		quat1 = Quat1;
 	}
 
 	if (cosTheta > 1 - Maths::Tolerances::normalisedTolerance) {

@@ -52,7 +52,7 @@ namespace Maths {
 
 	template <typename T>
 	constexpr T radToDeg(T Degrees) {
-		return Degrees * (360 / doublepi);
+		return Degrees * (360. / doublepi);
 	}
 
 

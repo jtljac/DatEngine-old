@@ -71,11 +71,11 @@ namespace Maths {
 	// View Matrix
 	// Rotator
 	template <typename MatType>
-	Matrix<4, 4, MatType> viewMatrix(const Rotator<MatType>& CameraRotation);
+	Matrix<4, 4, MatType> viewMatrix(const Vector<3, MatType>& CameraPosition, const Rotator<MatType>& CameraRotation);
 
 	// Quaternion
 	template <typename MatType>
-	Matrix<4, 4, MatType> viewMatrix(const Quaternion<MatType>& CameraRotation);
+	Matrix<4, 4, MatType> viewMatrix(const Vector<3, MatType>& CameraPosition, const Quaternion<MatType>& CameraRotation);
 }
 
 #include "Source/MatrixMaths.inl"

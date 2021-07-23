@@ -245,10 +245,10 @@ Matrix<4, 4, MatType> Maths::scale(const Matrix<4, 4, MatType>& BaseMatrix, cons
     temp[2][2] = BaseMatrix[2][2] * Amount;
     temp[3][2] = BaseMatrix[3][2] * Amount;
 
-    temp[0][3] = BaseMatrix[0][3] * Amount;
-    temp[1][3] = BaseMatrix[1][3] * Amount;
-    temp[2][3] = BaseMatrix[2][3] * Amount;
-    temp[3][3] = BaseMatrix[3][3] * Amount;
+    temp[0][3] = BaseMatrix[0][3];
+    temp[1][3] = BaseMatrix[1][3];
+    temp[2][3] = BaseMatrix[2][3];
+    temp[3][3] = BaseMatrix[3][3];
 
     return temp;
 }
@@ -313,24 +313,22 @@ Matrix<4, 4, MatType>
 Maths::perspectiveProjection(const MatType FOV, const MatType AspectRatio, const MatType NearPlane, const MatType FarPlane) {
     Matrix<4, 4, MatType> temp = Matrix<4, 4, MatType>();
 
-    MatType f = 1 / tan(Maths::halfpi * FOV);
+    MatType f = tan(FOV / 2.f);
 
-    MatType planeDistanceInv = 1 / (FarPlane - NearPlane);
-
-    temp[0][0] = f / AspectRatio;
+    temp[0][0] = 1.f / (f * AspectRatio);
     temp[1][0] = 0;
     temp[2][0] = 0;
     temp[3][0] = 0;
 
     temp[0][1] = 0;
-    temp[1][1] = -f;
+    temp[1][1] = -1.f / f;
     temp[2][1] = 0;
     temp[3][1] = 0;
 
     temp[0][2] = 0;
     temp[1][2] = 0;
-    temp[2][2] = FarPlane * planeDistanceInv;
-    temp[3][2] = NearPlane * FarPlane * planeDistanceInv;
+    temp[2][2] = FarPlane / (NearPlane - FarPlane);
+    temp[3][2] = -(FarPlane * NearPlane) / (FarPlane - NearPlane);
 
     temp[0][3] = 0;
     temp[1][3] = 0;
@@ -342,27 +340,27 @@ Maths::perspectiveProjection(const MatType FOV, const MatType AspectRatio, const
 
 // Look at
 template <typename MatType>
-Matrix<4, 4, MatType> Maths::lookAt(const Vector<3, MatType>& CameraPosition, const Vector<3, MatType>& TargetPosition, const Vector<3, MatType>& worldUp) {
+Matrix<4, 4, MatType> Maths::lookAt(const Vector<3, MatType>& CameraPosition, const Vector<3, MatType>& TargetPosition, const Vector<3, MatType>& WorldUp) {
     Vector<3, MatType> forwardVector = (TargetPosition - CameraPosition).normalised();
-    Vector<3, MatType> rightVector = Maths::crossProduct(worldUp, forwardVector);
+    Vector<3, MatType> rightVector = Maths::crossProduct(WorldUp, forwardVector);
     Vector<3, MatType> upVector = Maths::crossProduct(forwardVector, rightVector);
 
     Matrix<4, 4, MatType> temp = Matrix<4, 4, MatType>();
 
-    temp[0][0] = forwardVector.x;
-    temp[1][0] = forwardVector.y;
-    temp[2][0] = forwardVector.z;
-    temp[3][0] = 0;
+    temp[0][0] = rightVector.x;
+    temp[1][0] = upVector.x;
+    temp[2][0] = forwardVector.x;
+    temp[3][0] = CameraPosition.x;
 
-    temp[0][1] = rightVector.x;
-    temp[1][1] = rightVector.y;
-    temp[2][1] = rightVector.z;
-    temp[3][1] = 0;
+    temp[0][1] = rightVector.y;
+    temp[1][1] = upVector.y;
+    temp[2][1] = forwardVector.y;
+    temp[3][1] = CameraPosition.y;
 
-    temp[0][2] = upVector.x;
-    temp[1][2] = upVector.y;
-    temp[2][2] = upVector.z;
-    temp[3][2] = 0;
+    temp[0][2] = rightVector.z;
+    temp[1][2] = upVector.z;
+    temp[2][2] = forwardVector.z;
+    temp[3][2] = CameraPosition.z;
 
     temp[0][3] = 0;
     temp[1][3] = 0;
@@ -375,33 +373,33 @@ Matrix<4, 4, MatType> Maths::lookAt(const Vector<3, MatType>& CameraPosition, co
 // View Matrix
 // Rotator
 template <typename MatType>
-Matrix<4, 4, MatType> Maths::viewMatrix(const Rotator<MatType>& CameraRotation) {
+Matrix<4, 4, MatType> Maths::viewMatrix(const Vector<3, MatType>& CameraPosition, const Rotator<MatType>& CameraRotation) {
 
 }
 
 // Quaternion
 template <typename MatType>
-Matrix<4, 4, MatType> Maths::viewMatrix(const Quaternion<MatType>& CameraRotation) {
+Matrix<4, 4, MatType> Maths::viewMatrix(const Vector<3, MatType>& CameraPosition, const Quaternion<MatType>& CameraRotation) {
     Matrix<4, 4, MatType> temp = Matrix<4, 4, MatType>();
 
     Vector<3, MatType> forwardVector = CameraRotation.forwardVector();
     Vector<3, MatType> rightVector = CameraRotation.rightVector();
     Vector<3, MatType> upVector = CameraRotation.upVector();
 
-    temp[0][0] = forwardVector.x;
-    temp[1][0] = forwardVector.y;
-    temp[2][0] = forwardVector.z;
-    temp[3][0] = 0;
+    temp[0][0] = rightVector.x;
+    temp[1][0] = upVector.x;
+    temp[2][0] = forwardVector.x;
+    temp[3][0] = CameraPosition.x;
 
-    temp[0][1] = rightVector.x;
-    temp[1][1] = rightVector.y;
-    temp[2][1] = rightVector.z;
-    temp[3][1] = 0;
+    temp[0][1] = rightVector.y;
+    temp[1][1] = upVector.y;
+    temp[2][1] = forwardVector.y;
+    temp[3][1] = CameraPosition.y;
 
-    temp[0][2] = upVector.x;
-    temp[1][2] = upVector.y;
-    temp[2][2] = upVector.z;
-    temp[3][2] = 0;
+    temp[0][2] = rightVector.z;
+    temp[1][2] = upVector.z;
+    temp[2][2] = forwardVector.z;
+    temp[3][2] = CameraPosition.z;
 
     temp[0][3] = 0;
     temp[1][3] = 0;
