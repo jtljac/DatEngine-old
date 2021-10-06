@@ -28,7 +28,7 @@ public:
 	}
 
 	std::vector<std::pair<Path, DVFSFile*>> getFiles() override {
-		std::vector<std::string> paths = archive->getFiles();
+		std::vector<std::string> paths = archive->getListOfFiles();
 		std::vector<std::pair<Path, DVFSFile*>> files;
 
 		for (std::string path : paths) {

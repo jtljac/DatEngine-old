@@ -5,9 +5,8 @@
 
 # CMake Output
 out/
-cmake-build-debug/
+cmake-build-*/
 
 # Doxygen output
 html/
 latex/
-cmake-build-linux-debug/
