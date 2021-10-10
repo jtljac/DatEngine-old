@@ -8,8 +8,6 @@ public:
 	DVFSArchiveFile(std::filesystem::path Dest, std::shared_ptr<DatFile> ArchiveFile) : DVFSFile(Dest), archiveFile(ArchiveFile) {}
 
 	std::vector<char> getFile() override {
-		
-
 		// Pointer to put the data
 		char* theData;
 
@@ -20,7 +18,7 @@ public:
 	}
 };
 
-class DatVFSArchive : public VFSArchive{
+class DatVFSArchive : public VFSArchive {
 	std::shared_ptr<DatFile> archive;
 public:
 	DatVFSArchive(std::filesystem::path filePath) {
