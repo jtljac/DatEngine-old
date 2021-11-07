@@ -69,7 +69,7 @@ public:
 
 	template<class T>
 	T* loadAsset(std::string thePath) {
-		std::vector<char> data = fileTree->getFile(thePath)->getFile();
+		std::vector<char> data = fileTree->getFile(thePath)->getContent();
 		AssetFactory* factory;
 
 		if (factories.count(typeid(T)) == 0) {

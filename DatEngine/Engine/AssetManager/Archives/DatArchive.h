@@ -2,35 +2,39 @@
 #include <DatVFS/DatVFSCommon.h>
 #include <DatArchive.h>
 
-class DVFSArchiveFile : public DVFSFile {
-	std::shared_ptr<DatFile> archiveFile;
+#include <memory>
+#include <utility>
+
+class DVFSArchiveFile : public IDVFSFile {
+	const std::shared_ptr<DatFile> archiveFile;
+    const std::string archivePath;
 public:
-	DVFSArchiveFile(std::filesystem::path Dest, std::shared_ptr<DatFile> ArchiveFile) : DVFSFile(Dest), archiveFile(ArchiveFile) {}
+	DVFSArchiveFile(std::string archivePath, std::shared_ptr<DatFile> ArchiveFile) : archivePath(std::move(archivePath)), archiveFile(std::move(ArchiveFile)) {
+        fileSize = ArchiveFile->getFileHeader(archivePath).size();
+    }
 
-	std::vector<char> getFile() override {
-		// Pointer to put the data
-		char* theData;
+    [[nodiscard]] bool isValidFile() const override {
+        return archiveFile->contains(archivePath);
+    }
 
-		unsigned int dataSize;
-
-		// return the data from the archive file
-		return archiveFile->getFile(fileLocation.string());
+    bool getContent(char* buffer) const override {
+		return archiveFile->getFile(archivePath, buffer);
 	}
 };
 
-class DatVFSArchive : public VFSArchive {
+class DVFSDatArchiveInserter : public IDVFSInserter {
 	std::shared_ptr<DatFile> archive;
 public:
-	DatVFSArchive(std::filesystem::path filePath) {
-		archive = std::shared_ptr<DatFile>(new DatFile(filePath));
+    explicit DVFSDatArchiveInserter(const std::filesystem::path& filePath, const std::string& mountPoint = "") : IDVFSInserter(mountPoint) {
+		archive = std::make_shared<DatFile>(filePath);
 	}
 
-	std::vector<std::pair<Path, DVFSFile*>> getFiles() override {
+	[[nodiscard]] std::vector<pair> getAllFiles() const override {
 		std::vector<std::string> paths = archive->getListOfFiles();
-		std::vector<std::pair<Path, DVFSFile*>> files;
+		std::vector<pair> files(archive->size());
 
-		for (std::string path : paths) {
-			files.push_back(std::make_pair<Path, DVFSFile*>(std::filesystem::path(path), new DVFSArchiveFile(path, archive)));
+		for (const std::string& path : paths) {
+			files.emplace_back(path, std::make_unique<DVFSArchiveFile>(path, archive));
 		}
 
 		return files;
