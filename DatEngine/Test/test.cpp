@@ -29,19 +29,19 @@ int main() {
 	assMan.registerFactory<VertShader>(new VertShaderFactory());
 	Timing::initialise();
 
-//	theRenderer.initialise(800, 600, "Vulkan Test", &assMan);
-//
-//	// Main Loop
-//	double lastTime = Timing::getTime();
-//	double deltaTime;
-//	while (!theRenderer.windowWantsToClose()) {
-//		deltaTime = Timing::getTime() - lastTime;
-//		lastTime = Timing::getTime();
-//		// if (fmod(Timing::getTime(), 1) ) std::cout << deltaTime << " seconds, " << 1 / deltaTime << " fps" << std::endl;
-//		glfwPollEvents();
-//		theRenderer.drawFrame();
-//	}
-//	theRenderer.cleanup();
+	theRenderer.initialise(800, 600, "Vulkan Test", &assMan);
+
+	// Main Loop
+	double lastTime = Timing::getTime();
+	double deltaTime;
+	while (!theRenderer.windowWantsToClose()) {
+		deltaTime = Timing::getTime() - lastTime;
+		lastTime = Timing::getTime();
+		// if (fmod(Timing::getTime(), 1) ) std::cout << deltaTime << " seconds, " << 1 / deltaTime << " fps" << std::endl;
+		glfwPollEvents();
+		theRenderer.drawFrame();
+	}
+	theRenderer.cleanup();
 
 	return 0;
 }
