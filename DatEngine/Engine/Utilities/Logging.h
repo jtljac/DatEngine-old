@@ -27,13 +27,13 @@ private:
 		}
 	}
 public:
-	static void log(const ConsoleColour logColour, const LogLevel logLevel, const std::string logTag, const std::string logMessage) {
+	static void log(const ConsoleColour logColour, const LogLevel logLevel, const std::string& logTag, const std::string& logMessage) {
 		if ((int)logLevel <= 3) { // TODO: Make Unconstant
 			std::cout << ColourMod(logColour) << "[" << getLogLevelAsString(logLevel) << "] [" << logTag << "] " << logMessage << ColourMod(ConsoleColour::RESET) << std::endl;
 		}
 	}
 
-	static void log(const LogLevel logLevel, const std::string logTag, const std::string logMessage) {
+	static void log(const LogLevel logLevel, const std::string& logTag, const std::string& logMessage) {
 		ConsoleColour colour = ConsoleColour::DEFAULT;
 		switch (logLevel) {
 		case LogLevel::LOGWARNING:
@@ -50,19 +50,19 @@ public:
 		log(colour, logLevel, logTag, logMessage);
 	}
 
-	static void i(const std::string logTag, const std::string logMessage) {
+	static void i(const std::string& logTag, const std::string& logMessage) {
 		log(LogLevel::LOGINFO, logTag, logMessage);
 	}
 
-	static void e(const std::string logTag, const std::string logMessage) {
+	static void e(const std::string& logTag, const std::string& logMessage) {
 		log(LogLevel::LOGERROR, logTag, logMessage);
 	}
 
-	static void w(const std::string logTag, const std::string logMessage) {
+	static void w(const std::string& logTag, const std::string& logMessage) {
 		log(LogLevel::LOGWARNING, logTag, logMessage);
 	}
 
-	static void v(const std::string logTag, const std::string logMessage) {
+	static void v(const std::string& logTag, const std::string& logMessage) {
 		log(LogLevel::LOGDEBUG, logTag, logMessage);
 	}
 };

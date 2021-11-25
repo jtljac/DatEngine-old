@@ -7,7 +7,7 @@
 
 namespace FileUtilities {
 	// Read File
-	std::string readWholeFile(std::filesystem::path filePath);
+	std::string readWholeFile(const std::filesystem::path& filePath);
 	std::string getFileContent(std::fstream& file);
 	std::string getFileContent(std::ifstream& file);
 	std::string getStreamContents(std::istream& stream);
@@ -18,5 +18,5 @@ namespace FileUtilities {
 	std::filesystem::path getResourcesPath();
 
 	// Create Files
-	std::ofstream createFile(std::filesystem::path filePath);
+	std::ofstream createFile(const std::filesystem::path& filePath);
 }

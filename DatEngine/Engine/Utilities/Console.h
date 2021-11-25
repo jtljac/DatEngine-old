@@ -1,6 +1,6 @@
 #pragma once
 #include <ostream>
-
+#include <string>
 
 enum class ConsoleColour {
 	RESET = 0,
@@ -26,7 +26,12 @@ enum class ConsoleColour {
 class ColourMod {
 	ConsoleColour colour;
 public:
-	ColourMod(ConsoleColour theColour) : colour(theColour) {}
+	explicit ColourMod(ConsoleColour theColour) : colour(theColour) {}
+
+    explicit operator std::string() const {
+        return "\033[" + std::to_string((int) colour) + "m";
+    }
+
 	friend std::ostream& operator<< (std::ostream& stream, const ColourMod mod) {
 		return stream << "\033[" << (int) mod.colour << "m";
 	}

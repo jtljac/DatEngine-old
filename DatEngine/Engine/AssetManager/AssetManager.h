@@ -6,7 +6,6 @@
 #include <DatVFS.h>
 #include <Utilities/FileUtilities.h>
 #include <Utilities/Logging.h>
-#include <Utilities/Exceptions/UnknownResourceFactoryException.h>
 
 #include "Assets/BaseAsset.h"
 #include "./Factories/AssetFactory.h"
@@ -68,12 +67,12 @@ public:
 	}
 
 	template<class T>
-	T* loadAsset(std::string thePath) {
+	T* loadAsset(const std::string& thePath) {
 		std::vector<char> data = fileTree->getFile(thePath)->getContent();
 		AssetFactory* factory;
 
 		if (factories.count(typeid(T)) == 0) {
-			throw UnknownResourceFactoryException(typeid(T));
+            Log::i(TAG, "Failed to load factory for type: " typename(T));
 			return nullptr;
 		}
 
