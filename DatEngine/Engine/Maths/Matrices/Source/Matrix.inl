@@ -24,9 +24,7 @@ void Matrix<columns, rows, MatType>::setRow(int RowIndex, rowType Row) {
 // Set all cells
 template<int columns, int rows, typename MatType>
 void Matrix<columns, rows, MatType>::set(MatType Value) {
-#pragma unroll
 	for (int column = 0; column < columns; ++column)  {
-#pragma unroll
 		for (int row = 0; row < rows; ++row)
 		{
 			cells[column][row] = Value;
@@ -67,9 +65,7 @@ Matrix<columns, rows, MatType>::Matrix(const type& OtherMat) {
 template<int columns, int rows, typename MatType>
 template <int Columns, int Rows, typename OtherType>
 Matrix<columns, rows, MatType>::Matrix(const Matrix<Columns, Rows, OtherType>& OtherMat) {
-#pragma unroll
 	for (int column = 0; column < columns; ++column) {
-#pragma unroll
 		for (int row = 0; row < rows; ++row) {
 			if (Columns > column && Rows > row) cells[column][row] = (OtherType)OtherMat.cells[column][row];
 			else cells[column][row] = 0;
@@ -121,9 +117,8 @@ MatType const* Matrix<columns, rows, MatType>::operator[](const size_t columnInd
 template<int columns, int rows, typename MatType>
 Matrix<rows, columns, MatType> Matrix<columns, rows, MatType>::transpose() const {
 	Matrix<rows, columns, MatType> temp();
-#pragma unroll
+
 	for (int column = 0; column < columns; ++column) {
-#pragma unroll
 		for (int row = 0; row < rows; ++row) {
 			temp[column][row] = (*this)[row][column];
 		}
@@ -287,12 +282,9 @@ template <int Columns>
 Matrix<Columns, rows, MatType> Matrix<columns, rows, MatType>::operator*(const Matrix<Columns, columns, MatType>& OtherMat) const {
 	Matrix<Columns, rows, MatType> temp = Matrix<Columns, rows, MatType>();
 
-#pragma unroll
 	for (int column = 0; column < Columns; ++column) {
-#pragma unroll
 		for (int row = 0; row < rows; ++row) {
 			MatType newValue = 0;
-#pragma unroll
 			for (int i = 0; i < columns; ++i) {
 				newValue += cells[i][row] * OtherMat[column][i];
 			}
@@ -308,9 +300,7 @@ template<int columns, int rows, typename MatType>
 Vector<columns, MatType> Matrix<columns, rows, MatType>::operator*(const Vector<columns, MatType>& OtherVec) const {
 	Vector<columns, MatType> temp = Vector<columns, MatType>();
 
-#pragma unroll
 	for (int row = 0; row < columns; ++row) {
-#pragma unroll
 		MatType newValue = 0;
 		for (int i = 0; i < columns; ++i) {
 			newValue += cells[i][row] * OtherVec[i];
@@ -325,9 +315,7 @@ Vector<columns, MatType> Matrix<columns, rows, MatType>::operator*(const Vector<
 template<int columns, int rows, typename MatType>
 Matrix<columns, rows, MatType> Matrix<columns, rows, MatType>::operator*(MatType Value) const {
 	type temp = type();
-#pragma unroll
 	for (int row = 0; row < rows; ++row) {
-#pragma unroll
 		for (int column = 0; column < columns; ++column) {
 			temp[column][row] = (*this)[column][row] * Value;
 		}
@@ -340,12 +328,9 @@ template<int columns, int rows, typename MatType>
 Matrix<columns, rows, MatType>& Matrix<columns, rows, MatType>::operator*=(const type& OtherMat) {
 	static_assert(rows == columns, "In place Matrices multiplication only works for square matrices");
 	type copy = type(*this);
-#pragma unroll
 	for (int row = 0; row < rows; ++row) {
-#pragma unroll
 		for (int column = 0; column < columns; ++column) {
 			(*this)[column][row] = 0;
-#pragma unroll
 			for (int i = 0; i < columns; ++i) {
 				(*this)[column][row] += copy[row][i] * OtherMat[i][column];
 			}
@@ -357,9 +342,7 @@ Matrix<columns, rows, MatType>& Matrix<columns, rows, MatType>::operator*=(const
 // Single value in place Multiplication
 template<int columns, int rows, typename MatType>
 Matrix<columns, rows, MatType>& Matrix<columns, rows, MatType>::operator*=(MatType Value) {
-#pragma unroll
 	for (int row = 0; row < rows; ++row) {
-#pragma unroll
 		for (int column = 0; column < columns; ++column) {
 			(*this)[column][row] *= Value;
 		}
@@ -371,9 +354,7 @@ Matrix<columns, rows, MatType>& Matrix<columns, rows, MatType>::operator*=(MatTy
 template<int columns, int rows, typename MatType>
 Matrix<columns, rows, MatType> Matrix<columns, rows, MatType>::operator/(MatType Value) const {
 	type temp = type();
-#pragma unroll
 	for (int row = 0; row < rows; ++row) {
-#pragma unroll
 		for (int column = 0; column < columns; ++column) {
 			temp[column][row] = (*this)[column][row] / Value;
 		}
@@ -384,9 +365,7 @@ Matrix<columns, rows, MatType> Matrix<columns, rows, MatType>::operator/(MatType
 // Single value in place Division
 template<int columns, int rows, typename MatType>
 Matrix<columns, rows, MatType>& Matrix<columns, rows, MatType>::operator/=(MatType Value) {
-#pragma unroll
 	for (int row = 0; row < rows; ++row) {
-#pragma unroll
 		for (int column = 0; column < columns; ++column) {
 			(*this)[column][row] /= Value;
 		}
@@ -399,9 +378,7 @@ Matrix<columns, rows, MatType>& Matrix<columns, rows, MatType>::operator/=(MatTy
 template<int columns, int rows, typename MatType>
 Matrix<columns, rows, MatType> Matrix<columns, rows, MatType>::operator&(const type& otherMat) const {
 	type temp = type(0.f);
-#pragma unroll
 	for (int row = 0; row < rows; ++row) {
-#pragma unroll
 		for (int column = 0; column < columns; ++column) {
 			temp[column][row] = (*this)[column][row] & otherMat[column][row];
 		}
@@ -413,9 +390,7 @@ Matrix<columns, rows, MatType> Matrix<columns, rows, MatType>::operator&(const t
 template<int columns, int rows, typename MatType>
 Matrix<columns, rows, MatType> Matrix<columns, rows, MatType>::operator&(MatType Value) const {
 	type temp = type(0.f);
-#pragma unroll
 	for (int row = 0; row < rows; ++row) {
-#pragma unroll
 		for (int column = 0; column < columns; ++column) {
 			temp[column][row] = (*this)[column][row] & Value;
 		}
@@ -426,9 +401,7 @@ Matrix<columns, rows, MatType> Matrix<columns, rows, MatType>::operator&(MatType
 // In Place And
 template<int columns, int rows, typename MatType>
 Matrix<columns, rows, MatType>& Matrix<columns, rows, MatType>::operator&=(const type& otherMat) {
-#pragma unroll
 	for (int row = 0; row < rows; ++row) {
-#pragma unroll
 		for (int column = 0; column < columns; ++column) {
 			(*this)[column][row] &= otherMat[column][row];
 		}
@@ -439,9 +412,7 @@ Matrix<columns, rows, MatType>& Matrix<columns, rows, MatType>::operator&=(const
 // Single Value In Place And
 template<int columns, int rows, typename MatType>
 Matrix<columns, rows, MatType>& Matrix<columns, rows, MatType>::operator&=(MatType Value) {
-#pragma unroll
 	for (int row = 0; row < rows; ++row) {
-#pragma unroll
 		for (int column = 0; column < columns; ++column) {
 			(*this)[column][row] &= Value;
 		}
@@ -453,9 +424,7 @@ Matrix<columns, rows, MatType>& Matrix<columns, rows, MatType>::operator&=(MatTy
 template<int columns, int rows, typename MatType>
 Matrix<columns, rows, MatType> Matrix<columns, rows, MatType>::operator|(const type& otherMat) const {
 	type temp = type(0.f);
-#pragma unroll
 	for (int row = 0; row < rows; ++row) {
-#pragma unroll
 		for (int column = 0; column < columns; ++column) {
 			temp[column][row] = (*this)[column][row] | otherMat[column][row];
 		}
@@ -467,9 +436,7 @@ Matrix<columns, rows, MatType> Matrix<columns, rows, MatType>::operator|(const t
 template<int columns, int rows, typename MatType>
 Matrix<columns, rows, MatType> Matrix<columns, rows, MatType>::operator|(MatType Value) const {
 	type temp = type(0.f);
-#pragma unroll
 	for (int row = 0; row < rows; ++row) {
-#pragma unroll
 		for (int column = 0; column < columns; ++column) {
 			temp[column][row] = (*this)[column][row] | Value;
 		}
@@ -480,9 +447,7 @@ Matrix<columns, rows, MatType> Matrix<columns, rows, MatType>::operator|(MatType
 // In Place Or
 template<int columns, int rows, typename MatType>
 Matrix<columns, rows, MatType>& Matrix<columns, rows, MatType>::operator|=(const type& otherMat) {
-#pragma unroll
 	for (int row = 0; row < rows; ++row) {
-#pragma unroll
 		for (int column = 0; column < columns; ++column) {
 			(*this)[column][row] |= otherMat[column][row];
 		}
@@ -493,9 +458,7 @@ Matrix<columns, rows, MatType>& Matrix<columns, rows, MatType>::operator|=(const
 // Single Value In Place Or
 template<int columns, int rows, typename MatType>
 Matrix<columns, rows, MatType>& Matrix<columns, rows, MatType>::operator|=(MatType Value) {
-#pragma unroll
 	for (int row = 0; row < rows; ++row) {
-#pragma unroll
 		for (int column = 0; column < columns; ++column) {
 			(*this)[column][row] |= Value;
 		}
@@ -507,9 +470,7 @@ Matrix<columns, rows, MatType>& Matrix<columns, rows, MatType>::operator|=(MatTy
 template<int columns, int rows, typename MatType>
 Matrix<columns, rows, MatType> Matrix<columns, rows, MatType>::operator^(const type& otherMat) const {
 	type temp = type(0.f);
-#pragma unroll
 	for (int row = 0; row < rows; ++row) {
-#pragma unroll
 		for (int column = 0; column < columns; ++column) {
 			temp[column][row] = (*this)[column][row] ^ otherMat[column][row];
 		}
@@ -521,9 +482,7 @@ Matrix<columns, rows, MatType> Matrix<columns, rows, MatType>::operator^(const t
 template<int columns, int rows, typename MatType>
 Matrix<columns, rows, MatType> Matrix<columns, rows, MatType>::operator^(MatType Value) const {
 	type temp = type(0.f);
-#pragma unroll
 	for (int row = 0; row < rows; ++row) {
-#pragma unroll
 		for (int column = 0; column < columns; ++column) {
 			temp[column][row] = (*this)[column][row] ^ Value;
 		}
@@ -534,9 +493,7 @@ Matrix<columns, rows, MatType> Matrix<columns, rows, MatType>::operator^(MatType
 // In Place XOR
 template<int columns, int rows, typename MatType>
 Matrix<columns, rows, MatType>& Matrix<columns, rows, MatType>::operator^=(const type& otherMat) {
-#pragma unroll
 	for (int row = 0; row < rows; ++row) {
-#pragma unroll
 		for (int column = 0; column < columns; ++column) {
 			(*this)[column][row] ^= otherMat[column][row];
 		}
@@ -547,9 +504,7 @@ Matrix<columns, rows, MatType>& Matrix<columns, rows, MatType>::operator^=(const
 // Single Value In Place XOR
 template<int columns, int rows, typename MatType>
 Matrix<columns, rows, MatType>& Matrix<columns, rows, MatType>::operator^=(MatType Value) {
-#pragma unroll
 	for (int row = 0; row < rows; ++row) {
-#pragma unroll
 		for (int column = 0; column < columns; ++column) {
 			(*this)[column][row] ^= Value;
 		}
@@ -561,9 +516,7 @@ Matrix<columns, rows, MatType>& Matrix<columns, rows, MatType>::operator^=(MatTy
 // Equal
 template<int columns, int rows, typename MatType>
 bool Matrix<columns, rows, MatType>::operator==(const type& otherMat) {
-#pragma unroll
 	for (int row = 0; row < rows; ++row) {
-#pragma unroll
 		for (int column = 0; column < columns; ++column) {
 			if (*this)[column][row] != otherMat[column][row] return false;
 		}
@@ -574,9 +527,7 @@ bool Matrix<columns, rows, MatType>::operator==(const type& otherMat) {
 // Not Equal
 template<int columns, int rows, typename MatType>
 bool Matrix<columns, rows, MatType>::operator!=(const type& otherMat) {
-#pragma unroll
 	for (int row = 0; row < rows; ++row) {
-#pragma unroll
 		for (int column = 0; column < columns; ++column) {
 			if (*this)[column][row] != otherMat[column][row] return true;
 		}

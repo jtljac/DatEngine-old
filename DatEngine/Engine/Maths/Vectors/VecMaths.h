@@ -14,7 +14,6 @@ namespace Maths {
 	template<int Size, typename VecType, typename ReturnType = VecType>
 	ReturnType dotProduct(const Vector<Size, VecType>& Vec1, const Vector<Size, VecType>& Vec2) {
 		ReturnType temp = 0;
-#pragma unroll
 		for (int i = 0; i < Size; ++i) {
 			temp += static_cast<ReturnType>(Vec1[i] * Vec2[i]);
 		}
