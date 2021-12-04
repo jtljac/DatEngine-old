@@ -72,7 +72,7 @@ public:
 		AssetFactory* factory;
 
 		if (factories.count(typeid(T)) == 0) {
-            Log::i(TAG, "Failed to load factory for type: " typename(T));
+            Log::i(TAG, "Failed to load factory for type: " + std::string(typeid(T).name()));
 			return nullptr;
 		}
 
