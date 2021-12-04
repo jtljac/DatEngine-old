@@ -34,7 +34,7 @@ public:
 		std::vector<pair> files(archive->size());
 
 		for (const std::string& path : paths) {
-			files.emplace_back(path, std::make_unique<DVFSArchiveFile>(path, archive));
+			files.emplace_back(path, new DVFSArchiveFile(path, archive));
 		}
 
 		return files;
