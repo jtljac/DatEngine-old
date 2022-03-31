@@ -6,7 +6,3 @@ target_sources (DatEngine
 					"Logging.h"
 				PRIVATE
 					"Source/FileUtilities.cpp")
-# Exceptions
-target_sources (DatEngine 
-				PUBLIC
-					"Exceptions/UnknownResourceFactoryException.h")
