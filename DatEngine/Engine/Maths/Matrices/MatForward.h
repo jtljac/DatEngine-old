@@ -15,10 +15,10 @@ struct Matrix {
 	void set(int Column, int Row, MatType Value);
 
 	// Set Column
-	void setColumn(int ColumnIndex, columnType Column);
+    [[maybe_unused]] void setColumn(int ColumnIndex, columnType Column);
 
 	// Set Row
-	void setRow(int RowIndex, rowType Row);
+    [[maybe_unused]] void setRow(int RowIndex, rowType Row);
 
 	// Set all cells
 	void set(MatType Value);
@@ -28,13 +28,13 @@ struct Matrix {
 	Matrix();
 
 	// Single value
-	Matrix(MatType Value);
+	explicit Matrix(MatType Value);
 
 	// 2D Array
-	Matrix(MatType Cells[columns][rows]);
+	explicit Matrix(MatType Cells[columns][rows]);
 
 	// 1D Array
-	Matrix(const MatType Cells[columns * rows]);
+	explicit Matrix(const MatType Cells[columns * rows]);
 
 	// Copy Constructor
 	Matrix(const type &OtherMat);
@@ -49,12 +49,12 @@ struct Matrix {
 	static type identity();
 
 	// Subscript
-	MatType* operator[](const size_t columnIndex);
-	MatType const* operator[](const size_t columnIndex) const;
+	MatType* operator[](size_t columnIndex);
+	MatType const* operator[](size_t columnIndex) const;
 
 	// Maths
 	// Transpose
-	Matrix<rows, columns, MatType> transpose() const;
+    [[maybe_unused]] Matrix<rows, columns, MatType> transpose() const;
 
 	// Addition
 	type operator+(const type& otherMat) const;
@@ -72,7 +72,7 @@ struct Matrix {
 	type& operator++();
 
 	// Postcrement
-	type operator++(int);
+    type operator++(int);
 
 	// Negation
 	type operator-() const;

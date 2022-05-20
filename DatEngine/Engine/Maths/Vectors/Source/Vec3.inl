@@ -1,5 +1,3 @@
-#include <Maths/CommonMaths.h>
-
 /** A vector pointing up (0,1,0) */
 template<typename VecType>
 const Vector<3, VecType> Vector<3, VecType>::up = Vector<3, VecType>(0, 1, 0);
@@ -70,7 +68,7 @@ Vector<3, VecType>::Vector(const type& OtherVec) : x(OtherVec.x), y(OtherVec.y),
  * @param Z The Z component of the vector
  */
 template<typename VecType>
-Vector<3, VecType>::Vector(const Vector<2, VecType>& OtherVec, VecType Z) : x(OtherVec.x), y(OtherVec.y), z(Z);
+Vector<3, VecType>::Vector(const Vector<2, VecType>& OtherVec, VecType Z) : x(OtherVec.x), y(OtherVec.y), z(Z) {};
 
 /**
  * Initialises as a copy of the given 4D Vector, reduced down to a 3d vector
@@ -416,20 +414,20 @@ bool Vector<3, VecType>::operator!=(const type& OtherVec) const {
 }
 
 /**
- * Compares the components of this vector to the equivalent components of the given vector, returns true if the components are within ± the given tolerence of the given vector's components
+ * Compares the components of this vector to the equivalent components of the given vector, returns true if the components are within Â± the given tolerence of the given vector's components
  * @param OtherVec The vector to compare to
  * @param Tolerance How far off the vector can be before
  * @return Whether the components are equal
  */
 template<typename VecType>
-bool Vector<3, VecType>::equals(const type& OtherVec, VecType Tolerance) const {
+[[maybe_unused]] bool Vector<3, VecType>::equals(const type& OtherVec, VecType Tolerance) const {
 	return fabs(x - OtherVec.x) < Tolerance && fabs(y - OtherVec.y) < Tolerance && fabs(z - OtherVec.z) < Tolerance;
 }
 
 /**
  * Gets the squared scalar size of the vector
  * The sum of the squares of each component
- * Useful for comparing the size of vectors as the length squared will remain bigger or smaller like the actualy lengths compared, but it skips the expensive square root calculation
+ * Useful for comparing the size of vectors as the length squared will remain bigger or smaller like the actual lengths compared, but it skips the expensive square root calculation
  * @return The squared scalar size of the vector
  */
 template<typename VecType>
@@ -470,6 +468,6 @@ Vector<3, VecType> Vector<3, VecType>::normalised() const {
  * @return True if the vector is normalised
  */
 template<typename VecType>
-bool Vector<3, VecType>::isNormalised(VecType Tolerance) const {
+[[maybe_unused]] bool Vector<3, VecType>::isNormalised(VecType Tolerance) const {
 	return abs(lengthSquared() - 1.f) < Tolerance;
 }

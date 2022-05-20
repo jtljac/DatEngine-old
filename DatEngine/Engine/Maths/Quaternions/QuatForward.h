@@ -16,7 +16,7 @@ struct Quaternion {
 
 	// Constructors
 	// Empty
-	Quaternion();
+	Quaternion() = default;
 
 	// Components
 	Quaternion(QuatType Scalar, VecType Vec);
@@ -29,7 +29,7 @@ struct Quaternion {
 	// Conversion
 	// Type
 	template <typename OtherType>
-	Quaternion(Quaternion<OtherType> OtherQuat);
+	explicit Quaternion(Quaternion<OtherType> OtherQuat);
 
 	// Rotator
 	static type rotator(Rotator<QuatType> OtherRot);
@@ -41,9 +41,9 @@ struct Quaternion {
 	static type axisAngle(VecType axis, QuatType angle);
 
 	// Tests
-	bool isPure() const;
+	[[nodiscard]] bool isPure() const;
 
-	bool isReal() const;
+	[[nodiscard]] bool isReal() const;
 
 	// Maths
 	// Addition

@@ -12,14 +12,9 @@
 #define GLM_FORCE_RADIANS
 #define GLM_FORCE_XYZW_ONLY
 #define GLM_FORCE_DEPTH_ZERO_TO_ONE
-#include <glm/glm.hpp>
-#include <glm/gtc/quaternion.hpp> 
-#include <glm/gtx/quaternion.hpp>
 #include <glm/ext/quaternion_trigonometric.hpp>
-#include <glm/ext/quaternion_transform.hpp>
 
 #include <Maths/Vector4D.h>
-#include <Maths/Matrix.h>
 
 VulkanRenderer theRenderer;
 
@@ -30,6 +25,8 @@ int main() {
 	Timing::initialise();
 
 	theRenderer.initialise(800, 600, "Vulkan Test", &assMan);
+
+    FVector4D test33;
 
 	// Main Loop
 	double lastTime = Timing::getTime();

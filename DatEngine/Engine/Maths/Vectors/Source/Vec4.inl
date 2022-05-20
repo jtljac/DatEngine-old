@@ -1,4 +1,3 @@
-#include <Maths/CommonMaths.h>
 
 /**
  * Initialises at 0,0,0,0
@@ -48,7 +47,7 @@ Vector<4, VecType>::Vector(const type& OtherVec) : x(OtherVec.x), y(OtherVec.y),
  * @param W The W component of the vector
  */
 template<typename VecType>
-Vector<4, VecType>::Vector(const Vector<2, VecType>& OtherVec, VecType Z, VecType W) : x(OtherVec.x), y(OtherVec.y), z(Z), w(W);
+Vector<4, VecType>::Vector(const Vector<2, VecType>& OtherVec, VecType Z, VecType W) : x(OtherVec.x), y(OtherVec.y), z(Z), w(W) {}
 
 /**
  * Initialises as a copy of the given 3D Vector and with the given W component
@@ -192,6 +191,7 @@ Vector<4, VecType>& Vector<4, VecType>::operator++() {
 	y += 1;
 	z += 1;
 	w += 1;
+
 	return *this;
 }
 
@@ -408,13 +408,13 @@ bool Vector<4, VecType>::operator!=(const type& OtherVec) const {
 }
 
 /**
- * Compares the components of this vector to the equivalent components of the given vector, returns true if the components are within ± the given tolerence of the given vector's components
+ * Compares the components of this vector to the equivalent components of the given vector, returns true if the components are within Â± the given tolerence of the given vector's components
  * @param OtherVec The vector to compare to
  * @param Tolerance How far off the vector can be before
  * @return Whether the components are equal
  */
 template<typename VecType>
-bool Vector<4, VecType>::equals(const type& OtherVec, VecType Tolerance) const {
+[[maybe_unused]] bool Vector<4, VecType>::equals(const type& OtherVec, VecType Tolerance) const {
 	return fabs(x - OtherVec.x) < Tolerance && fabs(y - OtherVec.y) < Tolerance && fabs(z - OtherVec.z) < Tolerance && fabs(w - OtherVec.w) < Tolerance;
 }
 
@@ -453,7 +453,7 @@ void Vector<4, VecType>::normalise() {
  */
 template<typename VecType>
 Vector<4, VecType> Vector<4, VecType>::normalised() const {
-	return (Vector<4, ResultType>)(*this) * Maths::inverseSqrt(length());
+	return (Vector<4, VecType>)(*this) * Maths::inverseSqrt(length());
 }
 
 /**
@@ -462,6 +462,6 @@ Vector<4, VecType> Vector<4, VecType>::normalised() const {
  * @return True if the vector is normalised
  */
 template<typename VecType>
-bool Vector<4, VecType>::isNormalised(VecType Tolerance) const {
+[[maybe_unused]] bool Vector<4, VecType>::isNormalised(VecType Tolerance) const {
 	return fabs(lengthSquared() - 1.f) < Tolerance;
 }

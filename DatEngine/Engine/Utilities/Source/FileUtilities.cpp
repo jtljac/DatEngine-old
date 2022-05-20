@@ -44,7 +44,6 @@ std::string FileUtilities::getFileContent(std::ifstream& file)
 	}
 	else {
 		throw std::runtime_error("File is not open");
-		return "";
 	}
 }
 
@@ -55,7 +54,6 @@ std::string FileUtilities::getFileContent(std::fstream& file)
 	}
 	else {
 		throw std::runtime_error("File is not open");
-		return "";
 	}
 }
 

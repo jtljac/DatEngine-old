@@ -11,25 +11,25 @@ namespace Maths {
 
 	// Translate
 	template <typename MatType>
-	Matrix<4, 4, MatType> translate(const Matrix<4, 4, MatType>& BaseMatrix, const Vector<3, MatType>& TranslationVector);
+    [[maybe_unused]] Matrix<4, 4, MatType> translate(const Matrix<4, 4, MatType>& BaseMatrix, const Vector<3, MatType>& TranslationVector);
 
 	// Rotate
 	// Pitch
 	template <typename MatType>
-	Matrix<4, 4, MatType> rotatePitch(const Matrix<4, 4, MatType>& BaseMatrix, MatType angle);
+    [[maybe_unused]] Matrix<4, 4, MatType> rotatePitch(const Matrix<4, 4, MatType>& BaseMatrix, MatType angle);
 
 	// Yaw
 	template <typename MatType>
-	Matrix<4, 4, MatType> rotateYaw(const Matrix<4, 4, MatType>& BaseMatrix, MatType angle);
+    [[maybe_unused]] Matrix<4, 4, MatType> rotateYaw(const Matrix<4, 4, MatType>& BaseMatrix, MatType angle);
 
 	// Roll
 	template <typename MatType>
-	Matrix<4, 4, MatType> rotateRoll(const Matrix<4, 4, MatType>& BaseMatrix, MatType angle);
+    [[maybe_unused]] Matrix<4, 4, MatType> rotateRoll(const Matrix<4, 4, MatType>& BaseMatrix, MatType angle);
 
 
 	// Rotator
 	template <typename MatType>
-	Matrix<4, 4, MatType> rotate(const Matrix<4, 4, MatType>& BaseMatrix, const Rotator<MatType>& Rotation);
+    [[maybe_unused]] Matrix<4, 4, MatType> rotate(const Matrix<4, 4, MatType>& BaseMatrix, const Rotator<MatType>& Rotation);
 
 	/**
 	 * Calculates a rotation matrix from an axis and an angle
@@ -39,43 +39,43 @@ namespace Maths {
 	 * @param Axis The axis to rotate around, must be normalised
 	 */
 	template <typename MatType>
-	Matrix<4, 4, MatType> rotate(const Matrix<4, 4, MatType>& BaseMatrix, MatType Angle, const FVector& Axis);
+    [[maybe_unused]] Matrix<4, 4, MatType> rotate(const Matrix<4, 4, MatType>& BaseMatrix, MatType Angle, const FVector& Axis);
 
 	// Quat
 	template <typename MatType>
-	Matrix<4, 4, MatType> rotate(const Matrix<4, 4, MatType>& BaseMatrix, const Quaternion<MatType>& Quat);
+    [[maybe_unused]] Matrix<4, 4, MatType> rotate(const Matrix<4, 4, MatType>& BaseMatrix, const Quaternion<MatType>& Quat);
 
 	// Scale
 	// Single Value
 	template <typename MatType>
-	Matrix<4, 4, MatType> scale(const Matrix<4, 4, MatType>& BaseMatrix, MatType Amount);
+    [[maybe_unused]] Matrix<4, 4, MatType> scale(const Matrix<4, 4, MatType>& BaseMatrix, MatType Amount);
 
 	// Components
 	template <typename MatType>
-	Matrix<4, 4, MatType> scale(const Matrix<4, 4, MatType>& BaseMatrix, MatType X, MatType Y, MatType Z);
+    [[maybe_unused]] Matrix<4, 4, MatType> scale(const Matrix<4, 4, MatType>& BaseMatrix, MatType X, MatType Y, MatType Z);
 
 	// Scale Vector
 	template <typename MatType>
-	Matrix<4, 4, MatType> scale(const Matrix<4, 4, MatType>& BaseMatrix, const Vector<3, MatType>& scaleVec);
+    [[maybe_unused]] Matrix<4, 4, MatType> scale(const Matrix<4, 4, MatType>& BaseMatrix, const Vector<3, MatType>& scaleVec);
 
 	// Perspective
 	template <typename MatType>
-	Matrix<4, 4, MatType> perspectiveProjection(MatType FOV, MatType AspectRatio, MatType NearPlane, MatType FarPlane);
+    [[maybe_unused]] Matrix<4, 4, MatType> perspectiveProjection(MatType FOV, MatType AspectRatio, MatType NearPlane, MatType FarPlane);
 
 	// TODO: Orthographic
 
 	// Look at
 	template <typename MatType>
-	Matrix<4, 4, MatType> lookAt(const Vector<3, MatType>& CameraPosition, const Vector<3, MatType>& TargetPosition, const Vector<3, MatType>& worldUp);
+    [[maybe_unused]] Matrix<4, 4, MatType> lookAt(const Vector<3, MatType>& CameraPosition, const Vector<3, MatType>& TargetPosition, const Vector<3, MatType>& worldUp);
 
 	// View Matrix
 	// Rotator
 	template <typename MatType>
-	Matrix<4, 4, MatType> viewMatrix(const Vector<3, MatType>& CameraPosition, const Rotator<MatType>& CameraRotation);
+    [[maybe_unused]] Matrix<4, 4, MatType> viewMatrix(const Vector<3, MatType>& CameraPosition, const Rotator<MatType>& CameraRotation);
 
 	// Quaternion
 	template <typename MatType>
-	Matrix<4, 4, MatType> viewMatrix(const Vector<3, MatType>& CameraPosition, const Quaternion<MatType>& CameraRotation);
+    [[maybe_unused]] Matrix<4, 4, MatType> viewMatrix(const Vector<3, MatType>& CameraPosition, const Quaternion<MatType>& CameraRotation);
 }
 
 #include "Source/MatrixMaths.inl"

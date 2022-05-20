@@ -1,6 +1,6 @@
 // Translate
 template<typename MatType>
-Matrix<4, 4, MatType>
+[[maybe_unused]] Matrix<4, 4, MatType>
 Maths::translate(const Matrix<4, 4, MatType>& BaseMatrix, const Vector<3, MatType>& TranslationVector) {
     Matrix<4, 4, MatType> temp(BaseMatrix);
 

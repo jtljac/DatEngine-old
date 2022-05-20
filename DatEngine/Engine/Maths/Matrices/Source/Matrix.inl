@@ -11,14 +11,16 @@ void Matrix<columns, rows, MatType>::set(int Column, int Row, MatType Value) {
 
 // Set Column
 template<int columns, int rows, typename MatType>
-void Matrix<columns, rows, MatType>::setColumn(int ColumnIndex, columnType Column) {
-	
+[[maybe_unused]] void Matrix<columns, rows, MatType>::setColumn(int ColumnIndex, columnType Column) {
+    std::memcpy(cells[ColumnIndex], &Column, sizeof(Column));
 }
 
 // Set Row
 template<int columns, int rows, typename MatType>
-void Matrix<columns, rows, MatType>::setRow(int RowIndex, rowType Row) {
-	
+[[maybe_unused]] void Matrix<columns, rows, MatType>::setRow(int RowIndex, rowType Row) {
+    for (int i = 0; i < columns; ++i) {
+        cells[i][RowIndex] = Row[i];
+    }
 }
 
 // Set all cells
@@ -35,7 +37,7 @@ void Matrix<columns, rows, MatType>::set(MatType Value) {
 // Constructors
 // Empty constructor
 template<int columns, int rows, typename MatType>
-Matrix<columns, rows, MatType>::Matrix() {}
+Matrix<columns, rows, MatType>::Matrix() = default;
 
 // Single value
 template<int columns, int rows, typename MatType>
@@ -115,8 +117,8 @@ MatType const* Matrix<columns, rows, MatType>::operator[](const size_t columnInd
 // Maths
 // Transpose
 template<int columns, int rows, typename MatType>
-Matrix<rows, columns, MatType> Matrix<columns, rows, MatType>::transpose() const {
-	Matrix<rows, columns, MatType> temp();
+[[maybe_unused]] Matrix<rows, columns, MatType> Matrix<columns, rows, MatType>::transpose() const {
+	Matrix<rows, columns, MatType> temp{};
 
 	for (int column = 0; column < columns; ++column) {
 		for (int row = 0; row < rows; ++row) {
@@ -198,7 +200,7 @@ Matrix<columns, rows, MatType> Matrix<columns, rows, MatType>::operator++(int) {
 template<int columns, int rows, typename MatType>
 Matrix<columns, rows, MatType> Matrix<columns, rows, MatType>::operator-() const {
 	type temp = type(0.f);
-	for (int row = 0; row < rows; ++row) const {
+	for (int row = 0; row < rows; ++row) {
 		for (int column = 0; column < columns; ++column) {
 			temp[column][row] = -(*this)[column][row];
 		}
@@ -518,7 +520,7 @@ template<int columns, int rows, typename MatType>
 bool Matrix<columns, rows, MatType>::operator==(const type& otherMat) {
 	for (int row = 0; row < rows; ++row) {
 		for (int column = 0; column < columns; ++column) {
-			if (*this)[column][row] != otherMat[column][row] return false;
+			if ((*this)[column][row] != otherMat[column][row]) return false;
 		}
 	}
 	return true;
@@ -529,7 +531,7 @@ template<int columns, int rows, typename MatType>
 bool Matrix<columns, rows, MatType>::operator!=(const type& otherMat) {
 	for (int row = 0; row < rows; ++row) {
 		for (int column = 0; column < columns; ++column) {
-			if (*this)[column][row] != otherMat[column][row] return true;
+			if ((*this)[column][row] != otherMat[column][row]) return true;
 		}
 	}
 	return false;

@@ -1,6 +1,7 @@
 #pragma once
 
 #include "VecForward.h"
+#include "../CommonMaths.h"
 
 #ifdef _DEBUG
 	#include <stdexcept>
@@ -34,7 +35,7 @@ struct Vector<3, VecType> {
 	 * Initialises with xyz each set to the given value
 	 * @param Value The value to set xyz to
 	 */
-	Vector(VecType Value);
+	explicit Vector(VecType Value);
 
 	/**
 	 * Initialises with xyz set to their respective given value
@@ -48,7 +49,7 @@ struct Vector<3, VecType> {
 	 * Initialises with an array
 	 * @param Array The Array containing the components of the vector
 	 */
-	Vector(VecType Array[3]);
+	explicit Vector(VecType Array[3]);
 
 
 	// Copy Constructors
@@ -69,7 +70,7 @@ struct Vector<3, VecType> {
 	 * Initialises as a copy of the given 4D Vector, reduced down to a 3d vector
 	 * @param OtherVec The 4D Vector to copy from
 	 */
-	Vector(const Vector<4, VecType>& OtherVec);
+	explicit Vector(const Vector<4, VecType>& OtherVec);
 	
 	/**
 	 * Initialises as a copy of a vector of a different type
@@ -152,7 +153,7 @@ struct Vector<3, VecType> {
 	 * Increments each component of the vector and returns the vector before incrementing
 	 * @return The vector before being incremented
 	 */
-	type operator++(int);
+    Vector<3, VecType> operator++(int);
 
 	/**
 	 * Gets the negation of the vector
@@ -272,12 +273,12 @@ struct Vector<3, VecType> {
 	bool operator!=(const type& OtherVec) const;
 
 	/**
-	 * Compares the components of this vector to the equivalent components of the given vector, returns true if the components are within ± the given tolerence of the given vector's components
+	 * Compares the components of this vector to the equivalent components of the given vector, returns true if the components are within Â± the given tolerence of the given vector's components
 	 * @param OtherVec The vector to compare to
 	 * @param Tolerence How far off the vector can be before
 	 * @return Whether the components are equal
 	 */
-	bool equals(const type& OtherVec, VecType Tolerance = Numbers::tiny) const;
+    [[maybe_unused]] bool equals(const type& OtherVec, VecType Tolerance = Maths::Numbers::tinyNumber) const;
 
 	/**
 	 * Gets the squared scalar size of the vector
@@ -310,7 +311,7 @@ struct Vector<3, VecType> {
 	 * (Has a length of one)
 	 * @return True if the vector is normalised
 	 */
-	bool isNormalised(VecType Tolerance = Tolerances::normalisedTolerance) const;
+    [[maybe_unused]] bool isNormalised(VecType Tolerance = Maths::Tolerances::normalisedTolerance) const;
 };
 
 #include "Source/Vec3.inl"

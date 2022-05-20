@@ -27,7 +27,7 @@ struct Vector<2, VecType> {
 	 * Initialises with xy each set to the given value
 	 * @param Value The value to set xy to
 	 */
-	Vector(VecType Value);
+	explicit Vector(VecType Value);
 
 	/**
 	 * Initialises with xyz set to their respective given value
@@ -40,7 +40,7 @@ struct Vector<2, VecType> {
 	 * Initialises with an array
 	 * @param Array The Array containing the components of the vector
 	 */
-	Vector(VecType Array[2]);
+	explicit Vector(VecType Array[2]);
 
 
 	// Copy Constructors
@@ -54,13 +54,13 @@ struct Vector<2, VecType> {
 	 * Initialises as a copy of the given 3D vector, reduced down to a 2d vector
 	 * @param OtherVec The 3D Vector to copy from
 	 */
-	Vector(const Vector<3, VecType>& OtherVec);
+	explicit Vector(const Vector<3, VecType>& OtherVec);
 
 	/**
 	 * Initialises as a copy of the given 4D Vector, reduced down to a 2d vector
 	 * @param OtherVec The 4D Vector to copy from
 	 */
-	Vector(const Vector<4, VecType>& OtherVec);
+	explicit Vector(const Vector<4, VecType>& OtherVec);
 	
 	/**
 	 * Initialises as a copy of a vector of a different type
@@ -95,14 +95,14 @@ struct Vector<2, VecType> {
 	 * @param Index The index of the component (0 -> X, 1 -> Y)
 	 * @return A reference to the component at the given index
 	 */
-	VecType& operator[](const size_t Index);
+	VecType& operator[](size_t Index);
 
 	/**
 	 * Gets a const reference to the component at the given index
 	 * @param Index The index of the component (0 -> X, 1 -> Y)
 	 * @return A const reference to the component at the given index
 	 */
-	VecType& operator[](const size_t Index) const;
+	VecType& operator[](size_t Index) const;
 
 	/**
 	 * Adds together two vectors
@@ -142,7 +142,7 @@ struct Vector<2, VecType> {
 	 * Increments each component of the vector and returns the vector before incrementing
 	 * @return The vector before being incremented
 	 */
-	type operator++(int);
+    type operator++(int);
 
 	/**
 	 * Gets the negation of the vector
@@ -262,12 +262,12 @@ struct Vector<2, VecType> {
 	bool operator!=(const type& OtherVec) const;
 
 	/**
-	 * Compares the components of this vector to the equivalent components of the given vector, returns true if the components are within ± the given tolerence of the given vector's components
+	 * Compares the components of this vector to the equivalent components of the given vector, returns true if the components are within Â± the given tolerence of the given vector's components
 	 * @param OtherVec The vector to compare to
 	 * @param Tolerence How far off the vector can be before
 	 * @return Whether the components are equal
 	 */
-	bool equals(const type& OtherVec, VecType Tolerance = Numbers::tiny) const;
+    [[maybe_unused]] bool equals(const type& OtherVec, VecType Tolerance = Maths::Numbers::tinyNumber) const;
 
 	/**
 	 * Gets the squared scalar size of the vector
@@ -300,7 +300,7 @@ struct Vector<2, VecType> {
 	 * (Has a length of one)
 	 * @return True if the vector is normalised
 	 */
-	bool isNormalised(VecType Tolerance = Tolerances::normalisedTolerance) const;
+    [[maybe_unused]] bool isNormalised(VecType Tolerance = Maths::Tolerances::normalisedTolerance) const;
 };
 
 #include "Source/Vec2.inl"

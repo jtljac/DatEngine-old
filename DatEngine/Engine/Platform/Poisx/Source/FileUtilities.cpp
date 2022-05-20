@@ -13,7 +13,7 @@
 
 std::filesystem::path FileUtilities::getDataPath() {
 	std::filesystem::path dest;
-	// If Linux ask for Data documents env
+	// Ask for Data documents env
 
 	std::string homeDir = getenv("XDG_DATA_HOME");
 	if (homeDir.empty()) {
