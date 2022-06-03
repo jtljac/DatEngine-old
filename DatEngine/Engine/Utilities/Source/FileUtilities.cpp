@@ -14,7 +14,7 @@ std::ofstream FileUtilities::createFile(const std::filesystem::path& filePath) {
 
 	// Open File
 	theFile.open(filePath);
-	// Log::i("File Utilities", "Created File " + filename + " at " + directory);
+	// Log::info("File Utilities", "Created File " + filename + " at " + directory);
 	return std::move(theFile);
 }
 

@@ -72,7 +72,7 @@ public:
 		AssetFactory* factory;
 
 		if (factories.count(typeid(T)) == 0) {
-            Log::i(TAG, "Failed to load factory for type: " + std::string(typeid(T).name()));
+            Log::warn(TAG, "Failed to load factory for type: " + std::string(typeid(T).name()));
 			return nullptr;
 		}
 
@@ -86,7 +86,7 @@ public:
 		// Ensure cast was successful
 		assert(actualAsset);
 
-		Log::i(TAG, "Loaded asset " + thePath);
+		Log::info(TAG, "Loaded asset " + thePath);
 
 		return actualAsset;
 	}

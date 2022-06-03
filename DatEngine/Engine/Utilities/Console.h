@@ -29,10 +29,10 @@ public:
 	explicit ColourMod(ConsoleColour theColour) : colour(theColour) {}
 
     explicit operator std::string() const {
-        return "\033[" + std::to_string((int) colour) + "m";
+        return "\x1B[" + std::to_string((int) colour) + "m";
     }
 
 	friend std::ostream& operator<< (std::ostream& stream, const ColourMod mod) {
-		return stream << "\033[" << (int) mod.colour << "m";
+		return stream << (std::string) mod;
 	}
 };

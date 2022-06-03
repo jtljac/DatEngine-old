@@ -26,7 +26,7 @@ bool VulkanRenderer::checkValidationLayerSupport() {
             }
         }
         if (!layerFound) {
-            Log::w(TAG, "Failed to find Validation Layer: " + (std::string) layerName);
+            Log::warn(TAG, "Failed to find Validation Layer: " + (std::string) layerName);
             return false;
         }
     }
@@ -311,7 +311,7 @@ VkSurfaceFormatKHR VulkanRenderer::chooseSwapSurfaceFormat(const std::vector<VkS
         if (availableFormat.format == VK_FORMAT_B8G8R8A8_SRGB && availableFormat.colorSpace == VK_COLORSPACE_SRGB_NONLINEAR_KHR) return availableFormat;
     }
 
-    Log::w(TAG, "Prefered swap surface missing, defaulting to first available format");
+    Log::warn(TAG, "Preferred swap surface missing, defaulting to first available format");
 
     // Return first format (Because we don't support our prefered)
     return availableFormats[0];
@@ -331,7 +331,7 @@ VkPresentModeKHR VulkanRenderer::chooseSwapPresentMode(const std::vector<VkPrese
         }
     }
 
-    Log::w(TAG, "Prefered present mode unavailable, defaulting to FIFO");
+    Log::warn(TAG, "Preferred present mode unavailable, defaulting to FIFO");
 
     // Return guaranteed present mode (because our prefered isn't there)
     // return VK_PRESENT_MODE_FIFO_KHR;

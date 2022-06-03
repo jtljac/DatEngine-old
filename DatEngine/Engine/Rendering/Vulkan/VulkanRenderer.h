@@ -406,7 +406,7 @@ public:
 
         Log::i(TAG, "Initialising Vulkan Renderer");
         
-        assMan = AssMan;
+        Log::info(TAG, "Initialising Vulkan Renderer");
 
         createInstance();
         setupDebugMessenger();
@@ -433,7 +433,7 @@ public:
 	}
 
     void recreateSwapChain() {
-        Log::i(TAG, "Changes to screen detected, recreating swap chain");
+        Log::info(TAG, "Changes to screen detected, recreating swap chain");
         int width = 0, height = 0;
         glfwGetFramebufferSize(window, &width, &height);
         while (width == 0 || height == 0) {

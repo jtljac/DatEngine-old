@@ -34,7 +34,7 @@ public:
 
 	void finish() {
 		if (finished) {
-			Log::w("Profiler", "Tried to finish profiler more than once, ignoring");
+			Log::warn("Profiler", "Tried to finish profiler more than once, ignoring");
 			return;
 		}
 

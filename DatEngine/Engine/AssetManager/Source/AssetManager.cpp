@@ -7,7 +7,7 @@ void AssetManager::populate() {
 
 	// Make not-constant
 	if (true) {
-		Log::i(TAG, "Loading Loose Files");
+		Log::info(TAG, "Loading Loose Files");
 		addLooseFiles();
 	}
 }
@@ -18,7 +18,7 @@ void AssetManager::addArchives()
 
 	for (std::filesystem::directory_entry entry : std::filesystem::directory_iterator(resourcesPath)) {
 		if (!entry.is_directory() && entry.path().extension() == "dat") {
-			Log::i(TAG, "Adding archive " + entry.path().string());
+			Log::info(TAG, "Adding archive " + entry.path().string());
 
 			DVFSDatArchiveInserter archiveFile(entry.path());
 			fileTree->insertFiles(archiveFile);
@@ -30,7 +30,7 @@ void AssetManager::addLooseFiles()
 {
 	std::filesystem::path resourcesPath = FileUtilities::getResourcesPath();
 
-	Log::i(TAG, "Adding loose files in " + resourcesPath.string());
+	Log::info(TAG, "Adding loose files in " + resourcesPath.string());
 
 	// Build regex string that looks like ^(.(?!.*\\.(dat|...|...)$))* to exclude unwanted file extensions
     std::string regex = "^(.(?!.*\\.(dat";
