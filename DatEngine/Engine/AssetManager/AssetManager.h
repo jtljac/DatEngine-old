@@ -51,11 +51,11 @@ public:
 	AssetManager();
 	~AssetManager();
 
-	void addExtensionExclusion(const std::string extension) {
+    [[maybe_unused]] void addExtensionExclusion(const std::string& extension) {
 		excludedExtensions.insert(extension);
 	}
-	
-	void addExtensionExclusions(std::vector<std::string> &extensions) {
+
+    [[maybe_unused]] void addExtensionExclusions(std::vector<std::string> &extensions) {
 		for (const std::string& extension : extensions) {
 			excludedExtensions.insert(extension);
 		}
@@ -81,10 +81,7 @@ public:
 		BaseAsset* asset = factory->load(data);
 
 		// Cast the asset to the requested format, as the factory should return the class as the base class
-		T* actualAsset = dynamic_cast<T*>(asset);
-
-		// Ensure cast was successful
-		assert(actualAsset);
+		T* actualAsset = static_cast<T*>(asset);
 
 		Log::info(TAG, "Loaded asset " + thePath);
 

@@ -1,5 +1,5 @@
 #pragma once
-#include <Engine/ReflectionMacros.h>
+#include <ReflectionMacros.h>
 
 #define Engine_Config_EngineConfig_h_18_Property_Reflection \
 	private: \

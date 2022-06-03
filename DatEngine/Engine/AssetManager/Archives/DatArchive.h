@@ -10,7 +10,7 @@ class DVFSArchiveFile : public IDVFSFile {
     const std::string archivePath;
 public:
 	DVFSArchiveFile(std::string archivePath, std::shared_ptr<DatFile> ArchiveFile) : archivePath(std::move(archivePath)), archiveFile(std::move(ArchiveFile)) {
-        fileSize = ArchiveFile->getFileHeader(archivePath).size();
+        fileSize = this->archiveFile->getFileHeader(this->archivePath).size();
     }
 
     [[nodiscard]] bool isValidFile() const override {

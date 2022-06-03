@@ -2,10 +2,10 @@
 #include "../Archives/DatArchive.h"
 
 void AssetManager::populate() {
-	Log::i(TAG, "Loading archives");
+	Log::info(TAG, "Loading archives");
 	addArchives();
 
-	// Make not-constant
+	// TODO: Config: Make not-constant
 	if (true) {
 		Log::info(TAG, "Loading Loose Files");
 		addLooseFiles();
@@ -16,7 +16,7 @@ void AssetManager::addArchives()
 {
 	std::filesystem::path resourcesPath = FileUtilities::getResourcesPath();
 
-	for (std::filesystem::directory_entry entry : std::filesystem::directory_iterator(resourcesPath)) {
+	for (const std::filesystem::directory_entry& entry : std::filesystem::directory_iterator(resourcesPath)) {
 		if (!entry.is_directory() && entry.path().extension() == "dat") {
 			Log::info(TAG, "Adding archive " + entry.path().string());
 

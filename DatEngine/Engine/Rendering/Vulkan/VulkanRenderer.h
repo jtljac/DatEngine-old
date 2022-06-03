@@ -24,7 +24,7 @@ struct QueueFamilyIndices {
     std::optional<uint32_t> transferFamily;
     std::optional<uint32_t> presentFamily;
 
-    bool isComplete() {
+    [[nodiscard]] bool isComplete() const {
         return graphicsFamily.has_value() && presentFamily.has_value() && transferFamily.has_value();
     }
 
@@ -88,12 +88,12 @@ private:
 
     VkSwapchainKHR swapChain = VK_NULL_HANDLE;              // The swap chain
     std::vector<VkImage> swapChainImages;                   // The images in the swap chain
-    VkFormat swapChainImageFormat;                          // The format of the images in the swapchain
-    VkExtent2D swapChainExtent;                             // The extent of the swapchain
-    std::vector<VkImageView> swapChainImageViews;           // The image views in the swapchain
-    std::vector<VkFramebuffer> swapChainFramebuffers;       // The framebuffers in the swapchain
+    VkFormat swapChainImageFormat;                          // The format of the images in the swap chain
+    VkExtent2D swapChainExtent;                             // The extent of the swap chain
+    std::vector<VkImageView> swapChainImageViews;           // The image views in the swap chain
+    std::vector<VkFramebuffer> swapChainFramebuffers;       // The frame buffers in the swap chain
 
-    VkRenderPass renderPass;                                // The renderpass
+    VkRenderPass renderPass;                                // The render pass
     VkDescriptorSetLayout descriptorSetLayout;              // The descriptor layout
     VkPipelineLayout pipelineLayout;                        // The layout of the pipeline
     VkPipeline graphicsPipeline;                            // The graphics pipeline itself
@@ -140,7 +140,7 @@ private:
     // Debug Module Load & unload
     static VkResult CreateDebugUtilsMessengerEXT(VkInstance instance, const VkDebugUtilsMessengerCreateInfoEXT* pCreateInfo, const VkAllocationCallbacks* pAllocator, VkDebugUtilsMessengerEXT* pDebugMessenger) {
         // Get the function handle from the module
-        PFN_vkCreateDebugUtilsMessengerEXT func = (PFN_vkCreateDebugUtilsMessengerEXT)vkGetInstanceProcAddr(instance, "vkCreateDebugUtilsMessengerEXT");
+        auto func = (PFN_vkCreateDebugUtilsMessengerEXT)vkGetInstanceProcAddr(instance, "vkCreateDebugUtilsMessengerEXT");
         if (func != nullptr) {
             return func(instance, pCreateInfo, pAllocator, pDebugMessenger);
         }
@@ -149,7 +149,7 @@ private:
         }
     }
     static void DestroyDebugUtilsMessengerEXT(VkInstance instance, VkDebugUtilsMessengerEXT debugMessenger, const VkAllocationCallbacks* pAllocator) {
-        PFN_vkDestroyDebugUtilsMessengerEXT func = (PFN_vkDestroyDebugUtilsMessengerEXT)vkGetInstanceProcAddr(instance, "vkDestroyDebugUtilsMessengerEXT");
+        auto func = (PFN_vkDestroyDebugUtilsMessengerEXT)vkGetInstanceProcAddr(instance, "vkDestroyDebugUtilsMessengerEXT");
         if (func != nullptr) {
             func(instance, debugMessenger, pAllocator);
         }
@@ -162,7 +162,7 @@ private:
      * Populates the given VkDebugUtilsMessengerCreateInfoEXT with the necessary values
      * @param createInfo The VkDebugUtilsMessengerCreateInfoEXT to be populated
      */
-    void populateDebugMessengerCreateInfo(VkDebugUtilsMessengerCreateInfoEXT& createInfo);
+    static void populateDebugMessengerCreateInfo(VkDebugUtilsMessengerCreateInfoEXT& createInfo);
 
     /**
      * Sets up the debug messages from vulkan if enabled
@@ -173,7 +173,7 @@ private:
      * Get all the extensions required by the engine
      * @return A vector containing all the required extensions
      */
-    std::vector<const char*> getRequiredExtensions() const;
+    [[nodiscard]] std::vector<const char*> getRequiredExtensions() const;
 
     /**
      * Creates the vulkan instance
@@ -195,7 +195,7 @@ private:
     /**
      * Looks through the queue families of the given vkPhysicalDevice to make sure it has the ones we need
      * @param vkPhysicalDevice The vkPhysicalDevice we're checking
-     * @return The indicies of the queue family
+     * @return The indices of the queue family
      */
     QueueFamilyIndices findQueueFamilies(VkPhysicalDevice vkPhysicalDevice);
 
@@ -208,7 +208,7 @@ private:
     /**
      * Get the details for the the swap chain
      * @param vkPhysicalDevice The vkPhysicalDevice to query
-     * @return The details for the swapchain
+     * @return The details for the swap chain
      */
     SwapChainSupportDetails querySwapChainSupport(VkPhysicalDevice vkPhysicalDevice);
 
@@ -265,7 +265,7 @@ private:
 
     /**
      * Creates a shader model from the given bytecode
-     * @param code The byte code to convert into a shadermodel
+     * @param code The byte code to convert into a shader model
      * @return The resultant shader model
      */
     VkShaderModule createShaderModule(const std::vector<char>& code);
@@ -395,17 +395,15 @@ private:
     }
 
 public:
-    VulkanRenderer() {}
+    VulkanRenderer() = default;
 
-    VulkanRenderer(const std::vector<const char*> &ValidationLayers) {
+    [[maybe_unused]] explicit VulkanRenderer(const std::vector<const char*> &ValidationLayers) {
         validationLayers = std::vector<const char*>(ValidationLayers);
     }
 
-    int initialise(int Width, int Height, std::string WindowTitle, AssetManager* AssMan) {
-        Renderer::initialise(Width, Height, WindowTitle);
+    int initialise(int width, int height, const std::string& windowTitle) override {
+        Renderer::initialise(width, height, windowTitle);
 
-        Log::i(TAG, "Initialising Vulkan Renderer");
-        
         Log::info(TAG, "Initialising Vulkan Renderer");
 
         createInstance();

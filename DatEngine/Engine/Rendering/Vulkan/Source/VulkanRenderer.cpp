@@ -1,6 +1,4 @@
 #include "../VulkanRenderer.h"
-#include <glm/glm.hpp>
-#include <glm/gtc/matrix_transform.hpp>
 
 /**
  * Checks the machine supports the required validation layers
@@ -10,7 +8,7 @@ bool VulkanRenderer::checkValidationLayerSupport() {
     uint32_t layerCount;
     vkEnumerateInstanceLayerProperties(&layerCount, nullptr);
 
-    // Create a vector and populate it with all of the machine's available layers
+    // Create a vector and populate it with all the machine's available layers
     std::vector<VkLayerProperties> availableLayers(layerCount);
     vkEnumerateInstanceLayerProperties(&layerCount, availableLayers.data());
 
@@ -35,7 +33,10 @@ bool VulkanRenderer::checkValidationLayerSupport() {
 }
 
 // Validation Layer Callback
+#pragma clang diagnostic push
+#pragma ide diagnostic ignored "UnusedParameter"
 VKAPI_ATTR VkBool32 VKAPI_CALL VulkanRenderer::debugCallback(VkDebugUtilsMessageSeverityFlagBitsEXT messageSeverity, VkDebugUtilsMessageTypeFlagsEXT messageType, const VkDebugUtilsMessengerCallbackDataEXT* pCallbackData, void* pUserData) {
+#pragma clang diagnostic pop
 
     LogLevel loggerLevel;
 
@@ -49,7 +50,7 @@ VKAPI_ATTR VkBool32 VKAPI_CALL VulkanRenderer::debugCallback(VkDebugUtilsMessage
     else if (messageSeverity & VK_DEBUG_UTILS_MESSAGE_SEVERITY_INFO_BIT_EXT) {
         loggerLevel = LogLevel::LOGINFO;
     }
-    else if (messageSeverity & VK_DEBUG_UTILS_MESSAGE_SEVERITY_VERBOSE_BIT_EXT) {
+    else {
         loggerLevel = LogLevel::LOGDEBUG;
     }
 
@@ -84,7 +85,7 @@ void VulkanRenderer::setupDebugMessenger() {
 
         populateDebugMessengerCreateInfo(createInfo);
 
-        // Check we have the extention
+        // Check we have the extension
         if (CreateDebugUtilsMessengerEXT(instance, &createInfo, nullptr, &debugMessenger) != VK_SUCCESS) {
             throw std::runtime_error("failed to set up debug messenger!");
         }
@@ -186,7 +187,6 @@ void VulkanRenderer::createSurface() {
     vkGetPhysicalDeviceQueueFamilyProperties(vkPhysicalDevice, &queueFamilyCount, queueFamilies.data());
 
     // Find one with graphics and present support
-    int i = 0;
     for (const VkQueueFamilyProperties& queueFamily : queueFamilies) {
         std::cout << queueFamily.queueCount;
 
@@ -204,7 +204,7 @@ void VulkanRenderer::createSurface() {
 /**
  * Looks through the queue families of the given vkPhysicalDevice to make sure it has the ones we need
  * @param vkPhysicalDevice The vkPhysicalDevice we're checking
- * @return The indicies of the queue family
+ * @return The indices of the queue family
  */
 QueueFamilyIndices VulkanRenderer::findQueueFamilies(VkPhysicalDevice vkPhysicalDevice) {
     listQueueFamilies(vkPhysicalDevice);
@@ -213,12 +213,12 @@ QueueFamilyIndices VulkanRenderer::findQueueFamilies(VkPhysicalDevice vkPhysical
     // Get the queue family properties
     uint32_t queueFamilyCount = 0;
     vkGetPhysicalDeviceQueueFamilyProperties(vkPhysicalDevice, &queueFamilyCount, nullptr);
-    std::vector<VkQueueFamilyProperties> queueFamilies(queueFamilyCount);
-    vkGetPhysicalDeviceQueueFamilyProperties(vkPhysicalDevice, &queueFamilyCount, queueFamilies.data());
+    std::vector<VkQueueFamilyProperties> queueFamiliesProps(queueFamilyCount);
+    vkGetPhysicalDeviceQueueFamilyProperties(vkPhysicalDevice, &queueFamilyCount, queueFamiliesProps.data());
 
     // Find one with graphics and present support
     int i = 0;
-    for (const VkQueueFamilyProperties& queueFamily : queueFamilies) {
+    for (const VkQueueFamilyProperties& queueFamily : queueFamiliesProps) {
         VkBool32 presentSupport = false;
         vkGetPhysicalDeviceSurfaceSupportKHR(vkPhysicalDevice, i, surface, &presentSupport);
 
@@ -270,7 +270,7 @@ bool VulkanRenderer::checkDeviceExtensionSupport(VkPhysicalDevice vkPhysicalDevi
 /**
  * Get the details for the the swap chain
  * @param vkPhysicalDevice The vkPhysicalDevice to query
- * @return The details for the swapchain
+ * @return The details for the swap chain
  */
 SwapChainSupportDetails VulkanRenderer::querySwapChainSupport(VkPhysicalDevice vkPhysicalDevice) {
     SwapChainSupportDetails details;
@@ -306,14 +306,14 @@ SwapChainSupportDetails VulkanRenderer::querySwapChainSupport(VkPhysicalDevice v
      */
 VkSurfaceFormatKHR VulkanRenderer::chooseSwapSurfaceFormat(const std::vector<VkSurfaceFormatKHR>& availableFormats)
 {
-    // Check for our prefered format
+    // Check for our preferred format
     for (const VkSurfaceFormatKHR& availableFormat : availableFormats) {
         if (availableFormat.format == VK_FORMAT_B8G8R8A8_SRGB && availableFormat.colorSpace == VK_COLORSPACE_SRGB_NONLINEAR_KHR) return availableFormat;
     }
 
     Log::warn(TAG, "Preferred swap surface missing, defaulting to first available format");
 
-    // Return first format (Because we don't support our prefered)
+    // Return first format (Because we don't support our preferred)
     return availableFormats[0];
 }
 
@@ -324,7 +324,7 @@ VkSurfaceFormatKHR VulkanRenderer::chooseSwapSurfaceFormat(const std::vector<VkS
  */
 VkPresentModeKHR VulkanRenderer::chooseSwapPresentMode(const std::vector<VkPresentModeKHR>& availablePresentModes)
 {
-    // Check for our prefered present mode
+    // Check for our preferred present mode
     for (const VkPresentModeKHR& availablePresentMode : availablePresentModes) {
         if (availablePresentMode == VK_PRESENT_MODE_MAILBOX_KHR) {
             return availablePresentMode;
@@ -333,7 +333,7 @@ VkPresentModeKHR VulkanRenderer::chooseSwapPresentMode(const std::vector<VkPrese
 
     Log::warn(TAG, "Preferred present mode unavailable, defaulting to FIFO");
 
-    // Return guaranteed present mode (because our prefered isn't there)
+    // Return guaranteed present mode (because our preferred isn't there)
     // return VK_PRESENT_MODE_FIFO_KHR;
     return VK_PRESENT_MODE_IMMEDIATE_KHR;
 }
@@ -373,7 +373,7 @@ int VulkanRenderer::rateDeviceSuitability(VkPhysicalDevice vkPhysicalDevice) {
     vkGetPhysicalDeviceProperties(vkPhysicalDevice, &deviceProperties);
     vkGetPhysicalDeviceFeatures(vkPhysicalDevice, &deviceFeatures);
 
-    // Descrete GPUs are better than integrated ones
+    // Discrete GPUs are better than integrated ones
     if (deviceProperties.deviceType == VK_PHYSICAL_DEVICE_TYPE_DISCRETE_GPU) {
         score += 1000;
     }
@@ -554,7 +554,7 @@ void VulkanRenderer::createImageViews()
         createInfo.sType = VK_STRUCTURE_TYPE_IMAGE_VIEW_CREATE_INFO;
         createInfo.image = swapChainImages[i];
 
-        // Set viewtype to 2d image with our selected format
+        // Set view type to 2d image with our selected format
         createInfo.viewType = VK_IMAGE_VIEW_TYPE_2D;
         createInfo.format = swapChainImageFormat;
 
@@ -580,7 +580,7 @@ void VulkanRenderer::createImageViews()
 
 /**
  * Creates a shader model from the given bytecode
- * @param code The byte code to convert into a shadermodel
+ * @param code The byte code to convert into a shader model
  * @return The resultant shader model
  */
 VkShaderModule VulkanRenderer::createShaderModule(const std::vector<char>& code) {
@@ -664,8 +664,8 @@ void VulkanRenderer::createDescriptorSetLayout() {
 void VulkanRenderer::createGraphicsPipeline()
 {
     // Load Shaders
-    VertShader* vertShaderCode = assMan->loadAsset<VertShader>("Shaders/GLSL/vert.spv");
-    FragShader* fragShaderCode = assMan->loadAsset<FragShader>("Shaders/GLSL/frag.spv");
+    auto* vertShaderCode = assMan->loadAsset<VertShader>("Shaders/GLSL/vert.spv");
+    auto* fragShaderCode = assMan->loadAsset<FragShader>("Shaders/GLSL/frag.spv");
 
     VkShaderModule vertShaderModule = createShaderModule(vertShaderCode->byteCode);
     VkShaderModule fragShaderModule = createShaderModule(fragShaderCode->byteCode);
@@ -1103,7 +1103,7 @@ void VulkanRenderer::updateUniformBuffer(uint32_t currentImage) {
 
     ubo.view = Maths::lookAt(FVector(0.f, -2.f, -5.f), FVector(0.f, 0.f, 0.f), FVector::up);
 
-    ubo.proj = Maths::perspectiveProjection(Maths::degToRad(45.f), swapChainExtent.width / (float) swapChainExtent.height, 0.1f, 100.f);
+    ubo.proj = Maths::perspectiveProjection(Maths::degToRad(45.f), (float) swapChainExtent.width / (float) swapChainExtent.height, 0.1f, 100.f);
 
     void* data;
     vkMapMemory(device, uniformBuffersMemory[currentImage], 0, sizeof(ubo), 0, &data);

@@ -9,23 +9,24 @@ protected:
 
     virtual void glfwHints() {};
 
-	virtual void framebufferResizeCallback_internal(GLFWwindow* window, int width, int height) {
+	virtual void framebufferResizeCallback_internal(GLFWwindow* glfwWindow, int width, int height) {
 		framebufferResized = true;
 	}
 
 private:
-	static void framebufferResizeCallback(GLFWwindow* window, int width, int height) {
-		Renderer* app = reinterpret_cast<Renderer*>(glfwGetWindowUserPointer(window));
-		app->framebufferResizeCallback_internal(window, width, height);
+	static void framebufferResizeCallback(GLFWwindow* glfwWindow, int width, int height) {
+		auto* app = reinterpret_cast<Renderer*>(glfwGetWindowUserPointer(glfwWindow));
+		app->framebufferResizeCallback_internal(glfwWindow, width, height);
 	}
+
 public:
-	int initialise(int Width, int Height, std::string WindowTitle) {
+	virtual int initialise(int width, int height, const std::string& windowTitle) {
 		glfwInit();
 		glfwHints();
-		window = glfwCreateWindow(Width, Height, WindowTitle.c_str(), nullptr, nullptr);
+		this->window = glfwCreateWindow(width, height, windowTitle.c_str(), nullptr, nullptr);
 
-		glfwSetWindowUserPointer(window, this);
-		glfwSetFramebufferSizeCallback(window, framebufferResizeCallback);
+		glfwSetWindowUserPointer(this->window, this);
+		glfwSetFramebufferSizeCallback(this->window, framebufferResizeCallback);
 		return 0;
 	}
 
