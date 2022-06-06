@@ -106,14 +106,14 @@ struct Vector<3, VecType> {
 	 * @param Index The index of the component (0 -> X, 1 -> Y, 2 -> Z)
 	 * @return A reference to the component at the given index
 	 */
-	VecType& operator[](const size_t Index);
+	VecType& operator[](size_t Index);
 
 	/**
 	 * Gets a const reference to the component at the given index
 	 * @param Index The index of the component (0 -> X, 1 -> Y, 2 -> Z)
 	 * @return A const reference to the component at the given index
 	 */
-	const VecType& operator[](const size_t Index) const;
+	const VecType& operator[](size_t Index) const;
 
 	/**
 	 * Adds together two vectors

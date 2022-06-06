@@ -15,6 +15,8 @@
 #include <AssetManager/AssetManager.h>
 #include <AssetManager/Assets/Shaders/VertShader.h>
 #include <AssetManager/Assets/Shaders/FragShader.h>
+#include "AssetManager/Factories/FragShaderFactory.h"
+#include "AssetManager/Factories/VertShaderFactory.h"
 #include <Mesh/Primitives/Vertex.h>
 
 #include <Maths/Matrix.h>
@@ -405,6 +407,10 @@ public:
         Renderer::initialise(width, height, windowTitle);
 
         Log::info(TAG, "Initialising Vulkan Renderer");
+
+        assMan = new AssetManager;
+        assMan->registerFactory<FragShader>(new FragShaderFactory());
+        assMan->registerFactory<VertShader>(new VertShaderFactory());
 
         createInstance();
         setupDebugMessenger();
