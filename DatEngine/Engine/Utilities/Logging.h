@@ -27,24 +27,54 @@ private:
 		}
 	}
 public:
+    /**
+     * Log data to the console
+     * @param logLevel The severity of the log
+     * @param logTag The tag to give the log, usually the class context
+     * @param logMessage The message to log
+     */
 	static void log(const LogLevel logLevel, const std::string& logTag, const std::string& logMessage) {
 		if ((int)logLevel <= 3) { // TODO: Make Un-constant
 			std::cout << "[" << getLogLevelAsString(logLevel) << "] [" << logTag << "] " << logMessage << std::endl;
 		}
 	}
 
+    /**
+     * Log an information message
+     * For when you want to let the console know something
+     * @param logTag The tag to give the log, usually the class context
+     * @param logMessage The message to log
+     */
 	static void info(const std::string& logTag, const std::string& logMessage) {
 		log(LogLevel::LOGINFO, logTag, logMessage);
 	}
 
+    /**
+     * Log an error message
+     * For when something has gone wrong
+     * @param logTag The tag to give the log, usually the class context
+     * @param logMessage The message to log
+     */
 	static void error(const std::string& logTag, const std::string& logMessage) {
 		log(LogLevel::LOGERROR, logTag, logMessage);
 	}
 
+    /**
+     * Log a warning message
+     * For when something hasn't exactly gone right, but it's not that bad
+     * @param logTag The tag to give the log, usually the class context
+     * @param logMessage The message to log
+     */
 	static void warn(const std::string& logTag, const std::string& logMessage) {
 		log(LogLevel::LOGWARNING, logTag, logMessage);
 	}
 
+    /**
+     * Log a verbose message
+     * For when there's a bit of information which 90% of the time doesn't need to be logged, but may still be useful
+     * @param logTag The tag to give the log, usually the class context
+     * @param logMessage The message to log
+     */
 	static void verbose(const std::string& logTag, const std::string& logMessage) {
 		log(LogLevel::LOGDEBUG, logTag, logMessage);
 	}

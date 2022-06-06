@@ -5,7 +5,14 @@
 #include <memory>
 #include <utility>
 
+/**
+ * An IDVFSFile implementation for DatArchive files, allowing access to files inside the archive
+ * Not threadsafe, as all the files in the DVFS for each archive file use the same DatArchive instance.
+ * TODO: Make Threadsafe using locks
+ */
 class DVFSArchiveFile : public IDVFSFile {
+    // A shared pointer to the archive file, allowing many archive files to use the same file pointer
+    // This isn't thread safe as
 	const std::shared_ptr<DatFile> archiveFile;
     const std::string archivePath;
 public:
@@ -22,6 +29,9 @@ public:
 	}
 };
 
+/**
+ * A IDVFSInserter implementation that inserts all the files in a DatArchive file to the VFS
+ */
 class DVFSDatArchiveInserter : public IDVFSInserter {
 	std::shared_ptr<DatFile> archive;
 public:

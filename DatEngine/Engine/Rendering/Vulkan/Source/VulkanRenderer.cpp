@@ -1,8 +1,5 @@
 #include "../VulkanRenderer.h"
 
-/**
- * Checks the machine supports the required validation layers
- */
 bool VulkanRenderer::checkValidationLayerSupport() {
     // Get the amount of layers
     uint32_t layerCount;
@@ -61,10 +58,6 @@ VKAPI_ATTR VkBool32 VKAPI_CALL VulkanRenderer::debugCallback(VkDebugUtilsMessage
     return VK_FALSE;
 }
 
-/**
- * Populates the given VkDebugUtilsMessengerCreateInfoEXT with the necessary values
- * @param createInfo The VkDebugUtilsMessengerCreateInfoEXT to be populated
- */
 void VulkanRenderer::populateDebugMessengerCreateInfo(VkDebugUtilsMessengerCreateInfoEXT& createInfo) {
     createInfo = {};
     createInfo.sType = VK_STRUCTURE_TYPE_DEBUG_UTILS_MESSENGER_CREATE_INFO_EXT;
@@ -73,9 +66,6 @@ void VulkanRenderer::populateDebugMessengerCreateInfo(VkDebugUtilsMessengerCreat
     createInfo.pfnUserCallback = debugCallback;
 }
 
-/**
- * Sets up the debug messages from vulkan if enabled
- */
 void VulkanRenderer::setupDebugMessenger() {
     // Ensure we want the debug messenger
     if (enableValidationLayers) {
@@ -92,10 +82,6 @@ void VulkanRenderer::setupDebugMessenger() {
     }
 }
 
-/**
- * Get all the extensions required by the engine
- * @return A vector containing all the required extensions
- */
 std::vector<const char*> VulkanRenderer::getRequiredExtensions() const {
 
     // Get GLFW extensions
@@ -113,9 +99,6 @@ std::vector<const char*> VulkanRenderer::getRequiredExtensions() const {
     return extensions;
 }
 
-/**
- * Creates the vulkan instance
- */
 void VulkanRenderer::createInstance() {
     if (enableValidationLayers && !checkValidationLayerSupport()) {
         throw std::runtime_error("validation layers requested, but not available!");
@@ -165,9 +148,6 @@ void VulkanRenderer::createInstance() {
     }
 }
 
-/**
- * Creates a surface for vulkan to use
- */
 void VulkanRenderer::createSurface() {
     // GLFW handles this for us, very nice of it
     if (glfwCreateWindowSurface(instance, window, nullptr, &surface) != VK_SUCCESS) {
@@ -175,10 +155,6 @@ void VulkanRenderer::createSurface() {
     }
 }
 
-/**
- * A little debug function to print the capabilities of the gpu to the console
- * @param vkPhysicalDevice the vkPhysicalDevice to query
- */
 [[maybe_unused]] void VulkanRenderer::listQueueFamilies(VkPhysicalDevice vkPhysicalDevice) {
     // Get the queue family properties
     uint32_t queueFamilyCount = 0;
@@ -201,11 +177,6 @@ void VulkanRenderer::createSurface() {
 }
 
 // Physical Device stuff
-/**
- * Looks through the queue families of the given vkPhysicalDevice to make sure it has the ones we need
- * @param vkPhysicalDevice The vkPhysicalDevice we're checking
- * @return The indices of the queue family
- */
 QueueFamilyIndices VulkanRenderer::findQueueFamilies(VkPhysicalDevice vkPhysicalDevice) {
     listQueueFamilies(vkPhysicalDevice);
     QueueFamilyIndices queueFamilyIndices;
@@ -245,10 +216,6 @@ QueueFamilyIndices VulkanRenderer::findQueueFamilies(VkPhysicalDevice vkPhysical
     return queueFamilyIndices;
 }
 
-/**
- * Checks to see if the given vkPhysicalDevice supports all of the required extensions
- * @param vkPhysicalDevice The vkPhysicalDevice to check
- */
 
 bool VulkanRenderer::checkDeviceExtensionSupport(VkPhysicalDevice vkPhysicalDevice) {
     // Get extensions
@@ -267,11 +234,6 @@ bool VulkanRenderer::checkDeviceExtensionSupport(VkPhysicalDevice vkPhysicalDevi
     return requiredExtensions.empty();
 }
 
-/**
- * Get the details for the the swap chain
- * @param vkPhysicalDevice The vkPhysicalDevice to query
- * @return The details for the swap chain
- */
 SwapChainSupportDetails VulkanRenderer::querySwapChainSupport(VkPhysicalDevice vkPhysicalDevice) {
     SwapChainSupportDetails details;
 
@@ -299,11 +261,6 @@ SwapChainSupportDetails VulkanRenderer::querySwapChainSupport(VkPhysicalDevice v
     return details;
 }
 
-/**
-     * Get the best format for the device
-     * @param availableFormats A vector of the available formats
-     * @return The best swap surface format
-     */
 VkSurfaceFormatKHR VulkanRenderer::chooseSwapSurfaceFormat(const std::vector<VkSurfaceFormatKHR>& availableFormats)
 {
     // Check for our preferred format
@@ -317,11 +274,6 @@ VkSurfaceFormatKHR VulkanRenderer::chooseSwapSurfaceFormat(const std::vector<VkS
     return availableFormats[0];
 }
 
-/**
- * Get the best present mode for the device
- * @param availableFormats A vector of the available present mode
- * @return The best present mode
- */
 VkPresentModeKHR VulkanRenderer::chooseSwapPresentMode(const std::vector<VkPresentModeKHR>& availablePresentModes)
 {
     // Check for our preferred present mode
@@ -338,11 +290,6 @@ VkPresentModeKHR VulkanRenderer::chooseSwapPresentMode(const std::vector<VkPrese
     return VK_PRESENT_MODE_IMMEDIATE_KHR;
 }
 
-/**
- * Get the closest extent to our window size we can manage
- * @param capabilities The device capabilities
- * @return the closest extent to our window size
- */
 VkExtent2D VulkanRenderer::chooseSwapExtent(const VkSurfaceCapabilitiesKHR& capabilities)
 {
     if (capabilities.currentExtent.width != UINT32_MAX) return capabilities.currentExtent;
@@ -358,11 +305,6 @@ VkExtent2D VulkanRenderer::chooseSwapExtent(const VkSurfaceCapabilitiesKHR& capa
     }
 }
 
-/**
- * Rates the given vkPhysicalDevice on how suitable it is for the engine
- * @param vkPhysicalDevice the vkPhysicalDevice to rate
- * @return A score representing how suitable the vkPhysicalDevice is
- */
 int VulkanRenderer::rateDeviceSuitability(VkPhysicalDevice vkPhysicalDevice) {
     //TODO: Customisable requirements
     int score = 0;
@@ -393,9 +335,6 @@ int VulkanRenderer::rateDeviceSuitability(VkPhysicalDevice vkPhysicalDevice) {
     return score;
 }
 
-/**
- * Selects a suitable device from all the devices available for rendering
- */
 void VulkanRenderer::pickPhysicalDevice() {
     uint32_t deviceCount = 0;
 
@@ -427,9 +366,6 @@ void VulkanRenderer::pickPhysicalDevice() {
     }
 }
 
-/**
- * Creates a logical device for vulkan to use, selects the
- */
 void VulkanRenderer::createLogicalDevice() {
     // Find some queue families
     queueFamilies = findQueueFamilies(physicalDevice);
@@ -478,9 +414,6 @@ void VulkanRenderer::createLogicalDevice() {
     vkGetDeviceQueue(device, queueFamilies.presentFamily.value(), 0, &presentQueue);
 }
 
-/**
- * Creates a swap chan for vulkan to use
- */
 void VulkanRenderer::createSwapChain(VkSwapchainKHR OldSwapChain)
 {
     SwapChainSupportDetails swapChainSupport = querySwapChainSupport(physicalDevice);
@@ -542,9 +475,6 @@ void VulkanRenderer::createSwapChain(VkSwapchainKHR OldSwapChain)
     swapChainExtent = extent;
 }
 
-/**
- * Creates the image views for the swap chain
- */
 void VulkanRenderer::createImageViews()
 {
     swapChainImageViews.resize(swapChainImages.size());
@@ -578,11 +508,6 @@ void VulkanRenderer::createImageViews()
     }
 }
 
-/**
- * Creates a shader model from the given bytecode
- * @param code The byte code to convert into a shader model
- * @return The resultant shader model
- */
 VkShaderModule VulkanRenderer::createShaderModule(const std::vector<char>& code) {
     VkShaderModuleCreateInfo createInfo{};
     createInfo.sType = VK_STRUCTURE_TYPE_SHADER_MODULE_CREATE_INFO;
@@ -597,9 +522,6 @@ VkShaderModule VulkanRenderer::createShaderModule(const std::vector<char>& code)
     return shaderModule;
 }
 
-/**
- * Creates the render pass
- */
 void VulkanRenderer::createRenderPass() {
     VkAttachmentDescription colorAttachment{};
     colorAttachment.format = swapChainImageFormat;
@@ -803,9 +725,6 @@ void VulkanRenderer::createGraphicsPipeline()
     vkDestroyShaderModule(device, vertShaderModule, nullptr);
 }
 
-/**
- * Creates The framebuffers
- */
 void VulkanRenderer::createFramebuffers()
 {
     swapChainFramebuffers.resize(swapChainImageViews.size());
@@ -830,9 +749,6 @@ void VulkanRenderer::createFramebuffers()
     }
 }
 
-/**
- * Creates the command pool
- */
 void VulkanRenderer::createCommandPool(uint32_t queueFamilyIndex, VkCommandPool &commandPool)
 {
     VkCommandPoolCreateInfo poolInfo{};
@@ -845,14 +761,6 @@ void VulkanRenderer::createCommandPool(uint32_t queueFamilyIndex, VkCommandPool 
     }
 }
 
-/**
- * Creates a memory buffer on the video card
- * @param size The required size of the buffer
- * @param usage The usage flags for the buffer
- * @param properties The memory property flags for the buffer
- * @param buffer A reference to the Buffer
- * @param buffer A reference to the Buffer Memory
- */
 void VulkanRenderer::createBuffer(VkDeviceSize size, VkBufferUsageFlags usage, VkMemoryPropertyFlags properties, VkBuffer& buffer, VkDeviceMemory& bufferMemory) {
     std::vector<uint32_t> allowedQueueIndices;
     if (queueFamilies.isUniqueTransferQueue()) allowedQueueIndices = {queueFamilies.graphicsFamily.value(), queueFamilies.transferFamily.value()};
@@ -885,12 +793,6 @@ void VulkanRenderer::createBuffer(VkDeviceSize size, VkBufferUsageFlags usage, V
     vkBindBufferMemory(device, buffer, bufferMemory, 0);
 }
 
-/**
- * Copies data from one video card buffer to another
- * @param srcBuffer The buffer to copy from
- * @param dstBuffer The buffer to copy to
- * @param size The size of the data to copy
- */
 void VulkanRenderer::copyBuffer(VkBuffer srcBuffer, VkBuffer dstBuffer, VkDeviceSize size) {
     VkCommandBufferAllocateInfo allocInfo{};
     allocInfo.sType = VK_STRUCTURE_TYPE_COMMAND_BUFFER_ALLOCATE_INFO;
@@ -926,9 +828,6 @@ void VulkanRenderer::copyBuffer(VkBuffer srcBuffer, VkBuffer dstBuffer, VkDevice
     vkFreeCommandBuffers(device, transferCommandPool, 1, &commandBuffer);
 }
 
-/**
- * Creates the vertex buffer
- */
 void VulkanRenderer::createVertexBuffer() {
     VkDeviceSize bufferSize = sizeof(vertices[0]) * vertices.size();
 
@@ -948,9 +847,6 @@ void VulkanRenderer::createVertexBuffer() {
     vkFreeMemory(device, stagingBufferMemory, nullptr);
 }
 
-/**
- * Creates the index buffer
- */
 void VulkanRenderer::createIndexBuffer() {
     VkDeviceSize bufferSize = sizeof(indices[0]) * indices.size();
 
@@ -1035,9 +931,6 @@ void VulkanRenderer::createDescriptorSets() {
     }
 }
 
-/**
- * Creates the command buffers
- */
 void VulkanRenderer::createCommandBuffers()
 {
     commandBuffers.resize(swapChainFramebuffers.size());
@@ -1111,9 +1004,6 @@ void VulkanRenderer::updateUniformBuffer(uint32_t currentImage) {
     vkUnmapMemory(device, uniformBuffersMemory[currentImage]);
 }
 
-/**
- * Creates the semaphores and fences
- */
 void VulkanRenderer::createSyncObjects()
 {
     imageAvailableSemaphores.resize(MAX_FRAMES_IN_FLIGHT);

@@ -26,6 +26,11 @@ struct TypeInfoEqualTo {
 	}
 };
 
+/**
+ * A class that abstracts asset handling by storing all the assets used by the game in a single virtual files system, and
+ * allowing access to assets via factories that automatically load the data from the disk and constructs it into the appropriate
+ * asset type
+ */
 class AssetManager {
 private:
 	// Tag for logging
@@ -41,9 +46,21 @@ private:
 
 	// TODO: Implement Cache
 
+    /**
+     * Populates the VFS with archive files and loose files
+     * (Loose files are only loaded if enabled)
+     * @see addArchives
+     * @see addLooseFiles
+     */
 	void populate();
 
+    /**
+     * Adds the content of all the archive files in the resources directory to the VFS
+     */
 	void addArchives();
+    /**
+     * Adds all the loose files in the resources directory to the VFS
+     */
 	void addLooseFiles();
 
 
@@ -51,37 +68,59 @@ public:
 	AssetManager();
 	~AssetManager();
 
+    /**
+     * Excludes files with the given extension when loading loose files
+     * @see addLooseFiles
+     * @param extension The extension to exclude
+     */
     [[maybe_unused]] void addExtensionExclusion(const std::string& extension) {
 		excludedExtensions.insert(extension);
 	}
 
+    /**
+     * Excludes files with the given extensions when loading loose files
+     * @see addLooseFiles
+     * @param extensions A list of extensions to exclude
+     */
     [[maybe_unused]] void addExtensionExclusions(std::vector<std::string> &extensions) {
 		for (const std::string& extension : extensions) {
 			excludedExtensions.insert(extension);
 		}
 	}
 
+    /**
+     * Register an asset factory for instantiating assets from the VFS
+     * @see AssetFactory
+     * @tparam AssetType The asset type that this factory will create
+     * @param Factory An instance of the asset factory
+     */
 	template<class AssetType>
 	void registerFactory(AssetFactory* Factory) {
 		factories[typeid(AssetType)] = Factory;
 	}
 
-	template<class T>
-	T* loadAsset(const std::string& thePath) {
+    /**
+     * Load an asset at the given path as an instance of the AssetType
+     * @tparam AssetType The type of the asset being loaded (Note not the factory type)
+     * @param thePath The path to the asset in the VFS
+     * @return an instance of the asset
+     */
+	template<class AssetType>
+    AssetType* loadAsset(const std::string& thePath) {
 		std::vector<char> data = fileTree->getFile(thePath)->getContent();
 		AssetFactory* factory;
 
-		if (factories.count(typeid(T)) == 0) {
-            Log::warn(TAG, "Failed to load factory for type: " + std::string(typeid(T).name()));
+		if (factories.count(typeid(AssetType)) == 0) {
+            Log::warn(TAG, "Failed to load factory for type: " + std::string(typeid(AssetType).name()));
 			return nullptr;
 		}
 
-		factory = factories.at(typeid(T));
+		factory = factories.at(typeid(AssetType));
 
 		BaseAsset* asset = factory->load(data);
 
 		// Cast the asset to the requested format, as the factory should return the class as the base class
-		T* actualAsset = static_cast<T*>(asset);
+        auto* actualAsset = static_cast<AssetType*>(asset);
 
 		Log::info(TAG, "Loaded asset " + thePath);
 

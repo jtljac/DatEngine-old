@@ -179,8 +179,8 @@ struct Vector<2, VecType> {
 	type& operator-=(VecType Amount);
 
 	/**
-	 * decrements each component of the vector and returns the dencremented vector
-	 * @return The dencremented vector
+	 * decrements each component of the vector and returns the decremented vector
+	 * @return The decremented vector
 	 */
 	type& operator--();
 
@@ -191,7 +191,7 @@ struct Vector<2, VecType> {
 	type operator--(int);
 
 	/**
-	 * Multiplies each component by the equivilent component in the other vector
+	 * Multiplies each component by the equivalent component in the other vector
 	 * @param OtherVec The other vector
 	 * @return The resulting vector
 	 */
@@ -205,7 +205,7 @@ struct Vector<2, VecType> {
 	type operator*(VecType Value) const;
 
 	/**
-	 * Multiplies each component by the equivilent component in the other vector
+	 * Multiplies each component by the equivalent component in the other vector
 	 * @param OtherVec The other vector
 	 * @return The resulting vector
 	 */
@@ -219,7 +219,7 @@ struct Vector<2, VecType> {
 	type& operator*=(VecType Value);
 
 	/**
-	 * Divides each component by the equivilent component in the other vector
+	 * Divides each component by the equivalent component in the other vector
 	 * @param OtherVec The other vector
 	 * @return The resulting vector
 	 */
@@ -233,7 +233,7 @@ struct Vector<2, VecType> {
 	type operator/(VecType Value) const;
 
 	/**
-	 * Divides each component by the equivilent component in the other vector
+	 * Divides each component by the equivalent component in the other vector
 	 * @param OtherVec The other vector
 	 * @return The resulting vector
 	 */
@@ -262,9 +262,9 @@ struct Vector<2, VecType> {
 	bool operator!=(const type& OtherVec) const;
 
 	/**
-	 * Compares the components of this vector to the equivalent components of the given vector, returns true if the components are within ± the given tolerence of the given vector's components
+	 * Compares the components of this vector to the equivalent components of the given vector, returns true if the components are within ± the given tolerance of the given vector's components
 	 * @param OtherVec The vector to compare to
-	 * @param Tolerence How far off the vector can be before
+	 * @param Tolerance How far off the vector can be before
 	 * @return Whether the components are equal
 	 */
     [[maybe_unused]] bool equals(const type& OtherVec, VecType Tolerance = Maths::Numbers::tinyNumber) const;
@@ -272,7 +272,7 @@ struct Vector<2, VecType> {
 	/**
 	 * Gets the squared scalar size of the vector
 	 * The sum of the squares of each component
-	 * Useful for comparing the size of vectors as the length squared will remain bigger or smaller like the actualy lengths compared, but it skips the expensive square root calculation
+	 * Useful for comparing the size of vectors as the length squared will remain bigger or smaller like the actually lengths compared, but it skips the expensive square root calculation
 	 * @return The squared scalar size of the vector
 	 */
 	VecType lengthSquared() const;

@@ -44,7 +44,7 @@ public:
 	}
 
 	/**
-	 * Gets the nanoseconds elapsed since the the timing was initialised, unless time has been set with @ref SetOffset in which it will get the time since the set offset
+	 * Gets the nanoseconds elapsed since the the timing was initialised, unless time has been set with SetOffset in which it will get the time since the set offset
 	 * @returns The time since initialisation in nanoseconds
 	 */
 	static double getNanoseconds() {

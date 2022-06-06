@@ -52,17 +52,11 @@ Quaternion<QuatType> Quaternion<QuatType>::axisAngle(VecType axis, QuatType angl
 }
 
 // Tests
-/**
- * Returns true if the scaler term is 0.
- */
 template<typename QuatType>
 bool Quaternion<QuatType>::isPure() const {
     return s < Maths::Tolerances::normalisedTolerance;
 }
 
-/**
- * Returns true if the vector term is 0.
- */
 template<typename QuatType>
 bool Quaternion<QuatType>::isReal() const {
     return vec.lengthSqaured() < Maths::Tolerances::normalisedTolerance;
