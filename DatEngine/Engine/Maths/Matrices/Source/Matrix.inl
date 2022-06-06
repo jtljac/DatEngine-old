@@ -5,31 +5,31 @@
 // Set cell values
 // Set specific cells
 template<int columns, int rows, typename MatType>
-void Matrix<columns, rows, MatType>::set(int Column, int Row, MatType Value) {
-	cells[Column][Row] = Value;
+void Matrix<columns, rows, MatType>::set(int column, int row, MatType value) {
+	cells[column][row] = value;
 }
 
-// Set Column
+// Set column
 template<int columns, int rows, typename MatType>
-[[maybe_unused]] void Matrix<columns, rows, MatType>::setColumn(int ColumnIndex, columnType Column) {
-    std::memcpy(cells[ColumnIndex], &Column, sizeof(Column));
+[[maybe_unused]] void Matrix<columns, rows, MatType>::setColumn(int columnIndex, columnType column) {
+    std::memcpy(cells[columnIndex], &column, sizeof(column));
 }
 
-// Set Row
+// Set row
 template<int columns, int rows, typename MatType>
-[[maybe_unused]] void Matrix<columns, rows, MatType>::setRow(int RowIndex, rowType Row) {
+[[maybe_unused]] void Matrix<columns, rows, MatType>::setRow(int rowIndex, rowType row) {
     for (int i = 0; i < columns; ++i) {
-        cells[i][RowIndex] = Row[i];
+        cells[i][rowIndex] = row[i];
     }
 }
 
 // Set all cells
 template<int columns, int rows, typename MatType>
-void Matrix<columns, rows, MatType>::set(MatType Value) {
+void Matrix<columns, rows, MatType>::set(MatType value) {
 	for (int column = 0; column < columns; ++column)  {
 		for (int row = 0; row < rows; ++row)
 		{
-			cells[column][row] = Value;
+			cells[column][row] = value;
 		}
 	}
 }
@@ -41,20 +41,20 @@ Matrix<columns, rows, MatType>::Matrix() = default;
 
 // Single value
 template<int columns, int rows, typename MatType>
-Matrix<columns, rows, MatType>::Matrix(MatType Value) {
-	set(Value);
+Matrix<columns, rows, MatType>::Matrix(MatType value) {
+	set(value);
 }
 
 // 2D Array
 template<int columns, int rows, typename MatType>
-Matrix<columns, rows, MatType>::Matrix(MatType Cells[columns][rows]) {
-	std::memcpy(cells, Cells, columns * rows * sizeof(MatType));
+Matrix<columns, rows, MatType>::Matrix(MatType cellArray[columns][rows]) {
+	std::memcpy(cells, cellArray, columns * rows * sizeof(MatType));
 }
 
 // 1D Array
 template<int columns, int rows, typename MatType>
-Matrix<columns, rows, MatType>::Matrix(const MatType Cells[columns * rows]) {
-	std::memcpy(cells, Cells, columns * rows * sizeof(MatType));
+Matrix<columns, rows, MatType>::Matrix(const MatType cellArray[columns * rows]) {
+	std::memcpy(cells, cellArray, columns * rows * sizeof(MatType));
 }
 
 // Copy Constructor
@@ -66,24 +66,24 @@ Matrix<columns, rows, MatType>::Matrix(const type& OtherMat) {
 // Conversion Constructor
 template<int columns, int rows, typename MatType>
 template <int Columns, int Rows, typename OtherType>
-Matrix<columns, rows, MatType>::Matrix(const Matrix<Columns, Rows, OtherType>& OtherMat) {
+Matrix<columns, rows, MatType>::Matrix(const Matrix<Columns, Rows, OtherType>& otherMat) {
 	for (int column = 0; column < columns; ++column) {
 		for (int row = 0; row < rows; ++row) {
-			if (Columns > column && Rows > row) cells[column][row] = (OtherType)OtherMat.cells[column][row];
+			if (Columns > column && Rows > row) cells[column][row] = (OtherType)otherMat.cells[column][row];
 			else cells[column][row] = 0;
 		}
 	}
 }
 // From Vector
 template<int columns, int rows, typename MatType>
-Matrix<columns, rows, MatType>::Matrix(const Vector<columns, MatType>& OtherVec) {
-
+Matrix<columns, rows, MatType>::Matrix(const Vector<columns, MatType>& otherVec) {
+    std::memcpy(cells, &otherVec, columns * sizeof(MatType));
 }
 
 // Identity Matrix
 template<int columns, int rows, typename MatType>
+template<int uCol, int uRow, std::enable_if_t<uCol == uRow, int>>
 Matrix<columns, rows, MatType> Matrix<columns, rows, MatType>::identity() {
-	static_assert(rows == columns, "Only square matrices can be Identities");
 	type temp = type(static_cast<MatType>(0));
 	for (int i = 0; i < rows; ++i) {
 		temp[i][i] = 1;
@@ -126,6 +126,19 @@ template<int columns, int rows, typename MatType>
 		}
 	}
 	return temp;
+}
+
+template<int columns, int rows, typename MatType>
+template<int uCol, int uRow, std::enable_if_t<uCol == uRow, int>>
+Matrix<columns, rows, MatType> Matrix<columns, rows, MatType>::inverse() {
+    Matrix<columns, rows, MatType> minors = calculateCofactors();
+
+    MatType determinant = 0;
+    for (int i = 0; i < columns; ++i) {
+        determinant += cells[i][0] * minors[i][0];
+    }
+
+    return minors.transpose() * (1 / determinant);
 }
 
 // Addition
@@ -280,15 +293,15 @@ Matrix<columns, rows, MatType> Matrix<columns, rows, MatType>::operator--(int) {
 
 // Multiplication
 template<int columns, int rows, typename MatType>
-template <int Columns>
-Matrix<Columns, rows, MatType> Matrix<columns, rows, MatType>::operator*(const Matrix<Columns, columns, MatType>& OtherMat) const {
-	Matrix<Columns, rows, MatType> temp = Matrix<Columns, rows, MatType>();
+template <int otherColumns>
+Matrix<otherColumns, rows, MatType> Matrix<columns, rows, MatType>::operator*(const Matrix<otherColumns, columns, MatType>& otherMat) const {
+	Matrix<otherColumns, rows, MatType> temp = Matrix<otherColumns, rows, MatType>();
 
-	for (int column = 0; column < Columns; ++column) {
+	for (int column = 0; column < otherColumns; ++column) {
 		for (int row = 0; row < rows; ++row) {
 			MatType newValue = 0;
 			for (int i = 0; i < columns; ++i) {
-				newValue += cells[i][row] * OtherMat[column][i];
+				newValue += cells[i][row] * otherMat[column][i];
 			}
 			temp[column][row] = newValue;
 		}
@@ -299,13 +312,13 @@ Matrix<Columns, rows, MatType> Matrix<columns, rows, MatType>::operator*(const M
 
 // Vector Multiplication
 template<int columns, int rows, typename MatType>
-Vector<columns, MatType> Matrix<columns, rows, MatType>::operator*(const Vector<columns, MatType>& OtherVec) const {
+Vector<columns, MatType> Matrix<columns, rows, MatType>::operator*(const Vector<columns, MatType>& otherVec) const {
 	Vector<columns, MatType> temp = Vector<columns, MatType>();
 
 	for (int row = 0; row < columns; ++row) {
 		MatType newValue = 0;
 		for (int i = 0; i < columns; ++i) {
-			newValue += cells[i][row] * OtherVec[i];
+			newValue += cells[i][row] * otherVec[i];
 		}
 		temp[row] = newValue;
 	}
@@ -313,13 +326,13 @@ Vector<columns, MatType> Matrix<columns, rows, MatType>::operator*(const Vector<
 	return temp;
 }
 
-// Single value Multiplication
+// Single matType Multiplication
 template<int columns, int rows, typename MatType>
-Matrix<columns, rows, MatType> Matrix<columns, rows, MatType>::operator*(MatType Value) const {
+Matrix<columns, rows, MatType> Matrix<columns, rows, MatType>::operator*(MatType matType) const {
 	type temp = type();
 	for (int row = 0; row < rows; ++row) {
 		for (int column = 0; column < columns; ++column) {
-			temp[column][row] = (*this)[column][row] * Value;
+			temp[column][row] = (*this)[column][row] * matType;
 		}
 	}
 	return temp;
@@ -327,14 +340,14 @@ Matrix<columns, rows, MatType> Matrix<columns, rows, MatType>::operator*(MatType
 
 // In place Multiplication
 template<int columns, int rows, typename MatType>
-Matrix<columns, rows, MatType>& Matrix<columns, rows, MatType>::operator*=(const type& OtherMat) {
+Matrix<columns, rows, MatType>& Matrix<columns, rows, MatType>::operator*=(const type& otherMat) {
 	static_assert(rows == columns, "In place Matrices multiplication only works for square matrices");
 	type copy = type(*this);
 	for (int row = 0; row < rows; ++row) {
 		for (int column = 0; column < columns; ++column) {
 			(*this)[column][row] = 0;
 			for (int i = 0; i < columns; ++i) {
-				(*this)[column][row] += copy[row][i] * OtherMat[i][column];
+				(*this)[column][row] += copy[row][i] * otherMat[i][column];
 			}
 		}
 	}
@@ -343,10 +356,10 @@ Matrix<columns, rows, MatType>& Matrix<columns, rows, MatType>::operator*=(const
 
 // Single value in place Multiplication
 template<int columns, int rows, typename MatType>
-Matrix<columns, rows, MatType>& Matrix<columns, rows, MatType>::operator*=(MatType Value) {
+Matrix<columns, rows, MatType>& Matrix<columns, rows, MatType>::operator*=(MatType value) {
 	for (int row = 0; row < rows; ++row) {
 		for (int column = 0; column < columns; ++column) {
-			(*this)[column][row] *= Value;
+			(*this)[column][row] *= value;
 		}
 	}
 	return (*this);
@@ -354,11 +367,11 @@ Matrix<columns, rows, MatType>& Matrix<columns, rows, MatType>::operator*=(MatTy
 
 // Single value Division
 template<int columns, int rows, typename MatType>
-Matrix<columns, rows, MatType> Matrix<columns, rows, MatType>::operator/(MatType Value) const {
+Matrix<columns, rows, MatType> Matrix<columns, rows, MatType>::operator/(MatType value) const {
 	type temp = type();
 	for (int row = 0; row < rows; ++row) {
 		for (int column = 0; column < columns; ++column) {
-			temp[column][row] = (*this)[column][row] / Value;
+			temp[column][row] = (*this)[column][row] / value;
 		}
 	}
 	return temp;
@@ -366,10 +379,10 @@ Matrix<columns, rows, MatType> Matrix<columns, rows, MatType>::operator/(MatType
 
 // Single value in place Division
 template<int columns, int rows, typename MatType>
-Matrix<columns, rows, MatType>& Matrix<columns, rows, MatType>::operator/=(MatType Value) {
+Matrix<columns, rows, MatType>& Matrix<columns, rows, MatType>::operator/=(MatType value) {
 	for (int row = 0; row < rows; ++row) {
 		for (int column = 0; column < columns; ++column) {
-			(*this)[column][row] /= Value;
+			(*this)[column][row] /= value;
 		}
 	}
 	return (*this);
@@ -388,13 +401,13 @@ Matrix<columns, rows, MatType> Matrix<columns, rows, MatType>::operator&(const t
 	return temp;
 }
 
-// Single Value And
+// Single value And
 template<int columns, int rows, typename MatType>
-Matrix<columns, rows, MatType> Matrix<columns, rows, MatType>::operator&(MatType Value) const {
+Matrix<columns, rows, MatType> Matrix<columns, rows, MatType>::operator&(MatType value) const {
 	type temp = type(0.f);
 	for (int row = 0; row < rows; ++row) {
 		for (int column = 0; column < columns; ++column) {
-			temp[column][row] = (*this)[column][row] & Value;
+			temp[column][row] = (*this)[column][row] & value;
 		}
 	}
 	return temp;
@@ -411,12 +424,12 @@ Matrix<columns, rows, MatType>& Matrix<columns, rows, MatType>::operator&=(const
 	return (*this);
 }
 
-// Single Value In Place And
+// Single value In Place And
 template<int columns, int rows, typename MatType>
-Matrix<columns, rows, MatType>& Matrix<columns, rows, MatType>::operator&=(MatType Value) {
+Matrix<columns, rows, MatType>& Matrix<columns, rows, MatType>::operator&=(MatType value) {
 	for (int row = 0; row < rows; ++row) {
 		for (int column = 0; column < columns; ++column) {
-			(*this)[column][row] &= Value;
+			(*this)[column][row] &= value;
 		}
 	}
 	return (*this);
@@ -434,13 +447,13 @@ Matrix<columns, rows, MatType> Matrix<columns, rows, MatType>::operator|(const t
 	return temp;
 }
 
-// Single Value Or
+// Single value Or
 template<int columns, int rows, typename MatType>
-Matrix<columns, rows, MatType> Matrix<columns, rows, MatType>::operator|(MatType Value) const {
+Matrix<columns, rows, MatType> Matrix<columns, rows, MatType>::operator|(MatType value) const {
 	type temp = type(0.f);
 	for (int row = 0; row < rows; ++row) {
 		for (int column = 0; column < columns; ++column) {
-			temp[column][row] = (*this)[column][row] | Value;
+			temp[column][row] = (*this)[column][row] | value;
 		}
 	}
 	return temp;
@@ -457,12 +470,12 @@ Matrix<columns, rows, MatType>& Matrix<columns, rows, MatType>::operator|=(const
 	return (*this);
 }
 
-// Single Value In Place Or
+// Single value In Place Or
 template<int columns, int rows, typename MatType>
-Matrix<columns, rows, MatType>& Matrix<columns, rows, MatType>::operator|=(MatType Value) {
+Matrix<columns, rows, MatType>& Matrix<columns, rows, MatType>::operator|=(MatType value) {
 	for (int row = 0; row < rows; ++row) {
 		for (int column = 0; column < columns; ++column) {
-			(*this)[column][row] |= Value;
+			(*this)[column][row] |= value;
 		}
 	}
 	return (*this);
@@ -480,13 +493,13 @@ Matrix<columns, rows, MatType> Matrix<columns, rows, MatType>::operator^(const t
 	return temp;
 }
 
-// Single Value XOR
+// Single value XOR
 template<int columns, int rows, typename MatType>
-Matrix<columns, rows, MatType> Matrix<columns, rows, MatType>::operator^(MatType Value) const {
+Matrix<columns, rows, MatType> Matrix<columns, rows, MatType>::operator^(MatType value) const {
 	type temp = type(0.f);
 	for (int row = 0; row < rows; ++row) {
 		for (int column = 0; column < columns; ++column) {
-			temp[column][row] = (*this)[column][row] ^ Value;
+			temp[column][row] = (*this)[column][row] ^ value;
 		}
 	}
 	return temp;
@@ -503,12 +516,12 @@ Matrix<columns, rows, MatType>& Matrix<columns, rows, MatType>::operator^=(const
 	return (*this);
 }
 
-// Single Value In Place XOR
+// Single value In Place XOR
 template<int columns, int rows, typename MatType>
-Matrix<columns, rows, MatType>& Matrix<columns, rows, MatType>::operator^=(MatType Value) {
+Matrix<columns, rows, MatType>& Matrix<columns, rows, MatType>::operator^=(MatType value) {
 	for (int row = 0; row < rows; ++row) {
 		for (int column = 0; column < columns; ++column) {
-			(*this)[column][row] ^= Value;
+			(*this)[column][row] ^= value;
 		}
 	}
 	return (*this);

@@ -1,17 +1,17 @@
 // Translate
 template<typename MatType>
 [[maybe_unused]] Matrix<4, 4, MatType>
-Maths::translate(const Matrix<4, 4, MatType>& BaseMatrix, const Vector<3, MatType>& TranslationVector) {
-    Matrix<4, 4, MatType> temp(BaseMatrix);
+Maths::translate(const Matrix<4, 4, MatType>& baseMatrix, const Vector<3, MatType>& translationVector) {
+    Matrix<4, 4, MatType> temp(baseMatrix);
 
-    temp[3][0] = BaseMatrix[0][0] * TranslationVector.x + BaseMatrix[1][0] * TranslationVector.y +
-                 BaseMatrix[2][0] * TranslationVector.z + BaseMatrix[3][0];
-    temp[3][1] = BaseMatrix[0][1] * TranslationVector.x + BaseMatrix[1][1] * TranslationVector.y +
-                 BaseMatrix[2][1] * TranslationVector.z + BaseMatrix[3][1];
-    temp[3][2] = BaseMatrix[0][2] * TranslationVector.x + BaseMatrix[1][2] * TranslationVector.y +
-                 BaseMatrix[2][2] * TranslationVector.z + BaseMatrix[3][2];
-    temp[3][3] = BaseMatrix[0][3] * TranslationVector.x + BaseMatrix[1][3] * TranslationVector.y +
-                 BaseMatrix[2][3] * TranslationVector.z + BaseMatrix[3][3];
+    temp[3][0] = baseMatrix[0][0] * translationVector.x + baseMatrix[1][0] * translationVector.y +
+                 baseMatrix[2][0] * translationVector.z + baseMatrix[3][0];
+    temp[3][1] = baseMatrix[0][1] * translationVector.x + baseMatrix[1][1] * translationVector.y +
+                 baseMatrix[2][1] * translationVector.z + baseMatrix[3][1];
+    temp[3][2] = baseMatrix[0][2] * translationVector.x + baseMatrix[1][2] * translationVector.y +
+                 baseMatrix[2][2] * translationVector.z + baseMatrix[3][2];
+    temp[3][3] = baseMatrix[0][3] * translationVector.x + baseMatrix[1][3] * translationVector.y +
+                 baseMatrix[2][3] * translationVector.z + baseMatrix[3][3];
 
     return temp;
 }
@@ -19,7 +19,7 @@ Maths::translate(const Matrix<4, 4, MatType>& BaseMatrix, const Vector<3, MatTyp
 // Rotate
 // Pitch
 template<typename MatType>
-Matrix<4, 4, MatType> Maths::rotatePitch(const Matrix<4, 4, MatType>& BaseMatrix, const MatType angle) {
+Matrix<4, 4, MatType> Maths::rotatePitch(const Matrix<4, 4, MatType>& baseMatrix, const MatType angle) {
     Matrix<4, 4, MatType> temp = Matrix<4, 4, MatType>();
 
     MatType cp = cos(angle);
@@ -45,12 +45,12 @@ Matrix<4, 4, MatType> Maths::rotatePitch(const Matrix<4, 4, MatType>& BaseMatrix
     temp[2][3] = 0.f;
     temp[3][3] = 1.f;
 
-    return BaseMatrix * temp;
+    return baseMatrix * temp;
 }
 
 // Yaw
 template<typename MatType>
-Matrix<4, 4, MatType> Maths::rotateYaw(const Matrix<4, 4, MatType>& BaseMatrix, const MatType angle) {
+Matrix<4, 4, MatType> Maths::rotateYaw(const Matrix<4, 4, MatType>& baseMatrix, const MatType angle) {
     Matrix<4, 4, MatType> temp = Matrix<4, 4, MatType>();
 
     MatType cy = cos(angle);
@@ -76,12 +76,12 @@ Matrix<4, 4, MatType> Maths::rotateYaw(const Matrix<4, 4, MatType>& BaseMatrix, 
     temp[2][3] = 0.f;
     temp[3][3] = 1.f;
 
-    return BaseMatrix * temp;
+    return baseMatrix * temp;
 }
 
 // Roll
 template<typename MatType>
-Matrix<4, 4, MatType> Maths::rotateRoll(const Matrix<4, 4, MatType>& BaseMatrix, const MatType angle) {
+Matrix<4, 4, MatType> Maths::rotateRoll(const Matrix<4, 4, MatType>& baseMatrix, const MatType angle) {
     Matrix<4, 4, MatType> temp = Matrix<4, 4, MatType>();
 
     MatType cr = cos(angle);
@@ -107,20 +107,20 @@ Matrix<4, 4, MatType> Maths::rotateRoll(const Matrix<4, 4, MatType>& BaseMatrix,
     temp[2][3] = 0.f;
     temp[3][3] = 1.f;
 
-    return BaseMatrix * temp;
+    return baseMatrix * temp;
 }
 
 // Rotator
 template<typename MatType>
-Matrix<4, 4, MatType> Maths::rotate(const Matrix<4, 4, MatType>& BaseMatrix, const Rotator<MatType>& Rotation) {
+Matrix<4, 4, MatType> Maths::rotate(const Matrix<4, 4, MatType>& baseMatrix, const Rotator<MatType>& rotation) {
     Matrix<4, 4, MatType> temp = Matrix<4, 4, MatType>();
 
-    MatType cp = cos(Rotation.pitch);
-    MatType sp = sin(Rotation.pitch);
-    MatType cy = cos(Rotation.yaw);
-    MatType sy = sin(Rotation.yaw);
-    MatType cr = cos(Rotation.roll);
-    MatType sr = sin(Rotation.roll);
+    MatType cp = cos(rotation.pitch);
+    MatType sp = sin(rotation.pitch);
+    MatType cy = cos(rotation.yaw);
+    MatType sy = sin(rotation.yaw);
+    MatType cr = cos(rotation.roll);
+    MatType sr = sin(rotation.roll);
 
     temp[0][0] = cy * cr + sy * sp * sr;
     temp[1][0] = cy * (-sr) + sy * sp * cr;
@@ -142,38 +142,31 @@ Matrix<4, 4, MatType> Maths::rotate(const Matrix<4, 4, MatType>& BaseMatrix, con
     temp[2][3] = 0.f;
     temp[3][3] = 1.f;
 
-    return BaseMatrix * temp;
+    return baseMatrix * temp;
 }
 
-/**
- * Calculates a rotation matrix from an axis and an angle
- * Algorithm sourced from <a href="https://www.euclideanspace.com/maths/geometry/rotations/conversions/angleToMatrix/index.htm">https://www.euclideanspace.com/maths/geometry/rotations/conversions/angleToMatrix/index.htm</a>, lightly optimised
- * @param Matrix The matrix to apply the rotation to
- * @param Angle The angle to rotate by (In radians)
- * @param Axis The axis to rotate around, must be normalised
- */
 template<typename MatType>
 inline Matrix<4, 4, MatType>
-Maths::rotate(const Matrix<4, 4, MatType>& BaseMatrix, const MatType Angle, const FVector& Axis) {
+Maths::rotate(const Matrix<4, 4, MatType>& baseMatrix, const MatType angle, const FVector& axis) {
     Matrix<4, 4, MatType> temp = Matrix<4, 4, MatType>();
-    MatType c = cos(Angle);
-    MatType s = sin(Angle);
+    MatType c = cos(angle);
+    MatType s = sin(angle);
 
-    Vector<3, MatType> t = (1 - c) * Axis;
+    Vector<3, MatType> t = (1 - c) * axis;
 
-    temp[0][0] = t.x * Axis.x + c;
-    temp[0][1] = t.x * Axis.y - Axis.z * s;
-    temp[0][2] = t.x * Axis.z + Axis.y * s;
+    temp[0][0] = t.x * axis.x + c;
+    temp[0][1] = t.x * axis.y - axis.z * s;
+    temp[0][2] = t.x * axis.z + axis.y * s;
     temp[0][3] = 0.f;
 
-    temp[1][0] = t.x * Axis.y + Axis.z * s;
-    temp[1][1] = t.y * Axis.y + c;
-    temp[1][2] = t.y * Axis.z + Axis.x * s;
+    temp[1][0] = t.x * axis.y + axis.z * s;
+    temp[1][1] = t.y * axis.y + c;
+    temp[1][2] = t.y * axis.z + axis.x * s;
     temp[1][3] = 0.f;
 
-    temp[2][0] = t.x * Axis.z - Axis.y * s;
-    temp[2][1] = t.y * Axis.z - Axis.x * s;
-    temp[2][2] = t.z * Axis.z + c;
+    temp[2][0] = t.x * axis.z - axis.y * s;
+    temp[2][1] = t.y * axis.z - axis.x * s;
+    temp[2][2] = t.z * axis.z + c;
     temp[2][3] = 0.f;
 
     temp[3][0] = 0.f;
@@ -181,26 +174,26 @@ Maths::rotate(const Matrix<4, 4, MatType>& BaseMatrix, const MatType Angle, cons
     temp[3][2] = 0.f;
     temp[3][3] = 1.f;
 
-    return BaseMatrix * temp;
+    return baseMatrix * temp;
 }
 
-// Quat
+// quat
 template<typename MatType>
-Matrix<4, 4, MatType> Maths::rotate(const Matrix<4, 4, MatType>& BaseMatrix, const Quaternion<MatType>& Quat) {
+Matrix<4, 4, MatType> Maths::rotate(const Matrix<4, 4, MatType>& baseMatrix, const Quaternion<MatType>& quat) {
     Matrix<4, 4, MatType> temp = Matrix<4, 4, MatType>();
 
-    MatType xx2 = 2 * Quat.vec.x * Quat.vec.x;
-    MatType xy2 = 2 * Quat.vec.x * Quat.vec.y;
+    MatType xx2 = 2 * quat.vec.x * quat.vec.x;
+    MatType xy2 = 2 * quat.vec.x * quat.vec.y;
 
-    MatType yy2 = 2 * Quat.vec.y * Quat.vec.y;
+    MatType yy2 = 2 * quat.vec.y * quat.vec.y;
 
-    MatType xz2 = 2 * Quat.vec.x * Quat.vec.z;
-    MatType yz2 = 2 * Quat.vec.y * Quat.vec.z;
-    MatType zz2 = 2 * Quat.vec.z * Quat.vec.z;
+    MatType xz2 = 2 * quat.vec.x * quat.vec.z;
+    MatType yz2 = 2 * quat.vec.y * quat.vec.z;
+    MatType zz2 = 2 * quat.vec.z * quat.vec.z;
 
-    MatType xw2 = 2 * Quat.vec.x * Quat.s;
-    MatType yw2 = 2 * Quat.vec.y * Quat.s;
-    MatType zw2 = 2 * Quat.vec.z * Quat.s;
+    MatType xw2 = 2 * quat.vec.x * quat.s;
+    MatType yw2 = 2 * quat.vec.y * quat.s;
+    MatType zw2 = 2 * quat.vec.z * quat.s;
 
     temp[0][0] = 1 - yy2 - zz2;
     temp[0][1] = xy2 - zw2;
@@ -222,100 +215,100 @@ Matrix<4, 4, MatType> Maths::rotate(const Matrix<4, 4, MatType>& BaseMatrix, con
     temp[3][2] = 0.f;
     temp[3][3] = 1.f;
 
-    return BaseMatrix * temp;
+    return baseMatrix * temp;
 }
 
 // Scale
 template<typename MatType>
-Matrix<4, 4, MatType> Maths::scale(const Matrix<4, 4, MatType>& BaseMatrix, const MatType Amount) {
+Matrix<4, 4, MatType> Maths::scale(const Matrix<4, 4, MatType>& baseMatrix, const MatType amount) {
     Matrix<4, 4, MatType> temp = Matrix<4, 4, MatType>();
 
-    temp[0][0] = BaseMatrix[0][0] * Amount;
-    temp[1][0] = BaseMatrix[1][0] * Amount;
-    temp[2][0] = BaseMatrix[2][0] * Amount;
-    temp[3][0] = BaseMatrix[3][0] * Amount;
+    temp[0][0] = baseMatrix[0][0] * amount;
+    temp[1][0] = baseMatrix[1][0] * amount;
+    temp[2][0] = baseMatrix[2][0] * amount;
+    temp[3][0] = baseMatrix[3][0] * amount;
 
-    temp[0][1] = BaseMatrix[0][1] * Amount;
-    temp[1][1] = BaseMatrix[1][1] * Amount;
-    temp[2][1] = BaseMatrix[2][1] * Amount;
-    temp[3][1] = BaseMatrix[3][1] * Amount;
+    temp[0][1] = baseMatrix[0][1] * amount;
+    temp[1][1] = baseMatrix[1][1] * amount;
+    temp[2][1] = baseMatrix[2][1] * amount;
+    temp[3][1] = baseMatrix[3][1] * amount;
 
-    temp[0][2] = BaseMatrix[0][2] * Amount;
-    temp[1][2] = BaseMatrix[1][2] * Amount;
-    temp[2][2] = BaseMatrix[2][2] * Amount;
-    temp[3][2] = BaseMatrix[3][2] * Amount;
+    temp[0][2] = baseMatrix[0][2] * amount;
+    temp[1][2] = baseMatrix[1][2] * amount;
+    temp[2][2] = baseMatrix[2][2] * amount;
+    temp[3][2] = baseMatrix[3][2] * amount;
 
-    temp[0][3] = BaseMatrix[0][3];
-    temp[1][3] = BaseMatrix[1][3];
-    temp[2][3] = BaseMatrix[2][3];
-    temp[3][3] = BaseMatrix[3][3];
+    temp[0][3] = baseMatrix[0][3];
+    temp[1][3] = baseMatrix[1][3];
+    temp[2][3] = baseMatrix[2][3];
+    temp[3][3] = baseMatrix[3][3];
 
     return temp;
 }
 
 template<typename MatType>
 Matrix<4, 4, MatType>
-Maths::scale(const Matrix<4, 4, MatType>& BaseMatrix, const MatType X, const MatType Y, const MatType Z) {
+Maths::scale(const Matrix<4, 4, MatType>& baseMatrix, const MatType x, const MatType y, const MatType z) {
     Matrix<4, 4, MatType> temp = Matrix<4, 4, MatType>();
 
-    temp[0][0] = BaseMatrix[0][0] * X;
-    temp[1][0] = BaseMatrix[1][0] * X;
-    temp[2][0] = BaseMatrix[2][0] * X;
-    temp[3][0] = BaseMatrix[3][0] * X;
+    temp[0][0] = baseMatrix[0][0] * x;
+    temp[1][0] = baseMatrix[1][0] * x;
+    temp[2][0] = baseMatrix[2][0] * x;
+    temp[3][0] = baseMatrix[3][0] * x;
 
-    temp[0][1] = BaseMatrix[0][1] * Y;
-    temp[1][1] = BaseMatrix[1][1] * Y;
-    temp[2][1] = BaseMatrix[2][1] * Y;
-    temp[3][1] = BaseMatrix[3][1] * Y;
+    temp[0][1] = baseMatrix[0][1] * y;
+    temp[1][1] = baseMatrix[1][1] * y;
+    temp[2][1] = baseMatrix[2][1] * y;
+    temp[3][1] = baseMatrix[3][1] * y;
 
-    temp[0][2] = BaseMatrix[0][2] * Z;
-    temp[1][2] = BaseMatrix[1][2] * Z;
-    temp[2][2] = BaseMatrix[2][2] * Z;
-    temp[3][2] = BaseMatrix[3][2] * Z;
+    temp[0][2] = baseMatrix[0][2] * z;
+    temp[1][2] = baseMatrix[1][2] * z;
+    temp[2][2] = baseMatrix[2][2] * z;
+    temp[3][2] = baseMatrix[3][2] * z;
 
-    temp[0][3] = BaseMatrix[0][3];
-    temp[1][3] = BaseMatrix[1][3];
-    temp[2][3] = BaseMatrix[2][3];
-    temp[3][3] = BaseMatrix[3][3];
+    temp[0][3] = baseMatrix[0][3];
+    temp[1][3] = baseMatrix[1][3];
+    temp[2][3] = baseMatrix[2][3];
+    temp[3][3] = baseMatrix[3][3];
 
     return temp;
 }
 
 template<typename MatType>
-Matrix<4, 4, MatType> Maths::scale(const Matrix<4, 4, MatType>& BaseMatrix, const Vector<3, MatType>& scaleVec) {
+Matrix<4, 4, MatType> Maths::scale(const Matrix<4, 4, MatType>& baseMatrix, const Vector<3, MatType>& vector) {
     Matrix<4, 4, MatType> temp = Matrix<4, 4, MatType>();
 
-    temp[0][0] = BaseMatrix[0][0] * scaleVec.x;
-    temp[1][0] = BaseMatrix[1][0] * scaleVec.x;
-    temp[2][0] = BaseMatrix[2][0] * scaleVec.x;
-    temp[3][0] = BaseMatrix[3][0] * scaleVec.x;
+    temp[0][0] = baseMatrix[0][0] * vector.x;
+    temp[1][0] = baseMatrix[1][0] * vector.x;
+    temp[2][0] = baseMatrix[2][0] * vector.x;
+    temp[3][0] = baseMatrix[3][0] * vector.x;
 
-    temp[0][1] = BaseMatrix[0][1] * scaleVec.y;
-    temp[1][1] = BaseMatrix[1][1] * scaleVec.y;
-    temp[2][1] = BaseMatrix[2][1] * scaleVec.y;
-    temp[3][1] = BaseMatrix[3][1] * scaleVec.y;
+    temp[0][1] = baseMatrix[0][1] * vector.y;
+    temp[1][1] = baseMatrix[1][1] * vector.y;
+    temp[2][1] = baseMatrix[2][1] * vector.y;
+    temp[3][1] = baseMatrix[3][1] * vector.y;
 
-    temp[0][2] = BaseMatrix[0][2] * scaleVec.y;
-    temp[1][2] = BaseMatrix[1][2] * scaleVec.y;
-    temp[2][2] = BaseMatrix[2][2] * scaleVec.y;
-    temp[3][2] = BaseMatrix[3][2] * scaleVec.y;
+    temp[0][2] = baseMatrix[0][2] * vector.y;
+    temp[1][2] = baseMatrix[1][2] * vector.y;
+    temp[2][2] = baseMatrix[2][2] * vector.y;
+    temp[3][2] = baseMatrix[3][2] * vector.y;
 
-    temp[0][3] = BaseMatrix[0][3];
-    temp[1][3] = BaseMatrix[1][3];
-    temp[2][3] = BaseMatrix[2][3];
-    temp[3][3] = BaseMatrix[3][3];
+    temp[0][3] = baseMatrix[0][3];
+    temp[1][3] = baseMatrix[1][3];
+    temp[2][3] = baseMatrix[2][3];
+    temp[3][3] = baseMatrix[3][3];
 
     return temp;
 }
 
 template<typename MatType>
 Matrix<4, 4, MatType>
-Maths::perspectiveProjection(const MatType FOV, const MatType AspectRatio, const MatType NearPlane, const MatType FarPlane) {
+Maths::perspectiveProjection(const MatType fov, const MatType aspectRatio, const MatType nearPlane, const MatType farPlane) {
     Matrix<4, 4, MatType> temp = Matrix<4, 4, MatType>();
 
-    MatType f = tan(FOV / 2.f);
+    MatType f = tan(fov / 2.f);
 
-    temp[0][0] = 1.f / (f * AspectRatio);
+    temp[0][0] = 1.f / (f * aspectRatio);
     temp[1][0] = 0;
     temp[2][0] = 0;
     temp[3][0] = 0;
@@ -327,8 +320,8 @@ Maths::perspectiveProjection(const MatType FOV, const MatType AspectRatio, const
 
     temp[0][2] = 0;
     temp[1][2] = 0;
-    temp[2][2] = FarPlane / (NearPlane - FarPlane);
-    temp[3][2] = -(FarPlane * NearPlane) / (FarPlane - NearPlane);
+    temp[2][2] = farPlane / (nearPlane - farPlane);
+    temp[3][2] = -(farPlane * nearPlane) / (farPlane - nearPlane);
 
     temp[0][3] = 0;
     temp[1][3] = 0;
@@ -340,9 +333,9 @@ Maths::perspectiveProjection(const MatType FOV, const MatType AspectRatio, const
 
 // Look at
 template <typename MatType>
-Matrix<4, 4, MatType> Maths::lookAt(const Vector<3, MatType>& CameraPosition, const Vector<3, MatType>& TargetPosition, const Vector<3, MatType>& WorldUp) {
-    Vector<3, MatType> forwardVector = (TargetPosition - CameraPosition).normalised();
-    Vector<3, MatType> rightVector = Maths::crossProduct(WorldUp, forwardVector);
+Matrix<4, 4, MatType> Maths::lookAt(const Vector<3, MatType>& cameraPosition, const Vector<3, MatType>& targetPosition, const Vector<3, MatType>& upVector) {
+    Vector<3, MatType> forwardVector = (targetPosition - cameraPosition).normalised();
+    Vector<3, MatType> rightVector = Maths::crossProduct(upVector, forwardVector);
     Vector<3, MatType> upVector = Maths::crossProduct(forwardVector, rightVector);
 
     Matrix<4, 4, MatType> temp = Matrix<4, 4, MatType>();
@@ -350,17 +343,17 @@ Matrix<4, 4, MatType> Maths::lookAt(const Vector<3, MatType>& CameraPosition, co
     temp[0][0] = rightVector.x;
     temp[1][0] = upVector.x;
     temp[2][0] = forwardVector.x;
-    temp[3][0] = CameraPosition.x;
+    temp[3][0] = cameraPosition.x;
 
     temp[0][1] = rightVector.y;
     temp[1][1] = upVector.y;
     temp[2][1] = forwardVector.y;
-    temp[3][1] = CameraPosition.y;
+    temp[3][1] = cameraPosition.y;
 
     temp[0][2] = rightVector.z;
     temp[1][2] = upVector.z;
     temp[2][2] = forwardVector.z;
-    temp[3][2] = CameraPosition.z;
+    temp[3][2] = cameraPosition.z;
 
     temp[0][3] = 0;
     temp[1][3] = 0;
@@ -373,33 +366,33 @@ Matrix<4, 4, MatType> Maths::lookAt(const Vector<3, MatType>& CameraPosition, co
 // View Matrix
 // Rotator
 template <typename MatType>
-Matrix<4, 4, MatType> Maths::viewMatrix(const Vector<3, MatType>& CameraPosition, const Rotator<MatType>& CameraRotation) {
+Matrix<4, 4, MatType> Maths::viewMatrix(const Vector<3, MatType>& cameraPosition, const Rotator<MatType>& cameraRotation) {
 
 }
 
 // Quaternion
 template <typename MatType>
-Matrix<4, 4, MatType> Maths::viewMatrix(const Vector<3, MatType>& CameraPosition, const Quaternion<MatType>& CameraRotation) {
+Matrix<4, 4, MatType> Maths::viewMatrix(const Vector<3, MatType>& cameraPosition, const Quaternion<MatType>& cameraRotation) {
     Matrix<4, 4, MatType> temp = Matrix<4, 4, MatType>();
 
-    Vector<3, MatType> forwardVector = CameraRotation.forwardVector();
-    Vector<3, MatType> rightVector = CameraRotation.rightVector();
-    Vector<3, MatType> upVector = CameraRotation.upVector();
+    Vector<3, MatType> forwardVector = cameraRotation.forwardVector();
+    Vector<3, MatType> rightVector = cameraRotation.rightVector();
+    Vector<3, MatType> upVector = cameraRotation.upVector();
 
     temp[0][0] = rightVector.x;
     temp[1][0] = upVector.x;
     temp[2][0] = forwardVector.x;
-    temp[3][0] = CameraPosition.x;
+    temp[3][0] = cameraPosition.x;
 
     temp[0][1] = rightVector.y;
     temp[1][1] = upVector.y;
     temp[2][1] = forwardVector.y;
-    temp[3][1] = CameraPosition.y;
+    temp[3][1] = cameraPosition.y;
 
     temp[0][2] = rightVector.z;
     temp[1][2] = upVector.z;
     temp[2][2] = forwardVector.z;
-    temp[3][2] = CameraPosition.z;
+    temp[3][2] = cameraPosition.z;
 
     temp[0][3] = 0;
     temp[1][3] = 0;
