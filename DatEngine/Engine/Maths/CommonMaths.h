@@ -2,7 +2,7 @@
 #include <cmath>
 
 namespace Maths {
-	// Pi
+	// Pi precalculated values to speed up
     [[maybe_unused]] constexpr double pi = 3.141592653589793;
     [[maybe_unused]] constexpr double halfpi = 1.5707963267948966;
     [[maybe_unused]] constexpr double doublepi = 6.283185307179586;

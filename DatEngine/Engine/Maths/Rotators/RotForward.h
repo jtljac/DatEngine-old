@@ -8,24 +8,41 @@ struct Rotator {
 
 	// Constructors
 	// Empty
-	Rotator();
+	Rotator() = default;
 
-	// Single Value
-	Rotator(const RotType Value);
+	/**
+	 * Construct a Rotator with the same value for each component
+	 * @param value The value to set each component to
+	 */
+	explicit Rotator(RotType value);
 
-	// Full
-	Rotator(const RotType Pitch, const RotType Yaw, const RotType Roll);
-
-	// Vector Axis
-
+	/**
+	 * Construct a Rotator from it's individual components
+	 * @param Pitch The pitch component
+	 * @param Yaw The yaw component
+	 * @param Roll The roll component
+	 */
+	Rotator(RotType Pitch, RotType Yaw, RotType Roll);
 
 	// Copy
-
-	Rotator(const Rotator<RotType>& OtherRot);
+	Rotator(const Rotator<RotType>& otherRot);
 
 	// Type Conversion
+    /**
+     * Convert a Rotator of another type into this type
+     * @tparam OtherType The type of the other Rotator
+     * @param otherRot The rotator to convert
+     */
 	template<typename OtherType>
-	explicit Rotator(const Rotator<OtherType>& OtherRot);
+	explicit Rotator(const Rotator<OtherType>& otherRot);
+
+    // Vector Axis
+    /**
+     * Construct a Rotator from an axis angle representation
+     * @param axis The axis of the rotation
+     * @param angle The angle of the rotation
+     */
+    explicit Rotator(Vector<3, RotType> axis, RotType angle);
 
 	// Set values
 	void set(const RotType Pitch, const RotType Yaw, const RotType Roll);

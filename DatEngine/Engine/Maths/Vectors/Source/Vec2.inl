@@ -14,17 +14,14 @@ template<typename VecType>
 const Vector<2, VecType> Vector<2, VecType>::left = Vector<2, VecType>(-1, 0);
 
 template<typename VecType>
-Vector<2, VecType>::Vector() : x(0), y(0) {}
-
-template<typename VecType>
-Vector<2, VecType>::Vector(VecType Value) : x(Value), y(Value) {}
+Vector<2, VecType>::Vector(VecType value) : x(value), y(value) {}
 
 template<typename VecType>
 Vector<2, VecType>::Vector(VecType X, VecType Y) : x(X), y(Y) {}
 
 template<typename VecType>
-Vector<2, VecType>::Vector(VecType Array[2]) {
-	std::memcpy(&x, Array, 2 * sizeof(VecType));
+Vector<2, VecType>::Vector(VecType array[2]) {
+	std::memcpy(&x, array, 2 * sizeof(VecType));
 }
 
 
@@ -33,14 +30,14 @@ template<typename VecType>
 Vector<2, VecType>::Vector(const type& OtherVec) : x(OtherVec.x), y(OtherVec.y) {}
 
 template<typename VecType>
-Vector<2, VecType>::Vector(const Vector<3, VecType>& OtherVec) : x(OtherVec.x), y(OtherVec.y) {}
+Vector<2, VecType>::Vector(const Vector<3, VecType>& otherVec) : x(otherVec.x), y(otherVec.y) {}
 
 template<typename VecType>
-Vector<2, VecType>::Vector(const Vector<4, VecType>& OtherVec) : x(OtherVec.x), y(OtherVec.y) {}
+Vector<2, VecType>::Vector(const Vector<4, VecType>& otherVec) : x(otherVec.x), y(otherVec.y) {}
 
 template<typename VecType>
 template<typename OtherType>
-Vector<2, VecType>::Vector(const Vector<2, OtherType>& OtherVec) : x(static_cast<VecType>(OtherVec.x)), y(static_cast<VecType>(OtherVec.y)) {}
+Vector<2, VecType>::Vector(const Vector<2, OtherType>& otherVec) : x(static_cast<VecType>(otherVec.x)), y(static_cast<VecType>(otherVec.y)) {}
 
 // Setters
 template<typename VecType>
@@ -56,49 +53,49 @@ void Vector<2, VecType>::set(VecType newValue) {
 }
 
 template<typename VecType>
-void Vector<2, VecType>::set(const type& OtherVector) {
-	x = OtherVector.x;
-	y = OtherVector.y;
+void Vector<2, VecType>::set(const type& otherVector) {
+	x = otherVector.x;
+	y = otherVector.y;
 }
 
 // Operators
 template<typename VecType>
-VecType& Vector<2, VecType>::operator[](const size_t Index) {
+VecType& Vector<2, VecType>::operator[](const size_t index) {
 #ifdef _DEBUG
-	if (Index > 1) throw std::out_of_range("Index out of range");
+	if (index > 1) throw std::out_of_range("index out of range");
 #endif
-	return *(&x + Index);
+	return *(&x + index);
 }
 
 template<typename VecType>
-VecType& Vector<2, VecType>::operator[](const size_t Index) const {
+VecType& Vector<2, VecType>::operator[](const size_t index) const {
 #ifdef _DEBUG
-	if (Index > 1) throw std::out_of_range("Index out of range");
+	if (index > 1) throw std::out_of_range("index out of range");
 #endif
-	return *(&x + Index);
+	return *(&x + index);
 }
 
 template<typename VecType>
-Vector<2, VecType> Vector<2, VecType>::operator+(const type& OtherVec) const {
-	return type(x + OtherVec.x, y + OtherVec.y);
+Vector<2, VecType> Vector<2, VecType>::operator+(const type& otherVec) const {
+	return type(x + otherVec.x, y + otherVec.y);
 }
 
 template<typename VecType>
-Vector<2, VecType> Vector<2, VecType>::operator+(VecType Amount) const {
-	return type(x + Amount, y + Amount);
+Vector<2, VecType> Vector<2, VecType>::operator+(VecType amount) const {
+	return type(x + amount, y + amount);
 }
 
 template<typename VecType>
-Vector<2, VecType>& Vector<2, VecType>::operator+=(const type& OtherVec) {
-	x += OtherVec.x;
-	y += OtherVec.y;
+Vector<2, VecType>& Vector<2, VecType>::operator+=(const type& otherVec) {
+	x += otherVec.x;
+	y += otherVec.y;
 	return *this;
 }
 
 template<typename VecType>
-Vector<2, VecType>& Vector<2, VecType>::operator+=(VecType Amount) {
-	x += Amount;
-	y += Amount;
+Vector<2, VecType>& Vector<2, VecType>::operator+=(VecType amount) {
+	x += amount;
+	y += amount;
 
 	return *this;
 }
@@ -123,26 +120,26 @@ Vector<2, VecType> Vector<2, VecType>::operator-() const {
 }
 
 template<typename VecType>
-Vector<2, VecType> Vector<2, VecType>::operator-(const type& OtherVec) const {
-	return type(x - OtherVec.x, y - OtherVec.y);
+Vector<2, VecType> Vector<2, VecType>::operator-(const type& otherVec) const {
+	return type(x - otherVec.x, y - otherVec.y);
 }
 
 template<typename VecType>
-Vector<2, VecType> Vector<2, VecType>::operator-(VecType Amount) const {
-	return type(x - Amount, y - Amount);
+Vector<2, VecType> Vector<2, VecType>::operator-(VecType amount) const {
+	return type(x - amount, y - amount);
 }
 
 template<typename VecType>
-Vector<2, VecType>& Vector<2, VecType>::operator-=(const type& OtherVec) {
-	x -= OtherVec.x;
-	y -= OtherVec.y;
+Vector<2, VecType>& Vector<2, VecType>::operator-=(const type& otherVec) {
+	x -= otherVec.x;
+	y -= otherVec.y;
 	return *this;
 }
 
 template<typename VecType>
-Vector<2, VecType>& Vector<2, VecType>::operator-=(VecType Amount) {
-	x -= Amount;
-	y -= Amount;
+Vector<2, VecType>& Vector<2, VecType>::operator-=(VecType amount) {
+	x -= amount;
+	y -= amount;
 
 	return *this;
 }
@@ -162,69 +159,69 @@ Vector<2, VecType> Vector<2, VecType>::operator--(int) {
 }
 
 template<typename VecType>
-Vector<2, VecType> Vector<2, VecType>::operator*(const type& OtherVec) const {
-	return type(x * OtherVec.x, y * OtherVec.y);
+Vector<2, VecType> Vector<2, VecType>::operator*(const type& otherVec) const {
+	return type(x * otherVec.x, y * otherVec.y);
 }
 
 template<typename VecType>
-Vector<2, VecType> Vector<2, VecType>::operator*(VecType Value) const {
-	return type(x * Value, y * Value);
+Vector<2, VecType> Vector<2, VecType>::operator*(VecType value) const {
+	return type(x * value, y * value);
 }
 
 template<typename VecType>
-Vector<2, VecType>& Vector<2, VecType>::operator*=(const type& OtherVec) {
-	x *= OtherVec.x;
-	y *= OtherVec.y;
+Vector<2, VecType>& Vector<2, VecType>::operator*=(const type& otherVec) {
+	x *= otherVec.x;
+	y *= otherVec.y;
 	return *this;
 }
 
 template<typename VecType>
-Vector<2, VecType>& Vector<2, VecType>::operator*=(VecType Value) {
-	x *= Value;
-	y *= Value;
+Vector<2, VecType>& Vector<2, VecType>::operator*=(VecType value) {
+	x *= value;
+	y *= value;
 
 	return *this;
 }
 
 template<typename VecType>
-Vector<2, VecType> Vector<2, VecType>::operator/(const type& OtherVec) const {
-	return type(x / OtherVec.x, y / OtherVec.y);
+Vector<2, VecType> Vector<2, VecType>::operator/(const type& otherVec) const {
+	return type(x / otherVec.x, y / otherVec.y);
 }
 
 template<typename VecType>
-Vector<2, VecType> Vector<2, VecType>::operator/(VecType Value) const {
-	return type(x / Value, y / Value);
+Vector<2, VecType> Vector<2, VecType>::operator/(VecType value) const {
+	return type(x / value, y / value);
 }
 
 template<typename VecType>
-Vector<2, VecType>& Vector<2, VecType>::operator/=(const type& OtherVec) {
-	x /= OtherVec.x;
-	y /= OtherVec.y;
+Vector<2, VecType>& Vector<2, VecType>::operator/=(const type& otherVec) {
+	x /= otherVec.x;
+	y /= otherVec.y;
 	return *this;
 }
 
 template<typename VecType>
-Vector<2, VecType>& Vector<2, VecType>::operator/=(VecType Value) {
-	x /= Value;
-	y /= Value;
+Vector<2, VecType>& Vector<2, VecType>::operator/=(VecType value) {
+	x /= value;
+	y /= value;
 
 	return *this;
 }
 
 // Compairson
 template<typename VecType>
-bool Vector<2, VecType>::operator==(const type& OtherVec) const {
-	return x == OtherVec.x && y == OtherVec.y;
+bool Vector<2, VecType>::operator==(const type& otherVec) const {
+	return x == otherVec.x && y == otherVec.y;
 }
 
 template<typename VecType>
-bool Vector<2, VecType>::operator!=(const type& OtherVec) const {
-	return x != OtherVec.x || y != OtherVec.y;
+bool Vector<2, VecType>::operator!=(const type& otherVec) const {
+	return x != otherVec.x || y != otherVec.y;
 }
 
 template<typename VecType>
-[[maybe_unused]] bool Vector<2, VecType>::equals(const type& OtherVec, VecType Tolerance) const {
-	return fabs(x - OtherVec.x) < Tolerance && fabs(y - OtherVec.y) < Tolerance;
+[[maybe_unused]] bool Vector<2, VecType>::equals(const type& otherVec, VecType tolerance) const {
+	return fabs(x - otherVec.x) < tolerance && fabs(y - otherVec.y) < tolerance;
 }
 
 template<typename VecType>
@@ -248,6 +245,6 @@ Vector<2, VecType> Vector<2, VecType>::normalised() const {
 }
 
 template<typename VecType>
-[[maybe_unused]] bool Vector<2, VecType>::isNormalised(VecType Tolerance) const {
-	return fabs(lengthSquared() - 1.f) < Tolerance;
+[[maybe_unused]] bool Vector<2, VecType>::isNormalised(VecType tolerance) const {
+	return fabs(lengthSquared() - 1.f) < tolerance;
 }

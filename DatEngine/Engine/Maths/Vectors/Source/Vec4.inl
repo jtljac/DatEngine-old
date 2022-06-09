@@ -1,7 +1,4 @@
 template<typename VecType>
-Vector<4, VecType>::Vector() : x(0), y(0), z(0), w(0) {}
-
-template<typename VecType>
 Vector<4, VecType>::Vector(VecType Value) : x(Value), y(Value), z(Value), w(Value) {}
 
 template<typename VecType>
@@ -18,10 +15,10 @@ template<typename VecType>
 Vector<4, VecType>::Vector(const type& OtherVec) : x(OtherVec.x), y(OtherVec.y), z(OtherVec.z), w(OtherVec.w) {}
 
 template<typename VecType>
-Vector<4, VecType>::Vector(const Vector<2, VecType>& OtherVec, VecType Z, VecType W) : x(OtherVec.x), y(OtherVec.y), z(Z), w(W) {}
+Vector<4, VecType>::Vector(const Vector<2, VecType>& otherVec, VecType Z, VecType W) : x(otherVec.x), y(otherVec.y), z(Z), w(W) {}
 
 template<typename VecType>
-Vector<4, VecType>::Vector(const Vector<3, VecType>& OtherVec, VecType W) : x(OtherVec.x), y(OtherVec.y), z(OtherVec.z), w(W) {}
+Vector<4, VecType>::Vector(const Vector<3, VecType>& otherVec, VecType W) : x(otherVec.x), y(otherVec.y), z(otherVec.z), w(W) {}
 
 template<typename VecType>
 template<typename OtherType>

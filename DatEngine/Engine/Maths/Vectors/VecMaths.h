@@ -6,39 +6,39 @@
 
 namespace Maths {
 	/**
-	 * Gets the dot product of the two Vectors
-	 * @param Vec1 The left hand vector
-	 * @param Vec2 The right hand vector
+	 * Calculates the dot product of the two Vectors
+	 * @param vec1 The left-hand vector
+	 * @param vec2 The right-hand vector
 	 * @Return The dot product
 	 */
-	template<int Size, typename VecType, typename ReturnType = VecType>
-	ReturnType dotProduct(const Vector<Size, VecType>& Vec1, const Vector<Size, VecType>& Vec2) {
-		ReturnType temp = 0;
+	template<int Size, typename VecType>
+    VecType dotProduct(const Vector<Size, VecType>& vec1, const Vector<Size, VecType>& vec2) {
+        VecType temp = 0;
 		for (int i = 0; i < Size; ++i) {
-			temp += static_cast<ReturnType>(Vec1[i] * Vec2[i]);
+			temp += vec1[i] * vec2[i];
 		}
 		return temp;
 	}
 
 	/**
-	 * Gets the unit vector that looks at Vec2 from Vec1
-	 * @param Vec1 The Vector Looking at Vec2
-	 * @param Vec2 The Vector being looked at
-	 * @return The unit vector that looks at Vec2 from Vec1
+	 * Calculates the unit vector that looks at vec2 from vec1
+	 * @param vec1 The position being looked from
+	 * @param vec2 The Vector being looked at
+	 * @return A unit vector representing the look at direction
 	 */
-	template<int Size, typename VecType, typename ReturnVecType = VecType>
-	Vector<Size, ReturnVecType> lookAtVector(const Vector<Size, VecType>& Vec1, const Vector<Size, VecType>& Vec2) {
-		return (Vec2 - Vec1).normalise();
+	template<int Size, typename VecType>
+	Vector<Size, VecType> lookAtVector(const Vector<Size, VecType>& vec1, const Vector<Size, VecType>& vec2) {
+		return (vec2 - vec1).normalise();
 	}
 
 	/**
 	 * Finds the cross product of two vectors
-	 * @param Vec1 The left hand vector
-	 * @param Vec2 The right hand vector
-	 * @Return The cross product product
+	 * @param vec1 The left-hand vector
+	 * @param vec2 The right-hand vector
+	 * @Return The cross product
 	 */
-	template<typename VecType, typename ReturnVecType = VecType>
-	Vector<3, ReturnVecType> crossProduct(const Vector<3, VecType>& Vec1, const Vector<3, VecType>& Vec2) {
-		return Vector<3, ReturnVecType>((Vec1.y * Vec2.z) - (Vec1.z * Vec2.y), (Vec1.z * Vec2.x) - (Vec1.x * Vec2.z), (Vec1.x * Vec2.y) - (Vec1.y * Vec2.x));
+	template<typename VecType>
+	Vector<3, VecType> crossProduct(const Vector<3, VecType>& vec1, const Vector<3, VecType>& vec2) {
+		return Vector<3, VecType>((vec1.y * vec2.z) - (vec1.z * vec2.y), (vec1.z * vec2.x) - (vec1.x * vec2.z), (vec1.x * vec2.y) - (vec1.y * vec2.x));
 	}
 }

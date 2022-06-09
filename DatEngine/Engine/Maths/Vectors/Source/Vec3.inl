@@ -1,30 +1,3 @@
-/** A vector pointing up (0,1,0) */
-template<typename VecType>
-const Vector<3, VecType> Vector<3, VecType>::up = Vector<3, VecType>(0, 1, 0);
-
-/** A vector pointing down (0,-1,0) */
-template<typename VecType>
-const Vector<3, VecType> Vector<3, VecType>::down = Vector<3, VecType>(0, -1, 0);
-
-/** A vector pointing north (0,0,1) */
-template<typename VecType>
-const Vector<3, VecType> Vector<3, VecType>::north = Vector<3, VecType>(0, 0, 1);
-
-/** A vector pointing south (0,0,-1) */
-template<typename VecType>
-const Vector<3, VecType> Vector<3, VecType>::south = Vector<3, VecType>(0, 0, -1);
-
-/** A vector pointing east (1,0,0) */
-template<typename VecType>
-const Vector<3, VecType> Vector<3, VecType>::east = Vector<3, VecType>(1, 0, 0);
-
-/** A vector pointing west (-1,0,0) */
-template<typename VecType>
-const Vector<3, VecType> Vector<3, VecType>::west = Vector<3, VecType>(-1, 0, 0);
-
-template<typename VecType>
-Vector<3, VecType>::Vector() : x(0), y(0), z(0) {}
-
 template<typename VecType>
 Vector<3, VecType>::Vector(VecType Value) : x(Value), y(Value), z(Value) {}
 
@@ -41,7 +14,7 @@ template<typename VecType>
 Vector<3, VecType>::Vector(const type& OtherVec) : x(OtherVec.x), y(OtherVec.y), z(OtherVec.z) {}
 
 template<typename VecType>
-Vector<3, VecType>::Vector(const Vector<2, VecType>& OtherVec, VecType Z) : x(OtherVec.x), y(OtherVec.y), z(Z) {}
+Vector<3, VecType>::Vector(const Vector<2, VecType>& otherVec, VecType Z) : x(otherVec.x), y(otherVec.y), z(Z) {}
 
 template<typename VecType>
 Vector<3, VecType>::Vector(const Vector<4, VecType>& OtherVec) : x(OtherVec.x), y(OtherVec.y), z(OtherVec.z) {}

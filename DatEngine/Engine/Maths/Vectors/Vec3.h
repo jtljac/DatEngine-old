@@ -14,77 +14,70 @@ struct Vector<3, VecType> {
 	VecType x, y, z;
 
 	/** A vector pointing up (0,1,0) */
-	const static type up;
+	inline static type up = type(0, 1, 0);
 	/** A vector pointing down (0,-1,0) */
-	const static type down;
+    inline static type down = type(0, -1, 0);
 	/** A vector pointing north (0,0,1) */
-	const static type north;
+    inline static type north = type(0, 0, 1);
 	/** A vector pointing south (0,0,-1) */
-	const static type south;
+    inline static type south = type(0, 0, -1);
 	/** A vector pointing east (1,0,0) */
-	const static type east;
+    inline static type east = type(1, 0, 0);
 	/** A vector pointing west (-1,0,0) */
-	const static type west;
+    inline static type west = type(-1, 0, 0);
+
+	Vector() = default;
 
 	/**
-	 * Initialises at 0,0,0
+	 * Constructs a 3d Vector with each of the components set to the given value
+	 * @param value The value to set each component to
 	 */
-	Vector();
+	explicit Vector(VecType value);
 
 	/**
-	 * Initialises with xyz each set to the given value
-	 * @param Value The value to set xyz to
-	 */
-	explicit Vector(VecType Value);
-
-	/**
-	 * Initialises with xyz set to their respective given value
-	 * @param X The X component of the vector
-	 * @param Y The Y component of the vector
-	 * @param Z The Z component of the vector
+	 * Constructs a 3d Vector with its individual components
+	 * @param X The x component of the vector
+	 * @param Y The y component of the vector
+	 * @param Z The z component of the vector
 	 */
 	Vector(VecType X, VecType Y, VecType Z);
 
 	/**
-	 * Initialises with an array
-	 * @param Array The Array containing the components of the vector
+	 * Constructs a 3d vector with an array
+	 * @param array The array containing the components of the vector
 	 */
-	explicit Vector(VecType Array[3]);
+	explicit Vector(VecType array[3]);
 
 
 	// Copy Constructors
-	/**
-	 * Initialises as a copy of the given vector
-	 * @param OtherVec The vector to copy
-	 */
-	Vector(const type& OtherVec);
+	Vector(const type& otherVec);
 
 	/**
-	 * Initialises as a copy of the given 2D vector and with the given Z component
-	 * @param OtherVec The 2D Vector to copy from
-	 * @param Z The Z component of the vector
+	 * Construct a 3d Vector using the xy components of a 2d vector, and a given z component
+	 * @param otherVec The 2D Vector to copy from
+	 * @param Z The z component of the vector
 	 */
-	Vector(const Vector<2, VecType>& OtherVec, VecType Z);
+	Vector(const Vector<2, VecType>& otherVec, VecType Z);
 
 	/**
-	 * Initialises as a copy of the given 4D Vector, reduced down to a 3d vector
-	 * @param OtherVec The 4D Vector to copy from
+	 * Construct a 3d Vector using the xyz components of a 4d Vector
+	 * @param otherVec The 4D Vector to copy from
 	 */
-	explicit Vector(const Vector<4, VecType>& OtherVec);
+	explicit Vector(const Vector<4, VecType>& otherVec);
 	
 	/**
-	 * Initialises as a copy of a vector of a different type
-	 * @param OtherVec The other Vector to cast from
+	 * Converts a 3d vector of a different type
+	 * @param otherVec The other Vector to cast from
 	 */
 	template<typename OtherType>
-	explicit Vector(const Vector<3, OtherType>& OtherVec);
+	explicit Vector(const Vector<3, OtherType>& otherVec);
 
 	// Setters
 	/**
 	 * Sets the values of the vector to the given vector in place
-	 * @param newX The value to set X to
-	 * @param newY The value to set Y to
-	 * @param newZ The value to set Z to
+	 * @param newX The value to set x to
+	 * @param newY The value to set y to
+	 * @param newZ The value to set z to
 	 */
 	void set(VecType newX, VecType newY, VecType newZ);
 
@@ -103,17 +96,17 @@ struct Vector<3, VecType> {
 	// Operators
 	/**
 	 * Gets a reference to the component at the given index
-	 * @param Index The index of the component (0 -> X, 1 -> Y, 2 -> Z)
+	 * @param index The index of the component (0 -> X, 1 -> Y, 2 -> Z)
 	 * @return A reference to the component at the given index
 	 */
-	VecType& operator[](size_t Index);
+	VecType& operator[](size_t index);
 
 	/**
 	 * Gets a const reference to the component at the given index
-	 * @param Index The index of the component (0 -> X, 1 -> Y, 2 -> Z)
+	 * @param index The index of the component (0 -> X, 1 -> Y, 2 -> Z)
 	 * @return A const reference to the component at the given index
 	 */
-	const VecType& operator[](size_t Index) const;
+	const VecType& operator[](size_t index) const;
 
 	/**
 	 * Adds together two vectors
@@ -127,7 +120,7 @@ struct Vector<3, VecType> {
 	 * @param OtherVec The vector you're adding to this one
 	 * @return The resulting vector
 	 */
-	type operator+(VecType Amount) const;
+	type operator+(VecType amount) const;
 
 	/**
 	 * Adds a vector to this vector
@@ -141,7 +134,7 @@ struct Vector<3, VecType> {
 	 * @param OtherVec The vector you're adding to this one
 	 * @return The resulting vector
 	 */
-	type& operator+=(VecType Amount);
+	type& operator+=(VecType amount);
 
 	/**
 	 * Increments each component of the vector and returns the incremented vector
@@ -170,10 +163,10 @@ struct Vector<3, VecType> {
 
 	/**
 	 * Minuses the given amount from each component
-	 * @param Amount the amount to take from each component
+	 * @param amount the amount to take from each component
 	 * @return The resulting vector
 	 */
-	type operator-(VecType Amount) const;
+	type operator-(VecType amount) const;
 
 	/**
 	 * Minuses a vector from this vector
@@ -184,10 +177,10 @@ struct Vector<3, VecType> {
 
 	/**
 	 * Minuses the given amount from each component
-	 * @param Amount The amount to take from each vector
+	 * @param amount The amount to take from each vector
 	 * @return The resulting vector
 	 */
-	type& operator-=(VecType Amount);
+	type& operator-=(VecType amount);
 
 	/**
 	 * decrements each component of the vector and returns the decremented vector
@@ -210,10 +203,10 @@ struct Vector<3, VecType> {
 
 	/**
 	 * Multiplies each component of the vector by the given value
-	 * @param Value The value to multiply each component by
+	 * @param value The value to multiply each component by
 	 * @return The resulting vector
 	 */
-	type operator*(VecType Value) const;
+	type operator*(VecType value) const;
 
 	/**
 	 * Multiplies each component by the equivalent component in the other vector
@@ -224,10 +217,10 @@ struct Vector<3, VecType> {
 
 	/**
 	 * Multiplies each component of the vector by the given value
-	 * @param Value The value to multiply each component by
+	 * @param value The value to multiply each component by
 	 * @return The resulting vector
 	 */
-	type& operator*=(VecType Value);
+	type& operator*=(VecType value);
 
 	/**
 	 * Divides each component by the equivalent component in the other vector
@@ -237,11 +230,11 @@ struct Vector<3, VecType> {
 	type operator/(const type& OtherVec) const;
 
 	/**
-	 * Divides each component of the vector by the given Value
-	 * @param Value The value to multiply each component by
+	 * Divides each component of the vector by the given value
+	 * @param value The value to multiply each component by
 	 * @return The resulting vector
 	 */
-	type operator/(VecType Value) const;
+	type operator/(VecType value) const;
 
 	/**
 	 * Divides each component by the equivalent component in the other vector
@@ -251,11 +244,11 @@ struct Vector<3, VecType> {
 	type& operator/=(const type& OtherVec);
 
 	/**
-	 * Divides each component of the vector by the given Value
-	 * @param Value The value to multiply each component by
+	 * Divides each component of the vector by the given value
+	 * @param value The value to multiply each component by
 	 * @return The resulting vector
 	 */
-	type& operator/=(VecType Value);
+	type& operator/=(VecType value);
 
 	// Comparison
 	/**
@@ -281,7 +274,7 @@ struct Vector<3, VecType> {
     [[maybe_unused]] bool equals(const type& OtherVec, VecType Tolerance = Maths::Numbers::tinyNumber) const;
 
 	/**
-	 * Gets the squared scalar size of the vector
+	 * Gets the squared magnitude of the vector
 	 * The sum of the squares of each component
 	 * Useful for comparing the size of vectors as the length squared will remain bigger or smaller like the actually lengths compared, but it skips the expensive square root calculation
 	 * @return The squared scalar size of the vector
@@ -289,7 +282,7 @@ struct Vector<3, VecType> {
 	VecType lengthSquared() const;
 
 	/**
-	 * Gets the scalar size of the vector
+	 * Gets the magnitude of the vector
 	 * The square root of the sum of the squares of each component
 	 * @return The scalar size of the vector
 	 */
@@ -311,7 +304,7 @@ struct Vector<3, VecType> {
 	 * (Has a length of one)
 	 * @return True if the vector is normalised
 	 */
-    [[maybe_unused]] bool isNormalised(VecType Tolerance = Maths::Tolerances::normalisedTolerance) const;
+    [[maybe_unused]] bool isNormalised(VecType tolerance = Maths::Tolerances::normalisedTolerance) const;
 };
 
 #include "Source/Vec3.inl"

@@ -18,119 +18,112 @@ struct Vector<2, VecType> {
 	/** A vector pointing left (-1, 0) */
 	const static type left;
 
-	/**
-	 * Initialises at 0,0
-	 */
-	Vector();
+	Vector() = default;
 
 	/**
-	 * Initialises with xy each set to the given value
-	 * @param Value The value to set xy to
+	 * Constructs the 2d Vector with both components set to the given value
+	 * @param value The value to set both components to
 	 */
-	explicit Vector(VecType Value);
+	explicit Vector(VecType value);
 
 	/**
-	 * Initialises with xyz set to their respective given value
+	 * Constructs the 2d Vector with its individual components
 	 * @param X The X component of the vector
 	 * @param Y The Y component of the vector
 	 */
 	Vector(VecType X, VecType Y);
 
 	/**
-	 * Initialises with an array
-	 * @param Array The Array containing the components of the vector
+	 * Constructs the 2d Vector with an array
+	 * @param array The array containing the components of the vector
 	 */
-	explicit Vector(VecType Array[2]);
+	explicit Vector(VecType array[2]);
 
 
 	// Copy Constructors
-	/**
-	 * Initialises as a copy of the given vector
-	 * @param OtherVec The vector to copy
-	 */
-	Vector(const type& OtherVec);
+	Vector(const type& otherVec);
 
 	/**
-	 * Initialises as a copy of the given 3D vector, reduced down to a 2d vector
-	 * @param OtherVec The 3D Vector to copy from
+	 * Constructs a 2d Vector using the X and Y Components of a 3d Vector
+	 * @param otherVec The 3D Vector to copy from
 	 */
-	explicit Vector(const Vector<3, VecType>& OtherVec);
+	explicit Vector(const Vector<3, VecType>& otherVec);
 
 	/**
-	 * Initialises as a copy of the given 4D Vector, reduced down to a 2d vector
-	 * @param OtherVec The 4D Vector to copy from
+	 * Constructs a 2d Vector using the X and Y Components of a 4D Vector
+	 * @param otherVec The 4D Vector to copy from
 	 */
-	explicit Vector(const Vector<4, VecType>& OtherVec);
+	explicit Vector(const Vector<4, VecType>& otherVec);
 	
 	/**
-	 * Initialises as a copy of a vector of a different type
-	 * @param OtherVec The other Vector to cast from
+	 * Constructs the 2d Vector as a copy of a vector of a different type
+	 * @param otherVec The 2D Vector to cast from
 	 */
 	template<typename OtherType>
-	explicit Vector(const Vector<2, OtherType>& OtherVec);
+	explicit Vector(const Vector<2, OtherType>& otherVec);
 
 	// Setters
 	/**
-	 * Sets the values of the vector to the given vector in place
+	 * Sets the components to the given values
 	 * @param newX The value to set X to
 	 * @param newY The value to set Y to
 	 */
 	void set(VecType newX, VecType newY);
 
 	/**
-	 * Sets the values of the vector to the given value in place
-	 * @param newValue The value to set each of the components of the vector to
+	 * Sets both the components of the vector to the given value
+	 * @param newValue The value to set each of the components to
 	 */
 	void set(VecType newValue);
 
 	/**
 	 * Sets the values of the vector to the ones in the given vector, in place
-	 * @param OtherVector The vector to copy the components from
+	 * @param otherVector The vector to copy the components from
 	 */
-	void set(const type& OtherVector);
+	void set(const type& otherVector);
 
 	// Operators
 	/**
 	 * Gets a reference to the component at the given index
-	 * @param Index The index of the component (0 -> X, 1 -> Y)
+	 * @param index The index of the component (0 -> X, 1 -> Y)
 	 * @return A reference to the component at the given index
 	 */
-	VecType& operator[](size_t Index);
+	VecType& operator[](size_t index);
 
 	/**
 	 * Gets a const reference to the component at the given index
-	 * @param Index The index of the component (0 -> X, 1 -> Y)
+	 * @param index The index of the component (0 -> X, 1 -> Y)
 	 * @return A const reference to the component at the given index
 	 */
-	VecType& operator[](size_t Index) const;
+	VecType& operator[](size_t index) const;
 
 	/**
 	 * Adds together two vectors
-	 * @param OtherVec The vector you're adding to this one
+	 * @param otherVec The vector you're adding to this one
 	 * @return The resulting vector
 	 */
-	type operator+(const type& OtherVec) const;
+	type operator+(const type& otherVec) const;
 
 	/**
 	 * Adds a value to each component of the vector
 	 * @param OtherVec The vector you're adding to this one
 	 * @return The resulting vector
 	 */
-	type operator+(VecType Amount) const;
+	type operator+(VecType amount) const;
 
 	/**
 	 * Adds a vector to this vector
-	 * @param OtherVec The vector you're adding to this one
+	 * @param otherVec The vector you're adding to this one
 	 * @return The resulting vector
 	 */
-	type& operator+=(const type& OtherVec);
+	type& operator+=(const type& otherVec);
 
 	/**
 	 * Adds the value to each component of the vector
 	 * @param OtherVec The vector you're adding to this one
 	 * @return The resulting vector
 	 */
-	type& operator+=(VecType Amount);
+	type& operator+=(VecType amount);
 
 	/**
 	 * Increments each component of the vector and returns the incremented vector
@@ -152,31 +145,31 @@ struct Vector<2, VecType> {
 
 	/**
 	 * Minuses one vector from another
-	 * @param OtherVec The vector you're minusing from this one
+	 * @param otherVec The vector you're minusing from this one
 	 * @return The resulting vector
 	 */
-	type operator-(const type& OtherVec) const;
+	type operator-(const type& otherVec) const;
 
 	/**
 	 * Minuses the given amount from each component
-	 * @param Amount the amount to take from each component
+	 * @param amount the amount to take from each component
 	 * @return The resulting vector
 	 */
-	type operator-(VecType Amount) const;
+	type operator-(VecType amount) const;
 
 	/**
 	 * Minuses a vector from this vector
-	 * @param OtherVec The vector you're minusing from this one
+	 * @param otherVec The vector you're minusing from this one
 	 * @return The resulting vector
 	 */
-	type& operator-=(const type& OtherVec);
+	type& operator-=(const type& otherVec);
 
 	/**
 	 * Minuses the given amount from each component
-	 * @param Amount The amount to take from each vector
+	 * @param amount The amount to take from each vector
 	 * @return The resulting vector
 	 */
-	type& operator-=(VecType Amount);
+	type& operator-=(VecType amount);
 
 	/**
 	 * decrements each component of the vector and returns the decremented vector
@@ -192,85 +185,85 @@ struct Vector<2, VecType> {
 
 	/**
 	 * Multiplies each component by the equivalent component in the other vector
-	 * @param OtherVec The other vector
+	 * @param otherVec The other vector
 	 * @return The resulting vector
 	 */
-	type operator*(const type& OtherVec) const;
+	type operator*(const type& otherVec) const;
 
 	/**
 	 * Multiplies each component of the vector by the given value
-	 * @param Value The value to multiply each component by
+	 * @param value The value to multiply each component by
 	 * @return The resulting vector
 	 */
-	type operator*(VecType Value) const;
+	type operator*(VecType value) const;
 
 	/**
 	 * Multiplies each component by the equivalent component in the other vector
-	 * @param OtherVec The other vector
+	 * @param otherVec The other vector
 	 * @return The resulting vector
 	 */
-	type& operator*=(const type& OtherVec);
+	type& operator*=(const type& otherVec);
 
 	/**
 	 * Multiplies each component of the vector by the given value
-	 * @param Value The value to multiply each component by
+	 * @param value The value to multiply each component by
 	 * @return The resulting vector
 	 */
-	type& operator*=(VecType Value);
+	type& operator*=(VecType value);
 
 	/**
 	 * Divides each component by the equivalent component in the other vector
-	 * @param OtherVec The other vector
+	 * @param otherVec The other vector
 	 * @return The resulting vector
 	 */
-	type operator/(const type& OtherVec) const;
+	type operator/(const type& otherVec) const;
 
 	/**
-	 * Divides each component of the vector by the given Value
-	 * @param Value The value to multiply each component by
+	 * Divides each component of the vector by the given value
+	 * @param value The value to multiply each component by
 	 * @return The resulting vector
 	 */
-	type operator/(VecType Value) const;
+	type operator/(VecType value) const;
 
 	/**
 	 * Divides each component by the equivalent component in the other vector
-	 * @param OtherVec The other vector
+	 * @param otherVec The other vector
 	 * @return The resulting vector
 	 */
-	type& operator/=(const type& OtherVec);
+	type& operator/=(const type& otherVec);
 
 	/**
-	 * Divides each component of the vector by the given Value
-	 * @param Value The value to multiply each component by
+	 * Divides each component of the vector by the given value
+	 * @param value The value to multiply each component by
 	 * @return The resulting vector
 	 */
-	type& operator/=(VecType Value);
+	type& operator/=(VecType value);
 
 	// Comparison
 	/**
 	 * Compares the components of the 2 vectors, returning true if all the components first vectors components are equal to the seconds
-	 * @param OtherVec The vector to compare to
+	 * @param otherVec The vector to compare to
 	 * @return Whether the vector's components are equal to the other
 	 */
-	bool operator==(const type& OtherVec) const;
+	bool operator==(const type& otherVec) const;
 
 	/**
 	 * Compares the components of the 2 vectors, returning true if all the components first vectors components are not equal to the seconds
-	 * @param OtherVec The vector to compare to
+	 * @param otherVec The vector to compare to
 	 * @return Whether the vector's components are equal to the other
 	 */
-	bool operator!=(const type& OtherVec) const;
+	bool operator!=(const type& otherVec) const;
 
 	/**
 	 * Compares the components of this vector to the equivalent components of the given vector, returns true if the components are within ± the given tolerance of the given vector's components
-	 * @param OtherVec The vector to compare to
-	 * @param Tolerance How far off the vector can be before
+	 * @param otherVec The vector to compare to
+	 * @param tolerance How far off the vector can be before
 	 * @return Whether the components are equal
 	 */
-    [[maybe_unused]] bool equals(const type& OtherVec, VecType Tolerance = Maths::Numbers::tinyNumber) const;
+    [[maybe_unused]] bool equals(const type& otherVec, VecType tolerance = Maths::Numbers::tinyNumber) const;
 
 	/**
-	 * Gets the squared scalar size of the vector
+	 * Gets the squared magintude of the vector
 	 * The sum of the squares of each component
 	 * Useful for comparing the size of vectors as the length squared will remain bigger or smaller like the actually lengths compared, but it skips the expensive square root calculation
 	 * @return The squared scalar size of the vector
@@ -278,7 +271,7 @@ struct Vector<2, VecType> {
 	VecType lengthSquared() const;
 
 	/**
-	 * Gets the scalar size of the vector
+	 * Gets the magnitude of the vector
 	 * The square root of the sum of the squares of each component
 	 * @return The scalar size of the vector
 	 */
@@ -300,7 +293,7 @@ struct Vector<2, VecType> {
 	 * (Has a length of one)
 	 * @return True if the vector is normalised
 	 */
-    [[maybe_unused]] bool isNormalised(VecType Tolerance = Maths::Tolerances::normalisedTolerance) const;
+    [[maybe_unused]] bool isNormalised(VecType tolerance = Maths::Tolerances::normalisedTolerance) const;
 };
 
 #include "Source/Vec2.inl"
