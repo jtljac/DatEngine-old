@@ -1,14 +1,13 @@
 #pragma once
-#include <iostream>
+#include <string>
 #include <typeinfo>
 #include <unordered_map>
 #include <set>
 #include <DatVFS.h>
-#include <Utilities/FileUtilities.h>
-#include <Utilities/Logging.h>
 
-#include "Assets/BaseAsset.h"
-#include "./Factories/AssetFactory.h"
+#include <Assets/BaseAsset.h>
+#include <Assets/BaseAssetFactory.h>
+#include <Utilities/Logging.h>
 
 using TypeInfoRef = std::reference_wrapper<const std::type_info>;
 
@@ -40,7 +39,7 @@ private:
 	DatVFS* fileTree = nullptr;
 
 	// Factories for loading assets
-	std::unordered_map<TypeInfoRef, AssetFactory*, TypeInfoHasher, TypeInfoEqualTo> factories;
+	std::unordered_map<TypeInfoRef, BaseAssetFactory*, TypeInfoHasher, TypeInfoEqualTo> factories;
 
 	std::set<std::string> excludedExtensions;
 
@@ -83,19 +82,17 @@ public:
      * @param extensions A list of extensions to exclude
      */
     [[maybe_unused]] void addExtensionExclusions(std::vector<std::string> &extensions) {
-		for (const std::string& extension : extensions) {
-			excludedExtensions.insert(extension);
-		}
+        excludedExtensions.insert(extensions.begin(), extensions.end());
 	}
 
     /**
      * Register an asset factory for instantiating assets from the VFS
-     * @see AssetFactory
+     * @see BaseAssetFactory
      * @tparam AssetType The asset type that this factory will create
      * @param Factory An instance of the asset factory
      */
 	template<class AssetType>
-	void registerFactory(AssetFactory* Factory) {
+	void registerFactory(BaseAssetFactory* Factory) {
 		factories[typeid(AssetType)] = Factory;
 	}
 
@@ -107,23 +104,23 @@ public:
      */
 	template<class AssetType>
     AssetType* loadAsset(const std::string& thePath) {
-		std::vector<char> data = fileTree->getFile(thePath)->getContent();
-		AssetFactory* factory;
+        std::vector<char> data = fileTree->getFile(thePath)->getContent();
+        BaseAssetFactory* factory;
 
-		if (factories.count(typeid(AssetType)) == 0) {
+        if (factories.count(typeid(AssetType)) == 0) {
             Log::warn(TAG, "Failed to load factory for type: " + std::string(typeid(AssetType).name()));
-			return nullptr;
-		}
+            return nullptr;
+        }
 
-		factory = factories.at(typeid(AssetType));
+        factory = factories.at(typeid(AssetType));
 
-		BaseAsset* asset = factory->load(data);
+        BaseAsset* asset = factory->load(data);
 
-		// Cast the asset to the requested format, as the factory should return the class as the base class
+        // Cast the asset to the requested format, as the factory should return the class as the base class
         auto* actualAsset = static_cast<AssetType*>(asset);
 
-		Log::info(TAG, "Loaded asset " + thePath);
+        Log::info(TAG, "Loaded asset " + thePath);
 
-		return actualAsset;
-	}
+        return actualAsset;
+    }
 };

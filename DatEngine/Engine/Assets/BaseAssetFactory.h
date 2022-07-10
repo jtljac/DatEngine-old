@@ -1,14 +1,14 @@
 #pragma once
 
-#include "../Assets/BaseAsset.h"
+#include "Assets/BaseAsset.h"
 
 /**
  * An abstract class used to take raw data from the disk and construct a specific Asset with it
  * @see BaseAsset
  */
-class AssetFactory {
+class BaseAssetFactory {
 public:
-    virtual ~AssetFactory() = default;
+    virtual ~BaseAssetFactory() = default;
 
     /**
      * Convert the given raw data into the asset

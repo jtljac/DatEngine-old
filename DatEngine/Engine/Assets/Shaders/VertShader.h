@@ -1,7 +1,7 @@
 #pragma once
 #include <iostream>
 #include <DatVFS/DataPtr.h>
-#include "../BaseAsset.h"
+#include <Assets/BaseAsset.h>
 
 class VertShader : public BaseAsset {
 public:

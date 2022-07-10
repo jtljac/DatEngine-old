@@ -1,10 +1,8 @@
 #include <Utilities/FileUtilities.h>
-#include <exception>
-#include <string>
 #include <filesystem>
 
-#include <windows.h>
-#include <shlobj.h>
+#include <Windows.h>
+#include <ShlObj.h>
 
 //Directory Getters
 std::filesystem::path FileUtilities::getDataPath() {

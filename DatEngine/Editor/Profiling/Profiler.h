@@ -5,7 +5,7 @@
 #include <vector>
 
 #include <Utilities/Logging.h>
-#include <Platform/Timing.h>
+#include <Utilities/Timing.h>
 
 #ifdef _DEBUG
 

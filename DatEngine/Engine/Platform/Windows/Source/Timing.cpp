@@ -1,6 +1,6 @@
 #define WIN32_LEAN_AND_MEAN
 #include <Windows.h>
-#include <Platform/Timing.h>
+#include <Utilities/Timing.h>
 
 void Timing::initialise() {
 	QueryPerformanceFrequency((LARGE_INTEGER*) &frequency);

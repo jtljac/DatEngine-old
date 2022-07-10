@@ -4,7 +4,7 @@ target_sources (DatEngine
 					"ReflectionMacros.h")
 
 # Subdirectories
-add_subdirectory ("AssetManager")
+add_subdirectory ("Assets")
 add_subdirectory ("Config")
 add_subdirectory ("DataUtils")
 add_subdirectory ("Mesh")

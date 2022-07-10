@@ -12,11 +12,11 @@
 #include <algorithm>
 
 #include <Utilities/Logging.h>
-#include <AssetManager/AssetManager.h>
-#include <AssetManager/Assets/Shaders/VertShader.h>
-#include <AssetManager/Assets/Shaders/FragShader.h>
-#include "AssetManager/Factories/FragShaderFactory.h"
-#include "AssetManager/Factories/VertShaderFactory.h"
+#include "Assets/AssetManager/AssetManager.h"
+#include <Assets/Shaders/VertShader.h>
+#include <Assets/Shaders/FragShader.h>
+#include "Assets/Shaders/FragShaderFactory.h"
+#include "Assets/Shaders/VertShaderFactory.h"
 #include <Mesh/Primitives/Vertex.h>
 
 #include <Maths/Matrix.h>

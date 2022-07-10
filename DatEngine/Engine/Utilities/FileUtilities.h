@@ -2,8 +2,6 @@
 #include <iostream>
 #include <fstream>
 #include <filesystem>
-#include <algorithm>
-#include <stdexcept>
 
 namespace FileUtilities {
 	// Directory Getters

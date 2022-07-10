@@ -1,5 +1,8 @@
-#include "../AssetManager.h"
+#include <Assets/AssetManager/AssetManager.h>
 #include "../Archives/DatArchive.h"
+
+#include <Utilities/FileUtilities.h>
+#include <Utilities/Logging.h>
 
 void AssetManager::populate() {
 	Log::info(TAG, "Loading archives");
