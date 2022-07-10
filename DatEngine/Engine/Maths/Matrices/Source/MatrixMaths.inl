@@ -336,7 +336,6 @@ template <typename MatType>
 Matrix<4, 4, MatType> Maths::lookAt(const Vector<3, MatType>& cameraPosition, const Vector<3, MatType>& targetPosition, const Vector<3, MatType>& upVector) {
     Vector<3, MatType> forwardVector = (targetPosition - cameraPosition).normalised();
     Vector<3, MatType> rightVector = Maths::crossProduct(upVector, forwardVector);
-    Vector<3, MatType> upVector = Maths::crossProduct(forwardVector, rightVector);
 
     Matrix<4, 4, MatType> temp = Matrix<4, 4, MatType>();
 

@@ -14,17 +14,17 @@ struct Vector<3, VecType> {
 	VecType x, y, z;
 
 	/** A vector pointing up (0,1,0) */
-	inline static type up = type(0, 1, 0);
+	const static type up;
 	/** A vector pointing down (0,-1,0) */
-    inline static type down = type(0, -1, 0);
+    const static type down;
 	/** A vector pointing north (0,0,1) */
-    inline static type north = type(0, 0, 1);
+    const static type north;
 	/** A vector pointing south (0,0,-1) */
-    inline static type south = type(0, 0, -1);
+    const static type south;
 	/** A vector pointing east (1,0,0) */
-    inline static type east = type(1, 0, 0);
+    const static type east;
 	/** A vector pointing west (-1,0,0) */
-    inline static type west = type(-1, 0, 0);
+    const static type west;
 
 	Vector() = default;
 
